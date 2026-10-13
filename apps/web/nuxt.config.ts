@@ -12,7 +12,13 @@ export default defineNuxtConfig({
   css: ['~/assets/css/main.css'],
 
   runtimeConfig: {
+    // Server-only: Vercel injects this at request time from the "api" service binding
+    // (see vercel.json). Never set it by hand in Vercel's dashboard. Empty locally, where
+    // the two dev servers just talk over plain localhost ports instead.
+    apiInternalBase: process.env.API_INTERNAL_URL || '',
     public: {
+      // Same-origin in production ("/api", routed to the api service by vercel.json's
+      // rewrite) so the browser never needs CORS or to know the api service's own host.
       apiBase: process.env.NUXT_PUBLIC_API_BASE || 'http://localhost:3001/api'
     }
   },

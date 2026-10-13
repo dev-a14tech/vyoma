@@ -22,7 +22,9 @@ async function bootstrap() {
     }),
   );
 
-  app.setGlobalPrefix('api', { exclude: ['health'] });
+  // No exclusions: every route, including /health, lives under /api so a single
+  // Vercel rewrite ("/api/(.*)" -> this service) covers the whole app.
+  app.setGlobalPrefix('api');
 
   const config = new DocumentBuilder()
     .setTitle('VYOMA Website CMS API')

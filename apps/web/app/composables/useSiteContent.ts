@@ -6,8 +6,8 @@ import type {
 } from '@vyoma/shared'
 
 function apiFetch<T>(path: string) {
-  const config = useRuntimeConfig()
-  return useAsyncData<T>(`content:${path}`, () => $fetch<T>(`${config.public.apiBase}${path}`))
+  const base = useApiBase()
+  return useAsyncData<T>(`content:${path}`, () => $fetch<T>(`${base}${path}`))
 }
 
 export function useFeatures() {

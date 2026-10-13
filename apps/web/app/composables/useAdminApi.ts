@@ -14,10 +14,10 @@ export function useAdminProfile() {
 }
 
 export async function fetchAdminProfile() {
-  const config = useRuntimeConfig()
+  const base = useApiBase()
   const profile = useAdminProfile()
   try {
-    profile.value = await $fetch<AdminProfile>(`${config.public.apiBase}/admin/auth/me`, {
+    profile.value = await $fetch<AdminProfile>(`${base}/admin/auth/me`, {
       credentials: 'include',
       headers: serverCookieHeaders()
     })
@@ -28,9 +28,11 @@ export async function fetchAdminProfile() {
 }
 
 export async function adminLogin(email: string, password: string) {
-  const config = useRuntimeConfig()
+  // Always called from the browser (a login button click) - useApiBase() resolves to
+  // the public base here anyway, since import.meta.server is false on the client.
+  const base = useApiBase()
   const profile = useAdminProfile()
-  const result = await $fetch<{ admin: AdminProfile }>(`${config.public.apiBase}/admin/auth/login`, {
+  const result = await $fetch<{ admin: AdminProfile }>(`${base}/admin/auth/login`, {
     method: 'POST',
     credentials: 'include',
     body: { email, password }
@@ -40,9 +42,9 @@ export async function adminLogin(email: string, password: string) {
 }
 
 export async function adminLogout() {
-  const config = useRuntimeConfig()
+  const base = useApiBase()
   const profile = useAdminProfile()
-  await $fetch(`${config.public.apiBase}/admin/auth/logout`, {
+  await $fetch(`${base}/admin/auth/logout`, {
     method: 'POST',
     credentials: 'include'
   })
@@ -50,9 +52,9 @@ export async function adminLogout() {
 }
 
 export function useAdminFetch() {
-  const config = useRuntimeConfig()
+  const base = useApiBase()
   return <T>(path: string, opts: Parameters<typeof $fetch>[1] = {}) =>
-    $fetch<T>(`${config.public.apiBase}${path}`, {
+    $fetch<T>(`${base}${path}`, {
       credentials: 'include',
       headers: serverCookieHeaders(),
       ...opts
