@@ -1,0 +1,11 @@
+node_modules/
+dist/
+.nuxt/
+.output/
+.cache/
+*.log
+.env
+.env.local
+.DS_Store
+*.tsbuildinfo
+.vercel/

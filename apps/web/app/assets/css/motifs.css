@@ -1,0 +1,46 @@
+/* Reusable brand motif utility classes — Yantra Grid, Orbit Bands, Flight Chevron, Rosette Ring */
+
+.motif-yantra-bg {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='104' viewBox='0 0 120 104'%3E%3Cg fill='none' stroke='%23143758' stroke-opacity='0.06' stroke-width='1.5'%3E%3Cpolygon points='60,8 112,96 8,96'/%3E%3Cpolygon points='60,96 8,8 112,8'/%3E%3C/g%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 120px 104px;
+}
+
+.motif-orbit {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.motif-orbit svg {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  animation: motif-orbit-spin 90s linear infinite;
+}
+
+.motif-orbit svg.motif-orbit-reverse {
+  animation-duration: 120s;
+  animation-direction: reverse;
+}
+
+@keyframes motif-orbit-spin {
+  from { transform: translate(-50%, -50%) rotate(0deg); }
+  to { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+.motif-chevron-sweep {
+  position: relative;
+  overflow: hidden;
+}
+
+.motif-chevron-sweep .chevron-fill {
+  clip-path: inset(0 100% 0 0);
+  transition: clip-path 1.1s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.motif-chevron-sweep.is-visible .chevron-fill {
+  clip-path: inset(0 0 0 0);
+}

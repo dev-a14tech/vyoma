@@ -1,0 +1,98 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Admin {
+  id           String    @id @default(uuid())
+  email        String    @unique
+  passwordHash String
+  name         String
+  lastLoginAt  DateTime?
+  createdAt    DateTime  @default(now())
+}
+
+model SiteSetting {
+  key   String @id
+  value Json
+}
+
+model FeatureTheme {
+  id               String   @id @default(uuid())
+  slug             String   @unique
+  order            Int      @default(0)
+  title            String
+  summary          String
+  icon             String
+  bodyMarkdown     String
+  videoUrl         String?
+  placeholderMotif String
+  capabilities     Json
+  published        Boolean  @default(true)
+  updatedAt        DateTime @updatedAt
+  createdAt        DateTime @default(now())
+}
+
+model AudienceSegment {
+  id                   String   @id @default(uuid())
+  slug                 String   @unique
+  order                Int      @default(0)
+  title                String
+  heroCopy             String
+  painPoints           Json
+  relevantFeatureSlugs Json
+  published            Boolean  @default(true)
+  updatedAt            DateTime @updatedAt
+}
+
+model Testimonial {
+  id         String   @id @default(uuid())
+  quote      String
+  authorName String
+  authorRole String
+  orgName    String
+  logoUrl    String?
+  published  Boolean  @default(true)
+  order      Int      @default(0)
+  updatedAt  DateTime @updatedAt
+}
+
+model PageContent {
+  id             String   @id @default(uuid())
+  slug           String   @unique
+  heroTitle      String
+  heroSubtitle   String
+  seoTitle       String
+  seoDescription String
+  ogImageUrl     String?
+  blocks         Json
+  updatedAt      DateTime @updatedAt
+}
+
+enum LeadType {
+  DEMO_REQUEST
+  CONTACT
+}
+
+enum LeadStatus {
+  NEW
+  CONTACTED
+  CLOSED
+}
+
+model LeadSubmission {
+  id        String     @id @default(uuid())
+  type      LeadType
+  name      String
+  email     String
+  company   String?
+  role      String?
+  message   String?
+  source    String     @default("website")
+  status    LeadStatus @default(NEW)
+  createdAt DateTime   @default(now())
+}

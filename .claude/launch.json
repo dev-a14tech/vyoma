@@ -1,0 +1,17 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "vyoma-web",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": ["--yes", "pnpm@latest", "--filter", "web", "dev"],
+      "port": 3000
+    },
+    {
+      "name": "vyoma-api",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": ["--yes", "pnpm@latest", "--filter", "api", "start:dev"],
+      "port": 3001
+    }
+  ]
+}

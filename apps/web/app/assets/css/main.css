@@ -1,0 +1,44 @@
+@import "tailwindcss";
+@import "@nuxt/ui";
+@import "./tokens.css";
+@import "./motifs.css";
+
+@theme static {
+  --font-sans: 'Inter', sans-serif;
+  --font-heading: 'Barlow', sans-serif;
+
+  --color-brand-50: #eef5fa;
+  --color-brand-100: #d7e7f3;
+  --color-brand-200: #b3d1e8;
+  --color-brand-300: #41a1d9;
+  --color-brand-400: #2f8dc7;
+  --color-brand-500: #005f8f;
+  --color-brand-600: #004d75;
+  --color-brand-700: #143758;
+  --color-brand-800: #102c46;
+  --color-brand-900: #0c2235;
+  --color-brand-950: #081624;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-sans);
+  color: var(--vyoma-deep-navy);
+  background: var(--vyoma-light);
+}
+
+h1, h2, h3, h4, .font-heading {
+  font-family: var(--font-heading);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}

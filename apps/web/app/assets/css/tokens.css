@@ -1,0 +1,11 @@
+/* VYOMA Brand Kit tokens — see /docs/brand-kit-reference.md at the repo root */
+:root {
+  --vyoma-deep-navy: #143758;
+  --vyoma-aviation-blue: #005f8f;
+  --vyoma-sky-blue: #41a1d9;
+  --vyoma-cloud: #c0d2e1;
+  --vyoma-light: #fefefe;
+
+  --vyoma-section-bg: #ffffff;
+  --vyoma-section-bg-alt: #f6f9fc;
+}
