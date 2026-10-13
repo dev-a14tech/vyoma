@@ -1,14 +1,15 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import type { Prisma } from '@prisma/client';
-import { PrismaService } from '../../database/prisma.service.js';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
+import { PageContent, PageContentDocument } from '../../database/schemas/page-content.schema.js';
 import { UpsertPageDto } from './dto/upsert-page.dto.js';
 
 @Injectable()
 export class PagesService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(@InjectModel(PageContent.name) private readonly model: Model<PageContentDocument>) {}
 
   async findBySlug(slug: string) {
-    const page = await this.prisma.pageContent.findUnique({ where: { slug } });
+    const page = await this.model.findOne({ slug });
     if (!page) {
       throw new NotFoundException(`Page "${slug}" not found`);
     }
@@ -16,16 +17,14 @@ export class PagesService {
   }
 
   findAllForAdmin() {
-    return this.prisma.pageContent.findMany({ orderBy: { slug: 'asc' } });
+    return this.model.find().sort({ slug: 1 });
   }
 
   async upsert(slug: string, dto: UpsertPageDto) {
-    const { blocks: rawBlocks, ...rest } = dto;
-    const blocks = (rawBlocks ?? []) as unknown as Prisma.InputJsonValue;
-    return this.prisma.pageContent.upsert({
-      where: { slug },
-      create: { slug, ...rest, blocks },
-      update: { ...rest, ...(rawBlocks ? { blocks } : {}) },
-    });
+    return this.model.findOneAndUpdate(
+      { slug },
+      { $set: { ...dto, blocks: dto.blocks ?? [] } },
+      { new: true, upsert: true, setDefaultsOnInsert: true }
+    );
   }
 }

@@ -1,34 +1,30 @@
 import { Injectable } from '@nestjs/common';
-import { LeadType } from '@prisma/client';
-import { PrismaService } from '../../database/prisma.service.js';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
+import { LeadSubmission, LeadSubmissionDocument } from '../../database/schemas/lead-submission.schema.js';
 import { CreateLeadDto, UpdateLeadStatusDto } from './dto/create-lead.dto.js';
 
 @Injectable()
 export class LeadsService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(@InjectModel(LeadSubmission.name) private readonly model: Model<LeadSubmissionDocument>) {}
 
-  create(type: LeadType, dto: CreateLeadDto) {
-    return this.prisma.leadSubmission.create({
-      data: {
-        type,
-        name: dto.name,
-        email: dto.email,
-        company: dto.company,
-        role: dto.role,
-        message: dto.message,
-        source: dto.source ?? 'website',
-      },
+  create(type: 'DEMO_REQUEST' | 'CONTACT', dto: CreateLeadDto) {
+    return this.model.create({
+      type,
+      name: dto.name,
+      email: dto.email,
+      company: dto.company,
+      role: dto.role,
+      message: dto.message,
+      source: dto.source ?? 'website'
     });
   }
 
   findAll() {
-    return this.prisma.leadSubmission.findMany({ orderBy: { createdAt: 'desc' } });
+    return this.model.find().sort({ createdAt: -1 });
   }
 
   updateStatus(id: string, dto: UpdateLeadStatusDto) {
-    return this.prisma.leadSubmission.update({
-      where: { id },
-      data: { status: dto.status },
-    });
+    return this.model.findByIdAndUpdate(id, { status: dto.status }, { new: true });
   }
 }

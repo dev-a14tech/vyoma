@@ -1,24 +1,23 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { PrismaService } from '../../database/prisma.service.js';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
+import { Testimonial, TestimonialDocument } from '../../database/schemas/testimonial.schema.js';
 import { UpsertTestimonialDto } from './dto/upsert-testimonial.dto.js';
 
 @Injectable()
 export class TestimonialsService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(@InjectModel(Testimonial.name) private readonly model: Model<TestimonialDocument>) {}
 
   findAllPublished() {
-    return this.prisma.testimonial.findMany({
-      where: { published: true },
-      orderBy: { order: 'asc' },
-    });
+    return this.model.find({ published: true }).sort({ order: 1 });
   }
 
   findAllForAdmin() {
-    return this.prisma.testimonial.findMany({ orderBy: { order: 'asc' } });
+    return this.model.find().sort({ order: 1 });
   }
 
   async findOneForAdmin(id: string) {
-    const testimonial = await this.prisma.testimonial.findUnique({ where: { id } });
+    const testimonial = await this.model.findById(id);
     if (!testimonial) {
       throw new NotFoundException(`Testimonial ${id} not found`);
     }
@@ -26,17 +25,22 @@ export class TestimonialsService {
   }
 
   create(dto: UpsertTestimonialDto) {
-    return this.prisma.testimonial.create({ data: { ...dto } });
+    return this.model.create(dto);
   }
 
   async update(id: string, dto: Partial<UpsertTestimonialDto>) {
-    await this.findOneForAdmin(id);
-    return this.prisma.testimonial.update({ where: { id }, data: { ...dto } });
+    const testimonial = await this.model.findByIdAndUpdate(id, dto, { new: true });
+    if (!testimonial) {
+      throw new NotFoundException(`Testimonial ${id} not found`);
+    }
+    return testimonial;
   }
 
   async remove(id: string) {
-    await this.findOneForAdmin(id);
-    await this.prisma.testimonial.delete({ where: { id } });
+    const result = await this.model.findByIdAndDelete(id);
+    if (!result) {
+      throw new NotFoundException(`Testimonial ${id} not found`);
+    }
     return { ok: true };
   }
 }

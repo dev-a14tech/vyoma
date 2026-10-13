@@ -1,7 +1,16 @@
-import { PrismaClient } from '@prisma/client';
+import mongoose from 'mongoose';
 import * as bcrypt from 'bcrypt';
+import { Admin, AdminSchema } from '../schemas/admin.schema.js';
+import { FeatureTheme, FeatureThemeSchema } from '../schemas/feature-theme.schema.js';
+import { AudienceSegment, AudienceSegmentSchema } from '../schemas/audience-segment.schema.js';
+import { PageContent, PageContentSchema } from '../schemas/page-content.schema.js';
 
-const prisma = new PrismaClient();
+const MONGODB_URI = process.env.MONGODB_URI ?? 'mongodb://127.0.0.1:27018/vyoma_website';
+
+const AdminModel = mongoose.model(Admin.name, AdminSchema);
+const FeatureThemeModel = mongoose.model(FeatureTheme.name, FeatureThemeSchema);
+const AudienceSegmentModel = mongoose.model(AudienceSegment.name, AudienceSegmentSchema);
+const PageContentModel = mongoose.model(PageContent.name, PageContentSchema);
 
 const features = [
   {
@@ -235,51 +244,32 @@ const pages = [
 ] as const;
 
 async function main() {
+  await mongoose.connect(MONGODB_URI);
   console.log('Seeding VYOMA website content...');
 
   for (const f of features) {
-    await prisma.featureTheme.upsert({
-      where: { slug: f.slug },
-      create: { ...f, capabilities: f.capabilities as unknown as object },
-      update: { ...f, capabilities: f.capabilities as unknown as object },
-    });
+    await FeatureThemeModel.findOneAndUpdate({ slug: f.slug }, { $set: f }, { upsert: true, setDefaultsOnInsert: true });
   }
   console.log(`  - ${features.length} feature themes`);
 
   for (const a of audiences) {
-    await prisma.audienceSegment.upsert({
-      where: { slug: a.slug },
-      create: {
-        ...a,
-        painPoints: a.painPoints as unknown as object,
-        relevantFeatureSlugs: a.relevantFeatureSlugs as unknown as object,
-      },
-      update: {
-        ...a,
-        painPoints: a.painPoints as unknown as object,
-        relevantFeatureSlugs: a.relevantFeatureSlugs as unknown as object,
-      },
-    });
+    await AudienceSegmentModel.findOneAndUpdate({ slug: a.slug }, { $set: a }, { upsert: true, setDefaultsOnInsert: true });
   }
   console.log(`  - ${audiences.length} audience segments`);
 
   for (const p of pages) {
-    await prisma.pageContent.upsert({
-      where: { slug: p.slug },
-      create: { ...p, blocks: p.blocks as unknown as object },
-      update: { ...p, blocks: p.blocks as unknown as object },
-    });
+    await PageContentModel.findOneAndUpdate({ slug: p.slug }, { $set: p }, { upsert: true, setDefaultsOnInsert: true });
   }
   console.log(`  - ${pages.length} page content records`);
 
   const adminEmail = process.env.SEED_ADMIN_EMAIL ?? 'admin@vyoma.aero';
   const adminPassword = process.env.SEED_ADMIN_PASSWORD ?? 'ChangeMe123!';
   const passwordHash = await bcrypt.hash(adminPassword, 10);
-  await prisma.admin.upsert({
-    where: { email: adminEmail },
-    create: { email: adminEmail, passwordHash, name: 'VYOMA Admin' },
-    update: {},
-  });
+  await AdminModel.findOneAndUpdate(
+    { email: adminEmail },
+    { $setOnInsert: { email: adminEmail, passwordHash, name: 'VYOMA Admin' } },
+    { upsert: true }
+  );
   console.log(`  - admin user ready: ${adminEmail} (password from SEED_ADMIN_PASSWORD or default)`);
 
   console.log('Done.');
@@ -291,5 +281,5 @@ main()
     process.exit(1);
   })
   .finally(async () => {
-    await prisma.$disconnect();
+    await mongoose.disconnect();
   });

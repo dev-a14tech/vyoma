@@ -7,20 +7,19 @@ See the full plan at the project's Claude plan file (shared separately) for cont
 ## Stack
 
 - `apps/web` — Nuxt 4 (SSR), Tailwind 4 + Nuxt UI, public marketing site + `/admin` CMS
-- `apps/api` — NestJS 12, Prisma + Postgres, content API for the admin panel
+- `apps/api` — NestJS 12, Mongoose + MongoDB, content API for the admin panel
 - `packages/shared` — TypeScript types shared between both apps
 
 ## Local development
 
-Requires Node 22+ and a local Postgres instance.
+Requires Node 22+ and a local MongoDB instance.
 
 ```bash
 # from repo root
 npx pnpm install
 
-# apps/api/.env — set DATABASE_URL, JWT_SECRET, etc. (see .env.example)
+# apps/api/.env — set MONGODB_URI, JWT_SECRET, etc. (see .env.example)
 cd apps/api
-npx pnpm exec prisma migrate dev
 npx pnpm run db:seed      # seeds the 7 feature themes, 5 audiences, page content, and an admin user
 npx pnpm run start:dev    # http://localhost:3001, Swagger docs at /api/docs
 

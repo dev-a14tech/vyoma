@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import { MongooseModule } from '@nestjs/mongoose';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { APP_GUARD } from '@nestjs/core';
-import { DatabaseModule } from './database/database.module.js';
 import { AuthModule } from './modules/auth/auth.module.js';
 import { PagesModule } from './modules/pages/pages.module.js';
 import { FeaturesModule } from './modules/features/features.module.js';
@@ -16,10 +16,16 @@ import { HealthModule } from './modules/health/health.module.js';
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
-    ThrottlerModule.forRoot({
-      throttlers: [{ ttl: 60_000, limit: 60 }],
+    MongooseModule.forRootAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: (config: ConfigService) => ({
+        uri: config.get<string>('MONGODB_URI', 'mongodb://127.0.0.1:27018/vyoma_website')
+      })
     }),
-    DatabaseModule,
+    ThrottlerModule.forRoot({
+      throttlers: [{ ttl: 60_000, limit: 60 }]
+    }),
     AuthModule,
     PagesModule,
     FeaturesModule,
@@ -28,8 +34,8 @@ import { HealthModule } from './modules/health/health.module.js';
     SiteSettingsModule,
     LeadsModule,
     UploadsModule,
-    HealthModule,
+    HealthModule
   ],
-  providers: [{ provide: APP_GUARD, useClass: ThrottlerGuard }],
+  providers: [{ provide: APP_GUARD, useClass: ThrottlerGuard }]
 })
 export class AppModule {}

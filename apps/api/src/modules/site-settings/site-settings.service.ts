@@ -1,12 +1,14 @@
 import { Injectable } from '@nestjs/common';
-import { PrismaService } from '../../database/prisma.service.js';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
+import { SiteSetting, SiteSettingDocument } from '../../database/schemas/site-setting.schema.js';
 
 @Injectable()
 export class SiteSettingsService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(@InjectModel(SiteSetting.name) private readonly model: Model<SiteSettingDocument>) {}
 
   async findAll() {
-    const rows = await this.prisma.siteSetting.findMany();
+    const rows = await this.model.find();
     return rows.reduce<Record<string, unknown>>((acc, row) => {
       acc[row.key] = row.value;
       return acc;
@@ -14,10 +16,6 @@ export class SiteSettingsService {
   }
 
   async upsert(key: string, value: unknown) {
-    return this.prisma.siteSetting.upsert({
-      where: { key },
-      create: { key, value: value as never },
-      update: { value: value as never },
-    });
+    return this.model.findOneAndUpdate({ key }, { $set: { value } }, { new: true, upsert: true });
   }
 }

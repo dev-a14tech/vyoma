@@ -1,32 +1,31 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { PrismaService } from '../../database/prisma.service.js';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
+import { AudienceSegment, AudienceSegmentDocument } from '../../database/schemas/audience-segment.schema.js';
 import { UpsertAudienceDto } from './dto/upsert-audience.dto.js';
 
 @Injectable()
 export class AudiencesService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(@InjectModel(AudienceSegment.name) private readonly model: Model<AudienceSegmentDocument>) {}
 
   findAllPublished() {
-    return this.prisma.audienceSegment.findMany({
-      where: { published: true },
-      orderBy: { order: 'asc' },
-    });
+    return this.model.find({ published: true }).sort({ order: 1 });
   }
 
   async findBySlug(slug: string) {
-    const audience = await this.prisma.audienceSegment.findUnique({ where: { slug } });
-    if (!audience || !audience.published) {
+    const audience = await this.model.findOne({ slug, published: true });
+    if (!audience) {
       throw new NotFoundException(`Audience "${slug}" not found`);
     }
     return audience;
   }
 
   findAllForAdmin() {
-    return this.prisma.audienceSegment.findMany({ orderBy: { order: 'asc' } });
+    return this.model.find().sort({ order: 1 });
   }
 
   async findOneForAdmin(id: string) {
-    const audience = await this.prisma.audienceSegment.findUnique({ where: { id } });
+    const audience = await this.model.findById(id);
     if (!audience) {
       throw new NotFoundException(`Audience ${id} not found`);
     }
@@ -34,17 +33,22 @@ export class AudiencesService {
   }
 
   create(dto: UpsertAudienceDto) {
-    return this.prisma.audienceSegment.create({ data: { ...dto } });
+    return this.model.create(dto);
   }
 
   async update(id: string, dto: Partial<UpsertAudienceDto>) {
-    await this.findOneForAdmin(id);
-    return this.prisma.audienceSegment.update({ where: { id }, data: { ...dto } });
+    const audience = await this.model.findByIdAndUpdate(id, dto, { new: true });
+    if (!audience) {
+      throw new NotFoundException(`Audience ${id} not found`);
+    }
+    return audience;
   }
 
   async remove(id: string) {
-    await this.findOneForAdmin(id);
-    await this.prisma.audienceSegment.delete({ where: { id } });
+    const result = await this.model.findByIdAndDelete(id);
+    if (!result) {
+      throw new NotFoundException(`Audience ${id} not found`);
+    }
     return { ok: true };
   }
 }
