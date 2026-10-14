@@ -15,6 +15,9 @@ export class LeadsService {
       email: dto.email,
       company: dto.company,
       role: dto.role,
+      orgType: dto.orgType,
+      timing: dto.timing,
+      topic: dto.topic,
       message: dto.message,
       source: dto.source ?? 'website'
     });

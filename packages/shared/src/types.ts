@@ -65,6 +65,9 @@ export interface LeadSubmission {
   email: string
   company: string | null
   role: string | null
+  orgType: string | null
+  timing: string | null
+  topic: string | null
   message: string | null
   source: string
   status: LeadStatus
@@ -77,6 +80,9 @@ export interface LeadSubmissionInput {
   email: string
   company?: string
   role?: string
+  orgType?: string
+  timing?: string
+  topic?: string
   message?: string
   source?: string
 }

@@ -18,6 +18,18 @@ export class CreateLeadDto {
 
   @IsString()
   @IsOptional()
+  orgType?: string;
+
+  @IsString()
+  @IsOptional()
+  timing?: string;
+
+  @IsString()
+  @IsOptional()
+  topic?: string;
+
+  @IsString()
+  @IsOptional()
   message?: string;
 
   @IsString()

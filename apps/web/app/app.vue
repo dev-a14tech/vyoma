@@ -2,7 +2,7 @@
 useHead({
   meta: [{ name: 'viewport', content: 'width=device-width, initial-scale=1' }],
   link: [
-    { rel: 'icon', href: '/favicon.svg' },
+    { rel: 'icon', href: '/icon.png', type: 'image/png' },
     { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
     { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' },
     {
@@ -14,7 +14,7 @@ useHead({
 })
 
 useSeoMeta({
-  titleTemplate: (title) => (title ? `${title} — VYOMA` : 'VYOMA — Digital Backbone of Aviation'),
+  titleTemplate: (title) => (title ? `${title} — VYOMA` : 'VYOMA — Every Aircraft. Every Insight. One VYOMA.'),
   ogSiteName: 'VYOMA',
   twitterCard: 'summary_large_image'
 })

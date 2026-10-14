@@ -24,6 +24,15 @@ export class LeadSubmission {
   role?: string;
 
   @Prop({ type: String })
+  orgType?: string;
+
+  @Prop({ type: String })
+  timing?: string;
+
+  @Prop({ type: String })
+  topic?: string;
+
+  @Prop({ type: String })
   message?: string;
 
   @Prop({ type: String, default: 'website' })
