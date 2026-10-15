@@ -1,9 +1,10 @@
 <script setup lang="ts">
 const { data: features } = await useFeatures()
 
-useSeoMeta({
-  title: 'Features',
-  description: 'Explore every module in the VYOMA platform, from fleet management to reporting.'
+usePageSeo({
+  title: 'Aircraft Maintenance Software Features',
+  description: 'Explore every VYOMA module: airworthiness directive and service bulletin tracking, MEL/CDL, component life tracking, maintenance due lists, work orders and reporting.',
+  keywords: 'features'
 })
 </script>
 

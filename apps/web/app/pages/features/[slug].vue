@@ -8,9 +8,10 @@ if (!feature.value) {
   throw createError({ statusCode: 404, statusMessage: 'Feature not found' })
 }
 
-useSeoMeta({
+usePageSeo({
   title: feature.value.title,
-  description: feature.value.summary
+  description: feature.value.summary,
+  keywords: 'features'
 })
 </script>
 

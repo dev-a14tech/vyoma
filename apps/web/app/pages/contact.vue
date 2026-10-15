@@ -1,7 +1,8 @@
 <script setup lang="ts">
-useSeoMeta({
-  title: 'Contact',
-  description: 'Get in touch with the VYOMA team.'
+usePageSeo({
+  title: 'Contact VYOMA',
+  description: 'Talk to the VYOMA team about CAMO software, aircraft maintenance tracking and fleet compliance for your airline, flying school or private jet operation.',
+  keywords: 'contact'
 })
 </script>
 

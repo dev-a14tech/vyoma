@@ -1,13 +1,10 @@
 <script setup lang="ts">
 definePageMeta({ layout: 'landing' })
 
-useSeoMeta({
+usePageSeo({
   description:
-    'VYOMA is a connected aviation platform bringing fleet visibility, maintenance intelligence, airworthiness management and operational clarity into one digital workspace.',
-  ogDescription:
-    'Fleet visibility, maintenance intelligence, airworthiness management and operational clarity in one digital workspace.',
-  ogImage: '/images/brand/vyoma-logo-full.png',
-  twitterCard: 'summary_large_image'
+    'VYOMA is CAMO software and aircraft maintenance tracking software for airlines, flying training schools and private jet operators. Track airworthiness directives, service bulletins, components and fleet compliance in one place.',
+  keywords: 'home'
 })
 </script>
 

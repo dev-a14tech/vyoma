@@ -1,10 +1,12 @@
 <script setup lang="ts">
 definePageMeta({ layout: 'landing' })
 
-useSeoMeta({
+usePageSeo({
   title: 'Careers',
   description: 'There are no open roles listed right now. When VYOMA is hiring, positions will be posted here.'
 })
+// Placeholder page: keep it out of search results until there are roles to list.
+useSeoMeta({ robots: 'noindex, follow' })
 </script>
 
 <template>
