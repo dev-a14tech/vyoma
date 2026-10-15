@@ -1,4 +1,4 @@
-import { BadGatewayException, Injectable, Logger, ServiceUnavailableException } from '@nestjs/common';
+import { BadGatewayException, Injectable, Logger, ServiceUnavailableException, Inject } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { CHAT_SYSTEM_PROMPT } from './chat-knowledge.js';
 import { ChatMessageDto, ChatReply } from './dto/chat.dto.js';
@@ -16,7 +16,7 @@ interface GeminiResponse {
 export class ChatService {
   private readonly logger = new Logger(ChatService.name);
 
-  constructor(private readonly config: ConfigService) {}
+  constructor(@Inject(ConfigService) private readonly config: ConfigService) {}
 
   isConfigured(): boolean {
     return !!this.config.get<string>('GEMINI_API_KEY');

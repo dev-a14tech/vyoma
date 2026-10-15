@@ -2,8 +2,11 @@ import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import type { Connection } from 'mongoose';
-import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
-import { APP_GUARD } from '@nestjs/core';
+import { ThrottlerGuard, ThrottlerModule, ThrottlerStorage } from '@nestjs/throttler';
+
+// @nestjs/throttler registers its options under this token but does not export it.
+const THROTTLER_OPTIONS = 'THROTTLER:MODULE_OPTIONS';
+import { APP_GUARD, Reflector } from '@nestjs/core';
 import { AuthModule } from './modules/auth/auth.module.js';
 import { PagesModule } from './modules/pages/pages.module.js';
 import { FeaturesModule } from './modules/features/features.module.js';
@@ -54,6 +57,16 @@ import { ChatModule } from './modules/chat/chat.module.js';
     HealthModule,
     ChatModule
   ],
-  providers: [{ provide: APP_GUARD, useClass: ThrottlerGuard }]
+  providers: [
+    {
+      // Built by hand with explicit tokens instead of `useClass`: the guard's constructor
+      // parameters are resolved from emitted decorator metadata, which Vercel's bundler
+      // does not produce.
+      provide: APP_GUARD,
+      useFactory: (options: ConstructorParameters<typeof ThrottlerGuard>[0], storage: ThrottlerStorage, reflector: Reflector) =>
+        new ThrottlerGuard(options, storage, reflector),
+      inject: [THROTTLER_OPTIONS, ThrottlerStorage, Reflector]
+    }
+  ]
 })
 export class AppModule {}
