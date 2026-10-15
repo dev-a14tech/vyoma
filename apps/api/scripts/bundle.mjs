@@ -6,6 +6,11 @@
 // from CommonJS fragile. A single file with every dependency inlined needs neither.
 //
 // Only packages Nest loads lazily and the app never uses stay external.
+//
+// The output IS COMMITTED: Vercel's build did not reliably run this step, and without the
+// file the function falls back to running from source and dies on require() of the
+// ESM-only Nest packages ("ERR_REQUIRE_ESM"). Re-run `pnpm --filter api build:bundle`
+// and commit src/server.bundle.cjs whenever API code or API dependencies change.
 import { createRequire } from 'node:module';
 import { build } from 'esbuild';
 
@@ -56,6 +61,11 @@ await build({
   platform: 'node',
   format: 'cjs',
   target: 'node22',
+  // Whitespace/syntax only: identifiers must keep their names (Mongoose derives collection
+  // names from the model class names, e.g. Admin -> admins).
+  minifyWhitespace: true,
+  minifySyntax: true,
+  keepNames: true,
   sourcemap: false,
   // The ESM-only Nest packages use import.meta.url; in a CommonJS bundle it is empty, so
   // point it at the bundle file itself.
