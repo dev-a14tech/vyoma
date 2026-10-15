@@ -3,7 +3,8 @@
 // src/main.cjs IS the Vercel entry point (Vercel looks for src/main.{js,cjs,ts,...}). Being
 // plain CommonJS with every dependency inlined, Vercel neither has to compile it (its
 // compile step wrote ESM-flavoured .cjs files that could not require() the ESM-only Nest
-// packages) nor ship node_modules. Source of truth: src/server.ts.
+// packages) nor ship node_modules. Source of truth: src/bootstrap.ts. (It must NOT be called main/app/index/server: Vercel's
+// entry detection picks the first of those it finds, and it must find src/main.cjs.)
 //
 // Why: on Vercel the API function was missing its node_modules at run time
 // ("Cannot find module '@nestjs/core'"), and Nest 12 is ESM-only, which makes loading it
@@ -64,7 +65,7 @@ const mongooseFacadePlugin = {
 const checkOnly = process.argv.includes('--check');
 
 const result = await build({
-  entryPoints: ['src/server.ts'],
+  entryPoints: ['src/bootstrap.ts'],
   outfile: 'src/main.cjs',
   write: !checkOnly,
   bundle: true,
