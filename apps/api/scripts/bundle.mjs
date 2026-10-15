@@ -81,7 +81,15 @@ const result = await build({
   // The ESM-only Nest packages use import.meta.url; in a CommonJS bundle it is empty, so
   // point it at the bundle file itself.
   define: { 'import.meta.url': '__import_meta_url' },
-  banner: { js: "const __import_meta_url = require('node:url').pathToFileURL(__filename).href;" },
+  // Vercel's NestJS entry detection greps the file for a literal @nestjs/core
+  // import, which a bundle no longer has. The dead branch satisfies it and
+  // never runs (the real code is inlined below).
+  banner: {
+    js: [
+      "const __import_meta_url = require('node:url').pathToFileURL(__filename).href;",
+      "if (false) { require('@nestjs/core'); require('@nestjs/common'); }",
+    ].join('\n'),
+  },
   external: [...OPTIONAL, ...OPTIONAL.map((p) => `${p}/*`)],
   plugins: [mongooseFacadePlugin],
   logLevel: 'info',
