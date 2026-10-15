@@ -52,4 +52,7 @@ async function bootstrap() {
   await app.listen(port);
   console.log(`VYOMA API listening on http://localhost:${port} (docs at /api/docs)`);
 }
-await bootstrap();
+bootstrap().catch((err) => {
+  console.error(err);
+  process.exit(1);
+});
