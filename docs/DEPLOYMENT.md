@@ -111,7 +111,7 @@ git add apps/api/src/main.cjs    # commit it with your change
 pnpm --filter api check:bundle   # (optional) fails if the committed file is out of date
 ```
 
-If you forget, the deployed API keeps running the old code. The source of truth is `apps/api/src/server.ts`; for local development use `pnpm --filter api start:dev`.
+If you forget, the deployed API keeps running the old code. The source of truth is `apps/api/src/bootstrap.ts`; for local development use `pnpm --filter api start:dev`.
 
 ## 7. If something does not work
 
