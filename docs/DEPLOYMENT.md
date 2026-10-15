@@ -43,6 +43,8 @@ npx pnpm run db:seed
 
 Do not skip the two `SEED_ADMIN_*` values: without them the seed uses the default login from the README, which is public.
 
+The seed only **creates** the admin if it does not exist yet. Running it again with a different password does **not** change an existing admin's password. If you need to reset it, delete the document in the `admins` collection in Atlas and run the seed again.
+
 ## 4. Environment variables in Vercel
 
 Vercel project > **Settings > Environment Variables**. Add these for **Production** (and Preview if you want previews to work):
@@ -59,6 +61,31 @@ Vercel project > **Settings > Environment Variables**. Add these for **Productio
 Never put the Gemini key or the database password in the code or in a `NUXT_PUBLIC_*` variable: those are visible in the browser. The chat is safe because the browser only talks to `/api/chat`; the API holds the key and calls Gemini.
 
 Do **not** set `API_INTERNAL_URL` by hand: Vercel injects it from the service binding in `vercel.json`.
+
+## 4b. Get the Gemini key (for the chat assistant)
+
+1. Open <https://aistudio.google.com/apikey> and sign in with a Google account (use a company account, not a personal one, so the key does not belong to one person).
+2. Accept the terms if asked.
+3. Click **Create API key**. When it asks for a project, choose **Create API key in new project** (or pick an existing Google Cloud project).
+4. The key appears (it starts with `AIza`). Click the copy icon. You can reopen this page later to copy it again.
+5. In Vercel: **Settings > Environment Variables > Add**, name `GEMINI_API_KEY`, paste the key, environment **Production**, **Save**. Then redeploy.
+6. Check `https://<your-domain>/api/chat/status`: it should say `{"enabled":true}`. Then try the chat on the site.
+
+Before a public launch:
+- The free tier has low limits and may use your conversations to improve Google's products. For a real launch, open the key's project in Google AI Studio, choose **Set up billing**, and add a budget alert in Google Cloud (Billing > Budgets & alerts) so a bot cannot run up a bill.
+- In Google Cloud Console > APIs & Services > Credentials, open the key and under *API restrictions* choose **Restrict key > Generative Language API**.
+- If the key is ever pasted somewhere public, delete it in AI Studio and create a new one.
+
+## 4c. Admin panel: reading the leads
+
+Everything submitted through **Book a Demo** and **Ask More** is stored in MongoDB and listed in the admin panel.
+
+1. Open `https://<your-domain>/admin` and sign in with the admin email and password you used when seeding (step 3).
+2. Open **Leads**. Each row shows when it arrived, who sent it, their company, the type (Book a demo or Ask more) and its status.
+3. Click **Details** on a row to see the organisation type, timing, topic and message.
+4. Use the status dropdown (NEW, CONTACTED, CLOSED) to track follow-up. Search and the two filters narrow the list. **Export CSV** downloads what is currently shown, for sharing with the team.
+
+The same data is in Atlas under *Browse Collections* > `vyoma_website` > `leadsubmissions`.
 
 ## 5. Deploy
 
