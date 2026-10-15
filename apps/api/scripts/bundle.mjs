@@ -15,6 +15,7 @@
 // file the function falls back to running from source and dies on require() of the
 // ESM-only Nest packages ("ERR_REQUIRE_ESM"). Re-run `pnpm --filter api build:bundle`
 // and commit src/main.cjs whenever API code or API dependencies change.
+import { readFileSync } from 'node:fs';
 import { createRequire } from 'node:module';
 import { build } from 'esbuild';
 
@@ -58,9 +59,14 @@ const mongooseFacadePlugin = {
   },
 };
 
-await build({
+// `node scripts/bundle.mjs --check` rebuilds in memory and fails if the committed
+// src/main.cjs is out of date with the sources (run it before pushing API changes).
+const checkOnly = process.argv.includes('--check');
+
+const result = await build({
   entryPoints: ['src/server.ts'],
   outfile: 'src/main.cjs',
+  write: !checkOnly,
   bundle: true,
   platform: 'node',
   format: 'cjs',
@@ -79,3 +85,13 @@ await build({
   plugins: [mongooseFacadePlugin],
   logLevel: 'info',
 });
+
+if (checkOnly) {
+  const fresh = result.outputFiles[0].text;
+  const committed = readFileSync('src/main.cjs', 'utf8');
+  if (fresh !== committed) {
+    console.error('src/main.cjs is out of date. Run: pnpm --filter api build:bundle  (then commit it)');
+    process.exit(1);
+  }
+  console.log('src/main.cjs is up to date.');
+}

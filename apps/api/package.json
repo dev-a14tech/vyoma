@@ -8,6 +8,7 @@
   "scripts": {
     "build": "nest build",
     "build:bundle": "node scripts/bundle.mjs",
+    "check:bundle": "node scripts/bundle.mjs --check",
     "deploy": "nest deploy",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",
