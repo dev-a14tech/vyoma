@@ -1,5 +1,5 @@
 <script setup lang="ts">
-useSeoMeta({ title: 'Privacy Policy' })
+usePageSeo({ title: 'Privacy Policy', description: 'VYOMA privacy policy.' })
 </script>
 
 <template>

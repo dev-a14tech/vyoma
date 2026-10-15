@@ -207,9 +207,9 @@ const pages = [
     heroTitle: 'Digital Backbone of Aviation',
     heroSubtitle:
       'VYOMA connects fleet management, airworthiness, maintenance, flight ops, crew, and reporting in one platform built for the way CAMO organisations and operators actually work.',
-    seoTitle: 'VYOMA — Digital Backbone of Aviation',
+    seoTitle: 'VYOMA — CAMO Software & Aircraft Maintenance Tracking Platform',
     seoDescription:
-      'VYOMA is a continuing airworthiness and aviation operations platform covering fleet management, compliance, maintenance, flight ops, crew, and reporting in one connected system.',
+      'VYOMA is CAMO software and aircraft maintenance tracking software for airlines, flying training schools and private jet operators: fleet, compliance, maintenance, flight ops, crew and reporting in one connected system.',
     blocks: [],
   },
   {
@@ -217,9 +217,9 @@ const pages = [
     heroTitle: 'One platform, the whole operation',
     heroSubtitle:
       'Everything from aircraft onboarding to regulator-ready reports, built on a true multi-tenant architecture with granular role-based access.',
-    seoTitle: 'The VYOMA Platform',
+    seoTitle: 'Aircraft Maintenance & CAMO Software Platform',
     seoDescription:
-      'See how VYOMA connects fleet, compliance, maintenance, flight operations, crew, and reporting into a single aviation operations platform.',
+      'See how VYOMA connects fleet records, airworthiness directive and service bulletin tracking, maintenance planning, flight operations, crew and reporting into a single aircraft maintenance software platform.',
     blocks: [],
   },
   {
@@ -227,9 +227,9 @@ const pages = [
     heroTitle: 'Built for audit day, every day',
     heroSubtitle:
       'Multi-tenant data isolation, granular permissions, a fully documented API, and an immutable audit trail — the trust infrastructure under every feature.',
-    seoTitle: 'Why VYOMA — Trust & Compliance',
+    seoTitle: 'Why Choose VYOMA for Aircraft Maintenance Software',
     seoDescription:
-      'VYOMA is built on true multi-tenant data isolation, role-based access control, a documented REST API, and a hash-chained audit log.',
+      'Audit-ready aviation software: true multi-tenant data isolation, role-based access control, a documented REST API and a hash-chained audit log.',
     blocks: [],
   },
   {
@@ -238,7 +238,7 @@ const pages = [
     heroSubtitle:
       'VYOMA is built by AVAJET Aviation Consultants LLP, an independent aircraft technical advisory operating since 2009 — so the platform is built by people who have done this work, not just software people guessing at it.',
     seoTitle: 'About VYOMA',
-    seoDescription: 'VYOMA is built by AVAJET Aviation Consultants LLP, an independent aviation technical advisory.',
+    seoDescription: 'VYOMA aviation software is built by AVAJET Aviation Consultants LLP, an independent aircraft technical advisory operating since 2009.',
     blocks: [],
   },
 ] as const;

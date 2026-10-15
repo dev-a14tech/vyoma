@@ -7,7 +7,9 @@ import type {
 
 function apiFetch<T>(path: string) {
   const base = useApiBase()
-  return useAsyncData<T>(`content:${path}`, () => $fetch<T>(`${base}${path}`))
+  // Cast: with a server/ dir present Nitro types $fetch against its own routes, but this
+  // call goes to the separate CMS API whose response type is T.
+  return useAsyncData<T>(`content:${path}`, () => $fetch(`${base}${path}`) as Promise<T>)
 }
 
 export function useFeatures() {

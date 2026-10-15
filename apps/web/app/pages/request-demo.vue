@@ -1,7 +1,8 @@
 <script setup lang="ts">
-useSeoMeta({
-  title: 'Book a Demo',
-  description: 'See VYOMA on your own fleet data — book a focused walkthrough with our team.'
+usePageSeo({
+  title: 'Book a CAMO Software Demo',
+  description: 'See VYOMA on your own fleet data. Book a focused demo of our CAMO and aircraft maintenance software for airlines, flying training schools and private jet operators.',
+  keywords: 'request-demo'
 })
 </script>
 

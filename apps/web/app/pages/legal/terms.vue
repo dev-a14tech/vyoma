@@ -1,5 +1,5 @@
 <script setup lang="ts">
-useSeoMeta({ title: 'Terms of Service' })
+usePageSeo({ title: 'Terms of Service', description: 'VYOMA terms of service.' })
 </script>
 
 <template>

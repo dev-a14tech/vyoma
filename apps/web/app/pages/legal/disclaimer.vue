@@ -1,5 +1,5 @@
 <script setup lang="ts">
-useSeoMeta({ title: 'Disclaimer' })
+usePageSeo({ title: 'Disclaimer', description: 'VYOMA disclaimer.' })
 </script>
 
 <template>

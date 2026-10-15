@@ -1,9 +1,12 @@
 <script setup lang="ts">
 const { data: page } = await usePageContent('about')
 
-useSeoMeta({
-  title: page.value?.seoTitle ?? 'About',
-  description: page.value?.seoDescription
+usePageSeo({
+  title: page.value?.seoTitle ?? 'About VYOMA',
+  description:
+    page.value?.seoDescription ??
+    'VYOMA is an aviation software platform from the AVAJet family, built to manage risk across the aircraft lifecycle: maintenance, airworthiness, operations and logistics.',
+  keywords: 'about'
 })
 </script>
 

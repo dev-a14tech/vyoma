@@ -17,6 +17,9 @@ export default defineNuxtConfig({
     // the two dev servers just talk over plain localhost ports instead.
     apiInternalBase: process.env.API_INTERNAL_URL || '',
     public: {
+      // Canonical origin for canonical links, Open Graph URLs, sitemap and robots.txt.
+      // Set NUXT_PUBLIC_SITE_URL in Vercel to the live domain.
+      siteUrl: process.env.NUXT_PUBLIC_SITE_URL || 'https://vyoma.aero',
       // Same-origin in production ("/api", routed to the api service by vercel.json's
       // rewrite) so the browser never needs CORS or to know the api service's own host.
       apiBase: process.env.NUXT_PUBLIC_API_BASE || 'http://localhost:3001/api'

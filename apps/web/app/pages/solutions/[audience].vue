@@ -16,9 +16,10 @@ const relevantFeatures = computed(() => {
   return allFeatures.value.filter((f) => slugs.has(f.slug))
 })
 
-useSeoMeta({
-  title: audience.value.title,
-  description: audience.value.heroCopy
+usePageSeo({
+  title: `${audience.value.title} Aviation Software`,
+  description: audience.value.heroCopy,
+  keywords: 'solutions'
 })
 </script>
 

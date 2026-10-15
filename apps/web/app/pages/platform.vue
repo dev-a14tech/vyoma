@@ -2,9 +2,12 @@
 const { data: page } = await usePageContent('platform')
 const { data: features } = await useFeatures()
 
-useSeoMeta({
-  title: page.value?.seoTitle ?? 'Platform',
-  description: page.value?.seoDescription
+usePageSeo({
+  title: page.value?.seoTitle ?? 'Aircraft Maintenance & CAMO Software Platform',
+  description:
+    page.value?.seoDescription ??
+    'One platform for fleet records, maintenance due lists, component tracking, AD and SB compliance, MEL/CDL and operations. CAMO software built for airlines, flying training schools and private jet operators.',
+  keywords: 'platform'
 })
 </script>
 

@@ -1,9 +1,12 @@
 <script setup lang="ts">
 const { data: page } = await usePageContent('why-vyoma')
 
-useSeoMeta({
-  title: page.value?.seoTitle ?? 'Why VYOMA',
-  description: page.value?.seoDescription
+usePageSeo({
+  title: page.value?.seoTitle ?? 'Why Choose VYOMA for Aircraft Maintenance Software',
+  description:
+    page.value?.seoDescription ??
+    'Why aviation teams choose VYOMA: audit-ready records, tenant-isolated data, and one connected view of maintenance, compliance and operations.',
+  keywords: 'why-vyoma'
 })
 
 const faqItems = [
