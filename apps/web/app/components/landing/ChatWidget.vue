@@ -1,5 +1,5 @@
 <script setup lang="ts">
-// Floating assistant, bottom left. Questions go to our own API (/api/chat), which calls
+// Floating assistant, bottom right. Questions go to our own API (/api/chat), which calls
 // Gemini with a server-side key: nothing secret is ever in the browser.
 interface Msg {
   role: 'user' | 'assistant'
@@ -40,6 +40,8 @@ async function send(text: string) {
   const content = text.trim()
   if (!content || sending.value) return
   error.value = null
+  // A previous question that never got an answer (failed request) is replaced, not repeated.
+  if (messages.value.at(-1)?.role === 'user') messages.value.pop()
   messages.value.push({ role: 'user', content })
   input.value = ''
   sending.value = true
@@ -134,7 +136,7 @@ onBeforeUnmount(() => document.removeEventListener('keydown', onKey))
 </script>
 
 <template>
-  <div v-if="enabled" class="fixed bottom-4 left-4 z-[55] sm:bottom-6 sm:left-6">
+  <div v-if="enabled" class="fixed bottom-4 right-4 z-[55] flex flex-col items-end sm:bottom-6 sm:right-6">
     <div
       v-if="open"
       id="vyoma-chat"
