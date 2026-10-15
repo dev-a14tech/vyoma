@@ -56,7 +56,7 @@ Vercel project > **Settings > Environment Variables**. Add these for **Productio
 | `CORS_ORIGIN` | `https://vyoma.aero` | Your live domain |
 | `NUXT_PUBLIC_SITE_URL` | `https://vyoma.aero` | Canonical URLs, sitemap, robots.txt |
 | `GEMINI_API_KEY` | key from <https://aistudio.google.com/apikey> | Turns the chat on. Leave unset and the chat button stays hidden |
-| `GEMINI_MODEL` | `gemini-2.5-flash` | Optional. Change if you want another Gemini model |
+| `GEMINI_MODEL` | `gemini-flash-latest` | Optional. Change if you want another Gemini model |
 
 Never put the Gemini key or the database password in the code or in a `NUXT_PUBLIC_*` variable: those are visible in the browser. The chat is safe because the browser only talks to `/api/chat`; the API holds the key and calls Gemini.
 

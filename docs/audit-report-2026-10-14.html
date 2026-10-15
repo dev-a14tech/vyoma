@@ -1,0 +1,215 @@
+<title>VYOMA Build Audit — Oct 14, 2026</title>
+<style>
+  :root {
+    --bg: #ffffff;
+    --surface: #ffffff;
+    --border: #e2e5ea;
+    --ink: #1a2230;
+    --ink-dim: #5b6472;
+    --accent: #1d4f8f;
+    --accent-dim: #e8f0fb;
+    --done: #1b7a4d;
+    --done-bg: #e5f5ec;
+    color-scheme: light;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #11151c;
+      --surface: #171c25;
+      --border: #2a313d;
+      --ink: #e7eaf0;
+      --ink-dim: #9aa4b2;
+      --accent: #6ea4e6;
+      --accent-dim: #1c2a3d;
+      --done: #4fcf8d;
+      --done-bg: #16301f;
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #11151c;
+    --surface: #171c25;
+    --border: #2a313d;
+    --ink: #e7eaf0;
+    --ink-dim: #9aa4b2;
+    --accent: #6ea4e6;
+    --accent-dim: #1c2a3d;
+    --done: #4fcf8d;
+    --done-bg: #16301f;
+    color-scheme: dark;
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font: 15px/1.55 "Inter", -apple-system, "Segoe UI", sans-serif;
+    padding-inline: max(16px, env(safe-area-inset-left, 0px));
+  }
+  h1, h2 { font-family: "Manrope", "Inter", sans-serif; text-wrap: balance; }
+
+  .wrap { max-width: 920px; margin: 0 auto; padding-block: 28px 56px; }
+
+  header.page {
+    display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 8px 20px;
+    padding-block-end: 18px; margin-block-end: 10px; border-bottom: 1px solid var(--border);
+  }
+  header.page h1 { margin: 0; font-size: 1.5rem; font-weight: 800; letter-spacing: -0.01em; }
+  header.page .meta { color: var(--ink-dim); font-size: 0.85rem; }
+
+  .summary {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
+    padding: 16px 18px; margin-block: 18px 28px; color: var(--ink); font-size: 0.93rem;
+  }
+  .summary p { margin: 0 0 8px; }
+  .summary p:last-child { margin-bottom: 0; }
+
+  h2.phase { font-size: 1.05rem; font-weight: 700; margin: 30px 0 10px; }
+
+  .table-scroll {
+    border: 1px solid var(--border); border-radius: 10px; overflow: auto;
+    max-height: 340px; background: var(--surface);
+  }
+  table { border-collapse: collapse; width: 100%; min-width: 600px; font-size: 0.86rem; }
+  thead th {
+    position: sticky; top: 0; background: var(--surface); text-align: left;
+    font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.04em; color: var(--ink-dim);
+    padding: 9px 14px; border-bottom: 1px solid var(--border); white-space: nowrap;
+  }
+  tbody td { padding: 10px 14px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  tbody tr:last-child td { border-bottom: none; }
+  td.item { font-weight: 600; white-space: nowrap; }
+  td.detail { color: var(--ink-dim); min-width: 0; }
+
+  .pill {
+    display: inline-block; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.01em;
+    padding: 2px 9px; border-radius: 999px; white-space: nowrap;
+    color: var(--done); background: var(--done-bg);
+  }
+
+  footer.sign {
+    margin-block-start: 40px; padding-block-start: 18px; border-top: 1px solid var(--border);
+    color: var(--ink-dim); font-size: 0.85rem;
+  }
+
+  @media (max-width: 480px) {
+    td.item { white-space: normal; }
+    .table-scroll { max-height: 280px; }
+  }
+</style>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Manrope:wght@700;800&display=swap">
+
+<div class="wrap">
+  <header class="page">
+    <h1>VYOMA Website — Build Audit</h1>
+    <span class="meta">October 14, 2026</span>
+  </header>
+
+  <div class="summary">
+    <p>Full build log for the new VYOMA marketing site: planning, initial scaffold (Nuxt + NestJS), a database migration, Vercel deploy configuration, a team EOD report, and a full landing-page rebuild to the confirmed V3 design.</p>
+    <p>Repo: <strong>github.com/dev-a14tech/vyoma</strong> · 6 commits pushed, all pushed to <code>main</code>.</p>
+  </div>
+
+  <h2 class="phase">1 · Planning &amp; Research</h2>
+  <div class="table-scroll">
+    <table>
+      <thead><tr><th>Item</th><th>Status</th><th>Detail</th></tr></thead>
+      <tbody>
+        <tr><td class="item">Brand kit review</td><td><span class="pill">Done</span></td><td class="detail">Read the 2026 VYOMA brand guidelines PDF — colours, logo system, type scale, motifs.</td></tr>
+        <tr><td class="item">Codebase exploration</td><td><span class="pill">Done</span></td><td class="detail">Explored camo-dev (the real product) frontend and backend — full feature/module inventory, ~757 REST endpoints across ~30 modules.</td></tr>
+        <tr><td class="item">Discovery: avajet-website</td><td><span class="pill">Done</span></td><td class="detail">Found the existing AVAJET corporate site + its Next.js/Mongo admin CMS — used as a content and pattern reference.</td></tr>
+        <tr><td class="item">Competitive research</td><td><span class="pill">Done</span></td><td class="detail">Reviewed Flypal, Aviatize and FlightLogger live for SaaS positioning and design patterns.</td></tr>
+        <tr><td class="item">Huddle notes review</td><td><span class="pill">Done</span></td><td class="detail">Incorporated team huddle directives: SaaS-not-airline positioning, no public login link, internal module names translated to user-facing labels.</td></tr>
+        <tr><td class="item">Implementation plan</td><td><span class="pill">Done</span></td><td class="detail">Full plan written and approved: repo layout, content model, sitemap, design direction, build order.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2 class="phase">2 · Initial Build — Backend (NestJS CMS API)</h2>
+  <div class="table-scroll">
+    <table>
+      <thead><tr><th>Item</th><th>Status</th><th>Detail</th></tr></thead>
+      <tbody>
+        <tr><td class="item">Monorepo scaffold</td><td><span class="pill">Done</span></td><td class="detail">pnpm workspace: apps/web (Nuxt), apps/api (NestJS), packages/shared (shared TS types).</td></tr>
+        <tr><td class="item">Content modules</td><td><span class="pill">Done</span></td><td class="detail">8 modules: auth, pages, features, audiences, testimonials, site-settings, leads, uploads, health.</td></tr>
+        <tr><td class="item">Auth</td><td><span class="pill">Done</span></td><td class="detail">JWT admin login over an httpOnly cookie; guard on every /admin/* route.</td></tr>
+        <tr><td class="item">API docs</td><td><span class="pill">Done</span></td><td class="detail">Swagger at /api/docs.</td></tr>
+        <tr><td class="item">Content seed</td><td><span class="pill">Done</span></td><td class="detail">Seeded with real VYOMA product content (7 feature themes, 5 audience segments) — not placeholder copy.</td></tr>
+        <tr><td class="item">Lead capture</td><td><span class="pill">Done</span></td><td class="detail">Rate-limited public endpoints for demo-request and contact forms.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2 class="phase">3 · Initial Build — Frontend (Nuxt 4 site + admin)</h2>
+  <div class="table-scroll">
+    <table>
+      <thead><tr><th>Item</th><th>Status</th><th>Detail</th></tr></thead>
+      <tbody>
+        <tr><td class="item">Public pages</td><td><span class="pill">Done</span></td><td class="detail">Home, Platform, Features (index + 7 detail pages), 5 Solutions pages, Why VYOMA, About, Contact, Request Demo, legal placeholders.</td></tr>
+        <tr><td class="item">Brand system</td><td><span class="pill">Done</span></td><td class="detail">Token-driven colours/type, brand motif components, bento grid of feature cards.</td></tr>
+        <tr><td class="item">Admin panel</td><td><span class="pill">Done</span></td><td class="detail">/admin with login, dashboard, full CRUD for features/audiences/testimonials, page editor, leads inbox.</td></tr>
+        <tr><td class="item">Bug fixes</td><td><span class="pill">Fixed</span></td><td class="detail">Nuxt UI defaulting to dark mode on system preference; SSR not forwarding the auth cookie on hard page loads.</td></tr>
+        <tr><td class="item">GitHub</td><td><span class="pill">Done</span></td><td class="detail">Repo initialised and pushed to dev-a14tech/vyoma.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2 class="phase">4 · Database Migration (Postgres → MongoDB)</h2>
+  <div class="table-scroll">
+    <table>
+      <thead><tr><th>Item</th><th>Status</th><th>Detail</th></tr></thead>
+      <tbody>
+        <tr><td class="item">MongoDB install</td><td><span class="pill">Done</span></td><td class="detail">Installed locally, isolated on its own port, separate from any existing system Postgres.</td></tr>
+        <tr><td class="item">Schema migration</td><td><span class="pill">Done</span></td><td class="detail">All 7 Prisma models rewritten as Mongoose schemas; every service rewritten to use @InjectModel.</td></tr>
+        <tr><td class="item">Bug fix</td><td><span class="pill">Fixed</span></td><td class="detail">tsx doesn't reliably emit decorator type-metadata — made every @Prop() type explicit instead of relying on inference.</td></tr>
+        <tr><td class="item">Verification</td><td><span class="pill">Done</span></td><td class="detail">Reseeded, confirmed admin login, feature list/edit, and public content API all working against Mongo in the browser.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2 class="phase">5 · Deployment Configuration (Vercel)</h2>
+  <div class="table-scroll">
+    <table>
+      <thead><tr><th>Item</th><th>Status</th><th>Detail</th></tr></thead>
+      <tbody>
+        <tr><td class="item">vercel.json</td><td><span class="pill">Done</span></td><td class="detail">Two public services — web (Nuxt, catch-all) and api (Nest, /api/(.*)) — with a service binding for web's server-side calls.</td></tr>
+        <tr><td class="item">Routing fix</td><td><span class="pill">Fixed</span></td><td class="detail">Moved /health under the api service's own /api prefix — the old bare path would have 404'd in production.</td></tr>
+        <tr><td class="item">Runtime wiring</td><td><span class="pill">Done</span></td><td class="detail">New useApiBase() composable: server calls prefer the bound internal URL, client calls always use the public path.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2 class="phase">6 · Team EOD Report (Deliverable)</h2>
+  <div class="table-scroll">
+    <table>
+      <thead><tr><th>Item</th><th>Status</th><th>Detail</th></tr></thead>
+      <tbody>
+        <tr><td class="item">Combined report</td><td><span class="pill">Done</span></td><td class="detail">Built a Team A EOD report combining OPS-FTO work (Mrittika) and the VYOMA website build (Jastin), scrollable tables, status pills.</td></tr>
+        <tr><td class="item">Email-safe version</td><td><span class="pill">Done</span></td><td class="detail">Separate plain-table, inline-styled HTML file for pasting directly into an email client.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2 class="phase">7 · Landing Page Rebuild (Confirmed V3 Design)</h2>
+  <div class="table-scroll">
+    <table>
+      <thead><tr><th>Item</th><th>Status</th><th>Detail</th></tr></thead>
+      <tbody>
+        <tr><td class="item">Source analysis</td><td><span class="pill">Done</span></td><td class="detail">Analysed the 2.6MB static export (vyomaweb V3.html) — extracted real colours, fonts, brand assets and complete sections byte-exact.</td></tr>
+        <tr><td class="item">Real source port</td><td><span class="pill">Done</span></td><td class="detail">User supplied the actual Next.js source (vyoma-aero/) — used for the parts only rendered client-side in the export: header mega-menus, 5 of 6 solutions tabs, FAQ, demo form.</td></tr>
+        <tr><td class="item">Sections built</td><td><span class="pill">Done</span></td><td class="detail">Hero, What is VYOMA, Capabilities, 8-card Feature bento, Why VYOMA, 6-tab Solutions selector, Getting Started, Security, About, FAQ accordion, dual-mode Demo form.</td></tr>
+        <tr><td class="item">Brand assets</td><td><span class="pill">Done</span></td><td class="detail">Real wordmark/logomark PNGs and self-hosted Inter + Inter Display fonts swapped in everywhere, replacing the earlier placeholder logo.</td></tr>
+        <tr><td class="item">Backend extension</td><td><span class="pill">Done</span></td><td class="detail">Added orgType/timing/topic fields to the lead schema/DTO to match the real form; wired to our own working /leads endpoints.</td></tr>
+        <tr><td class="item">New page</td><td><span class="pill">Done</span></td><td class="detail">Added /careers (placeholder), since the new header and footer both link to it.</td></tr>
+        <tr><td class="item">Verification</td><td><span class="pill">Done</span></td><td class="detail">Confirmed in-browser: hero parallax, solutions tab switching, FAQ accordion, mobile drawer, and a real demo submission landing in MongoDB with the new fields.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <footer class="sign">
+    All items complete and verified. Legal pages (privacy/terms) remain placeholder — matches the source project's own "being finalised" state, not a gap introduced here.
+  </footer>
+</div>
