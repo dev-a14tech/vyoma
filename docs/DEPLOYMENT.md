@@ -101,14 +101,27 @@ The same data is in Atlas under *Browse Collections* > `vyoma_website` > `leadsu
 4. Fill in **Book a Demo** and submit. You should see the success message.
 5. Open `https://<your-domain>/admin`, sign in, and open **Leads**: the submission is there. (Or in Atlas: *Browse Collections* > `vyoma_website` > `leadsubmissions`.)
 
+## 6b. Changing the API code: rebuild the bundle
+
+Vercel runs `apps/api/src/main.cjs`, a generated single-file build of the API with every dependency inlined (Vercel could not load the ESM-only Nest packages from source). It is committed to git. After any change under `apps/api/src` or to API dependencies:
+
+```bash
+pnpm --filter api build:bundle   # regenerates apps/api/src/main.cjs
+git add apps/api/src/main.cjs    # commit it with your change
+pnpm --filter api check:bundle   # (optional) fails if the committed file is out of date
+```
+
+If you forget, the deployed API keeps running the old code. The source of truth is `apps/api/src/server.ts`; for local development use `pnpm --filter api start:dev`.
+
 ## 7. If something does not work
 
 | Symptom | Likely cause | What to do |
 |---|---|---|
 | `https://<domain>` closes the connection (`ERR_CONNECTION_CLOSED`) | DNS still points at the old forwarder, or Vercel has not issued the certificate yet | Domains page in Vercel must show **Valid Configuration** for `<domain>` and `www.<domain>`. Test with the `*.vercel.app` address meanwhile |
 | `/api/health` shows `"db":"connecting"` or `"disconnected"` | MongoDB is unreachable | Check `MONGODB_URI` (password, database name, special characters encoded) and Atlas **Network Access** (`0.0.0.0/0`). Then redeploy |
-| `/api/health` returns 500 `FUNCTION_INVOCATION_FAILED` | The API crashed on start | Vercel > Deployments > latest > **Logs** (runtime), filter `/api/health`, read the first error |
+| `/api/health` returns 500 `FUNCTION_INVOCATION_FAILED` | The API crashed on start (also check the `[config]` warning lines in the logs for a missing environment variable) | Vercel > Deployments > latest > **Logs** (runtime), filter `/api/health`, read the first error |
 | Form says it could not send | The API cannot save (see `db` above) | Fix the database first |
+| Preview deployment URLs return a Vercel login page | Deployment Protection is on for previews | Normal. Test on the production URL, or sign in to Vercel first |
 | No **Ask VYOMA** button | `GET /api/chat/status` does not return `{"enabled":true}` | API is down, or `GEMINI_API_KEY` is missing. Redeploy after adding it |
 
 ## 8. Good to know

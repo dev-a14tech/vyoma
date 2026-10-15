@@ -15,8 +15,7 @@
     },
     "api": {
       "root": "apps/api",
-      "framework": "nestjs",
-      "buildCommand": "pnpm run build:bundle"
+      "framework": "nestjs"
     }
   },
   "rewrites": [

@@ -1,5 +1,6 @@
 import { NestFactory } from '@nestjs/core';
 import { ValidationPipe } from '@nestjs/common';
+import type { NestExpressApplication } from '@nestjs/platform-express';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import cookieParser from 'cookie-parser';
 import mongoose from 'mongoose';
@@ -17,8 +18,23 @@ mongoose.set('toJSON', {
   },
 });
 
+// Misconfiguration that would otherwise show up as a confusing failure later.
+function warnAboutConfig() {
+  if (process.env.NODE_ENV !== 'production') return;
+  if (!process.env.MONGODB_URI) console.warn('[config] MONGODB_URI is not set: the forms and the admin cannot save or read data.');
+  if (!process.env.JWT_SECRET) console.warn('[config] JWT_SECRET is not set: admin sign-in will fail.');
+  if (!process.env.CORS_ORIGIN) console.warn('[config] CORS_ORIGIN is not set: using http://localhost:3000.');
+  if (!process.env.GEMINI_API_KEY) console.warn('[config] GEMINI_API_KEY is not set: the chat assistant stays hidden.');
+}
+
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  warnAboutConfig();
+  const app = await NestFactory.create<NestExpressApplication>(AppModule);
+
+  // Behind Vercel's proxy every request arrives from the proxy's address. Trust the first
+  // hop so req.ip is the real visitor: otherwise the rate limiter (forms: 5 per minute,
+  // chat: 12) would be shared by ALL visitors and lock everyone out together.
+  app.set('trust proxy', 1);
 
   app.use(cookieParser());
 
