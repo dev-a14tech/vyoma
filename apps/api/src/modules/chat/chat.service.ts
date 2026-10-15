@@ -8,7 +8,7 @@ import { ChatMessageDto, ChatReply } from './dto/chat.dto.js';
 const MAX_TURNS = 10;
 
 // Tried in order after GEMINI_MODEL.
-const FALLBACK_MODELS = ['gemini-2.5-flash', 'gemini-2.0-flash', 'gemini-2.5-flash-lite'];
+const FALLBACK_MODELS = ['gemini-flash-latest', 'gemini-flash-lite-latest', 'gemini-3.8-flash'];
 
 interface GeminiResponse {
   candidates?: Array<{ content?: { parts?: Array<{ text?: string }> } }>;
@@ -35,7 +35,7 @@ export class ChatService {
       throw new BadGatewayException('The last message must be from the visitor.');
     }
 
-    const primary = this.config.get<string>('GEMINI_MODEL', 'gemini-2.5-flash');
+    const primary = this.config.get<string>('GEMINI_MODEL', 'gemini-flash-latest');
     const base = this.config.get<string>('GEMINI_API_BASE', 'https://generativelanguage.googleapis.com').replace(/\/+$/, '');
 
     const contents = messages.slice(-MAX_TURNS).map(m => ({
