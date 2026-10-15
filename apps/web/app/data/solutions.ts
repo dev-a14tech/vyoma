@@ -32,17 +32,17 @@ export const solutions: readonly Solution[] = [
     id: 'management',
     label: 'Management',
     icon: 'management',
-    headline: 'Your entire airworthiness picture, in one place.',
-    description: 'Continuing airworthiness management (CAMO) software that keeps records, compliance and planning in sync across the fleet.',
-    bullets: ['Centralised technical records', 'AD/SB and compliance tracking', 'Audit-ready at any time']
+    headline: 'See the whole operation at a glance.',
+    description: 'Management analytics and compliance oversight for the people who answer for the fleet: leadership, accountable managers and quality teams.',
+    bullets: ['Fleet-wide, by-aircraft, by-operator and by-owner views', 'Upcoming MPD and AD work with estimated cost', 'Compliance Center and audit trail']
   },
   {
     id: 'maintenance',
     label: 'Maintenance',
     icon: 'maintenance',
     headline: 'Maintenance that never slips through the cracks.',
-    description: 'Aircraft maintenance tracking software for planning tasks, tracking components and closing work on time.',
-    bullets: ['Task and inspection due tracking', 'Component and LLP life tracking', 'Work package and defect history']
+    description: 'CAMO software for continuing airworthiness: technical records, AD and SB compliance, component life and maintenance planning, for in-house CAMO teams and subcontracted CAMOs alike.',
+    bullets: ['AD, SB, MPD and AMP tracking', 'Component, engine and LLP life tracking', 'MEL/CDL, tech logs and work orders']
   },
   {
     id: 'operations',
@@ -55,24 +55,24 @@ export const solutions: readonly Solution[] = [
         icon: 'airlines',
         headline: 'Keep scheduled fleets flying on time.',
         description: 'Airline maintenance and operations software that connects technical status to daily flying.',
-        bullets: ['Fleet-wide aircraft status', 'Utilisation and hours/cycles tracking', 'Fewer AOG surprises']
+        bullets: ['Live ops with roster and discrepancy status', 'Flight schedule, crew allocation and dispatch', 'Utilisation and traffic reports']
       },
       {
         id: 'flying-training',
         label: 'Flying Training Schools',
         icon: 'flying-training',
         headline: 'Built for high-utilisation training fleets.',
-        description: 'Flying training school software that tracks every trainer aircraft\'s hours, inspections and airworthiness.',
-        bullets: ['Hours-based inspection alerts', 'Simple records for small teams', 'DGCA-ready documentation']
+        description: 'Flying training school software that tracks sorties, students and instructors alongside every trainer aircraft\'s hours and airworthiness.',
+        bullets: ['Student roster, instructors and sortie booking', 'Exercise log and student hours', 'Instructor utilisation and training hours reports']
       },
       {
         id: 'non-scheduled',
-        label: 'Non-Scheduled / Private Jet Operators',
-        shortLabel: 'Non-Scheduled & Private Jet',
+        label: 'Private Jet / Non-Scheduled Operators',
+        shortLabel: 'Private Jet & Non-Scheduled',
         icon: 'non-scheduled',
-        headline: 'Airworthiness without the overhead.',
-        description: 'Maintenance and compliance software for charter, NSOP and private jet operators.',
-        bullets: ['Per-aircraft compliance view', 'Owner and operator reporting', 'Ready for inspections']
+        headline: 'Every trip requested, flown and costed.',
+        description: 'Software for private jet and non-scheduled (NSOP) operators: trip requests, permits and costing, with the airworthiness status of every aircraft in view.',
+        bullets: ['Trip requests through quote, confirmation and completion', 'Permits and handling tracked per leg', 'Trip costing, margin and utilisation reports']
       }
     ]
   },
@@ -80,9 +80,9 @@ export const solutions: readonly Solution[] = [
     id: 'logistics',
     label: 'Logistics',
     icon: 'logistics',
-    headline: 'The right part, at the right place, on time.',
-    description: 'Aviation spares and inventory management linked directly to maintenance demand.',
-    bullets: ['Spares and stock tracking', 'Certificates and traceability', 'Requisitions tied to tasks']
+    headline: 'Know every part and every vendor.',
+    description: 'Part and vendor master data for aviation logistics, linked to the aircraft and components each part applies to.',
+    bullets: ['Part masters with life cycle and applicability', 'Vendor masters with approvals and registrations', 'Parts linked to aircraft and installed components']
   }
 ]
 

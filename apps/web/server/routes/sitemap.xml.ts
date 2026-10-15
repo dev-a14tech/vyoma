@@ -8,6 +8,7 @@ const STATIC_PAGES: Array<{ path: string; priority: number }> = [
   { path: '/about', priority: 0.6 },
   { path: '/request-demo', priority: 0.9 },
   { path: '/contact', priority: 0.6 },
+  { path: '/sitemap', priority: 0.3 },
   { path: '/legal/privacy', priority: 0.2 },
   { path: '/legal/terms', priority: 0.2 },
   { path: '/legal/disclaimer', priority: 0.2 }

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 type Mode = 'book' | 'ask'
 
-const orgTypes = ['Airline / aircraft operator', 'CAMO', 'MRO', 'Leasing / asset management', 'Other']
+const orgTypes = ['Airline / aircraft operator', 'CAMO organisation', 'Flying training school', 'Private jet / non-scheduled operator', 'Leasing / asset management', 'Other']
 const timings = ['As soon as possible', 'Within the next two weeks', 'Later this month', "I'm flexible"]
 const topics = ['The VYOMA platform', 'VYOMA ONE', 'Fleet management', 'Onboarding and migration', 'Something else']
 
