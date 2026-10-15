@@ -7,6 +7,9 @@ import { ChatMessageDto, ChatReply } from './dto/chat.dto.js';
 // conversation cannot be used to push the assistant off its instructions.
 const MAX_TURNS = 10;
 
+// Tried in order after GEMINI_MODEL.
+const FALLBACK_MODELS = ['gemini-2.5-flash', 'gemini-2.0-flash', 'gemini-2.5-flash-lite'];
+
 interface GeminiResponse {
   candidates?: Array<{ content?: { parts?: Array<{ text?: string }> } }>;
   promptFeedback?: { blockReason?: string };
@@ -32,34 +35,44 @@ export class ChatService {
       throw new BadGatewayException('The last message must be from the visitor.');
     }
 
-    const model = this.config.get<string>('GEMINI_MODEL', 'gemini-2.5-flash');
+    const primary = this.config.get<string>('GEMINI_MODEL', 'gemini-2.5-flash');
     const base = this.config.get<string>('GEMINI_API_BASE', 'https://generativelanguage.googleapis.com').replace(/\/+$/, '');
 
     const contents = messages.slice(-MAX_TURNS).map(m => ({
       role: m.role === 'assistant' ? 'model' : 'user',
       parts: [{ text: m.content }]
     }));
+    const body = JSON.stringify({
+      systemInstruction: { parts: [{ text: CHAT_SYSTEM_PROMPT }] },
+      contents,
+      generationConfig: { temperature: 0.3, maxOutputTokens: 700 }
+    });
 
-    let res: Response;
-    try {
-      res = await fetch(`${base}/v1beta/models/${encodeURIComponent(model)}:generateContent`, {
-        method: 'POST',
-        headers: { 'content-type': 'application/json', 'x-goog-api-key': apiKey },
-        body: JSON.stringify({
-          systemInstruction: { parts: [{ text: CHAT_SYSTEM_PROMPT }] },
-          contents,
-          generationConfig: { temperature: 0.3, maxOutputTokens: 700 }
-        }),
-        signal: AbortSignal.timeout(20_000)
-      });
-    } catch (err) {
-      this.logger.error(`Gemini request failed: ${(err as Error).message}`);
-      throw new BadGatewayException('The assistant could not be reached. Please try again.');
+    // Quota, availability and model access differ per model on a Gemini key, so a
+    // 404/429/5xx on one model falls through to the next instead of failing the visitor.
+    const models = [primary, ...FALLBACK_MODELS.filter(m => m !== primary)];
+    let res: Response | undefined;
+    for (const model of models) {
+      try {
+        res = await fetch(`${base}/v1beta/models/${encodeURIComponent(model)}:generateContent`, {
+          method: 'POST',
+          headers: { 'content-type': 'application/json', 'x-goog-api-key': apiKey },
+          body,
+          signal: AbortSignal.timeout(15_000)
+        });
+      } catch (err) {
+        this.logger.error(`Gemini request to ${model} failed: ${(err as Error).message}`);
+        res = undefined;
+        continue;
+      }
+      if (res.ok) break;
+      // The body can echo request details, so it stays in the server log only.
+      this.logger.error(`Gemini ${model} returned ${res.status}: ${(await res.text()).slice(0, 500)}`);
+      // 400/401/403 mean the key or request is wrong: another model will not help.
+      if (res.status === 400 || res.status === 401 || res.status === 403) break;
     }
 
-    if (!res.ok) {
-      // The body can echo request details, so it stays in the server log only.
-      this.logger.error(`Gemini returned ${res.status}: ${(await res.text()).slice(0, 500)}`);
+    if (!res || !res.ok) {
       throw new BadGatewayException('The assistant could not answer right now. Please try again.');
     }
 

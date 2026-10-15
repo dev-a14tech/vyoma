@@ -97,7 +97,7 @@ The same data is in Atlas under *Browse Collections* > `vyoma_website` > `leadsu
 
 1. `https://<your-domain>/api/health` returns `{"status":"ok",...}`.
 2. `https://<your-domain>/api/chat/status` returns `{"enabled":true}` once the Gemini key is set.
-3. Open the site, press **Ask VYOMA** (bottom left) and ask a question.
+3. Open the site, press **Ask VYOMA** (bottom right) and ask a question.
 4. Fill in **Book a Demo** and submit. You should see the success message.
 5. Open `https://<your-domain>/admin`, sign in, and open **Leads**: the submission is there. (Or in Atlas: *Browse Collections* > `vyoma_website` > `leadsubmissions`.)
 

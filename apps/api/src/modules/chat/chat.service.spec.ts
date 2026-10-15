@@ -73,6 +73,23 @@ describe('ChatService', () => {
     expect((err as Error).message).not.toContain('AIza');
   });
 
+  it('tries the next model when one is over quota', async () => {
+    const fn = vi.fn()
+      .mockResolvedValueOnce({ ok: false, status: 429, text: async () => 'quota' })
+      .mockResolvedValueOnce({ ok: true, status: 200, json: async () => ({ candidates: [{ content: { parts: [{ text: 'hello' }] } }] }) });
+    vi.stubGlobal('fetch', fn);
+    await expect(service({ GEMINI_API_KEY: 'k', GEMINI_MODEL: 'model-a' }).reply([user('hi')])).resolves.toEqual({ reply: 'hello' });
+    expect(fn.mock.calls[0]![0]).toContain('model-a');
+    expect(fn.mock.calls[1]![0]).not.toContain('model-a');
+  });
+
+  it('does not try other models when the key is rejected', async () => {
+    const fn = vi.fn().mockResolvedValue({ ok: false, status: 403, text: async () => 'denied' });
+    vi.stubGlobal('fetch', fn);
+    await expect(service({ GEMINI_API_KEY: 'k' }).reply([user('hi')])).rejects.toBeInstanceOf(BadGatewayException);
+    expect(fn).toHaveBeenCalledTimes(1);
+  });
+
   it('turns a network failure into a friendly error', async () => {
     vi.stubGlobal('fetch', vi.fn().mockRejectedValue(new Error('ECONNRESET')));
     await expect(service({ GEMINI_API_KEY: 'k' }).reply([user('hi')])).rejects.toBeInstanceOf(BadGatewayException);
