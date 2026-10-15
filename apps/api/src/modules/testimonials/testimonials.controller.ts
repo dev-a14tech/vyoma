@@ -1,13 +1,14 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, UseGuards, Inject } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { AdminJwtGuard } from '../../common/guards/admin-jwt.guard.js';
 import { TestimonialsService } from './testimonials.service.js';
 import { UpsertTestimonialDto } from './dto/upsert-testimonial.dto.js';
+import { valid } from '../../common/valid.js';
 
 @ApiTags('content')
 @Controller('content/testimonials')
 export class TestimonialsPublicController {
-  constructor(private readonly testimonials: TestimonialsService) {}
+  constructor(@Inject(TestimonialsService) private readonly testimonials: TestimonialsService) {}
 
   @Get()
   findAll() {
@@ -19,7 +20,7 @@ export class TestimonialsPublicController {
 @UseGuards(AdminJwtGuard)
 @Controller('admin/testimonials')
 export class TestimonialsAdminController {
-  constructor(private readonly testimonials: TestimonialsService) {}
+  constructor(@Inject(TestimonialsService) private readonly testimonials: TestimonialsService) {}
 
   @Get()
   findAll() {
@@ -32,7 +33,7 @@ export class TestimonialsAdminController {
   }
 
   @Post()
-  create(@Body() dto: UpsertTestimonialDto) {
+  create(@Body(valid(UpsertTestimonialDto)) dto: UpsertTestimonialDto) {
     return this.testimonials.create(dto);
   }
 

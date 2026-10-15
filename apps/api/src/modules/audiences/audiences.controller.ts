@@ -1,13 +1,14 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, UseGuards, Inject } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { AdminJwtGuard } from '../../common/guards/admin-jwt.guard.js';
 import { AudiencesService } from './audiences.service.js';
 import { UpsertAudienceDto } from './dto/upsert-audience.dto.js';
+import { valid } from '../../common/valid.js';
 
 @ApiTags('content')
 @Controller('content/audiences')
 export class AudiencesPublicController {
-  constructor(private readonly audiences: AudiencesService) {}
+  constructor(@Inject(AudiencesService) private readonly audiences: AudiencesService) {}
 
   @Get()
   findAll() {
@@ -24,7 +25,7 @@ export class AudiencesPublicController {
 @UseGuards(AdminJwtGuard)
 @Controller('admin/audiences')
 export class AudiencesAdminController {
-  constructor(private readonly audiences: AudiencesService) {}
+  constructor(@Inject(AudiencesService) private readonly audiences: AudiencesService) {}
 
   @Get()
   findAll() {
@@ -37,7 +38,7 @@ export class AudiencesAdminController {
   }
 
   @Post()
-  create(@Body() dto: UpsertAudienceDto) {
+  create(@Body(valid(UpsertAudienceDto)) dto: UpsertAudienceDto) {
     return this.audiences.create(dto);
   }
 

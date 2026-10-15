@@ -1,13 +1,14 @@
-import { Body, Controller, Get, Param, Put, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Param, Put, UseGuards, Inject } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { AdminJwtGuard } from '../../common/guards/admin-jwt.guard.js';
 import { PagesService } from './pages.service.js';
 import { UpsertPageDto } from './dto/upsert-page.dto.js';
+import { valid } from '../../common/valid.js';
 
 @ApiTags('content')
 @Controller('content/pages')
 export class PagesPublicController {
-  constructor(private readonly pages: PagesService) {}
+  constructor(@Inject(PagesService) private readonly pages: PagesService) {}
 
   @Get(':slug')
   findOne(@Param('slug') slug: string) {
@@ -19,7 +20,7 @@ export class PagesPublicController {
 @UseGuards(AdminJwtGuard)
 @Controller('admin/pages')
 export class PagesAdminController {
-  constructor(private readonly pages: PagesService) {}
+  constructor(@Inject(PagesService) private readonly pages: PagesService) {}
 
   @Get()
   findAll() {
@@ -27,7 +28,7 @@ export class PagesAdminController {
   }
 
   @Put(':slug')
-  upsert(@Param('slug') slug: string, @Body() dto: UpsertPageDto) {
+  upsert(@Param('slug') slug: string, @Body(valid(UpsertPageDto)) dto: UpsertPageDto) {
     return this.pages.upsert(slug, dto);
   }
 }

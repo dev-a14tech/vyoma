@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Put, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Param, Put, UseGuards, Inject } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { AdminJwtGuard } from '../../common/guards/admin-jwt.guard.js';
 import { SiteSettingsService } from './site-settings.service.js';
@@ -6,7 +6,7 @@ import { SiteSettingsService } from './site-settings.service.js';
 @ApiTags('content')
 @Controller('content/settings')
 export class SiteSettingsPublicController {
-  constructor(private readonly settings: SiteSettingsService) {}
+  constructor(@Inject(SiteSettingsService) private readonly settings: SiteSettingsService) {}
 
   @Get()
   findAll() {
@@ -18,7 +18,7 @@ export class SiteSettingsPublicController {
 @UseGuards(AdminJwtGuard)
 @Controller('admin/settings')
 export class SiteSettingsAdminController {
-  constructor(private readonly settings: SiteSettingsService) {}
+  constructor(@Inject(SiteSettingsService) private readonly settings: SiteSettingsService) {}
 
   @Get()
   findAll() {

@@ -1,4 +1,4 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { Injectable, UnauthorizedException, Inject } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
@@ -10,7 +10,7 @@ import { LoginDto } from './dto/login.dto.js';
 export class AuthService {
   constructor(
     @InjectModel(Admin.name) private readonly adminModel: Model<AdminDocument>,
-    private readonly jwt: JwtService
+    @Inject(JwtService) private readonly jwt: JwtService
   ) {}
 
   async login(dto: LoginDto) {

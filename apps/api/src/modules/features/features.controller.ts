@@ -1,13 +1,14 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, UseGuards, Inject } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { AdminJwtGuard } from '../../common/guards/admin-jwt.guard.js';
 import { FeaturesService } from './features.service.js';
 import { UpsertFeatureDto } from './dto/upsert-feature.dto.js';
+import { valid } from '../../common/valid.js';
 
 @ApiTags('content')
 @Controller('content/features')
 export class FeaturesPublicController {
-  constructor(private readonly features: FeaturesService) {}
+  constructor(@Inject(FeaturesService) private readonly features: FeaturesService) {}
 
   @Get()
   findAll() {
@@ -24,7 +25,7 @@ export class FeaturesPublicController {
 @UseGuards(AdminJwtGuard)
 @Controller('admin/features')
 export class FeaturesAdminController {
-  constructor(private readonly features: FeaturesService) {}
+  constructor(@Inject(FeaturesService) private readonly features: FeaturesService) {}
 
   @Get()
   findAll() {
@@ -37,7 +38,7 @@ export class FeaturesAdminController {
   }
 
   @Post()
-  create(@Body() dto: UpsertFeatureDto) {
+  create(@Body(valid(UpsertFeatureDto)) dto: UpsertFeatureDto) {
     return this.features.create(dto);
   }
 

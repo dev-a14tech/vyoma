@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Inject } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { PutObjectCommand, S3Client } from '@aws-sdk/client-s3';
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
@@ -10,7 +10,7 @@ export class UploadsService {
   private readonly client: S3Client;
   private readonly bucket: string;
 
-  constructor(private readonly config: ConfigService) {
+  constructor(@Inject(ConfigService) private readonly config: ConfigService) {
     this.bucket = this.config.get<string>('S3_BUCKET', 'vyoma-website-assets');
     this.client = new S3Client({
       region: this.config.get<string>('S3_REGION', 'ap-south-1'),
