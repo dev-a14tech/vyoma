@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { solutionHref, solutions } from '~/data/solutions'
+import { solutionPath, solutions } from '~/data/solutions'
 
 const footerNav = [
   {
@@ -13,7 +13,7 @@ const footerNav = [
   },
   {
     label: 'Solutions',
-    items: solutions.map(s => ({ label: s.label, href: solutionHref(s.id) }))
+    items: solutions.flatMap(s => [{ label: s.label, href: solutionPath(s.id) }, ...(s.children ?? []).map(c => ({ label: c.label, href: solutionPath(c.id) }))])
   },
   {
     label: 'Company',

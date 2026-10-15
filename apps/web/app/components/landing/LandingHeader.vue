@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { solutionHref, solutions } from '~/data/solutions'
+import { solutionPath, solutions } from '~/data/solutions'
 import type { NavGroup } from '~/types/nav'
 
 const mainNav: NavGroup[] = [
@@ -18,8 +18,8 @@ const mainNav: NavGroup[] = [
     label: 'Solutions',
     items: solutions.map(s => ({
       label: s.label,
-      href: solutionHref(s.id),
-      children: s.children?.map(c => ({ label: c.label, href: solutionHref(c.id) }))
+      href: solutionPath(s.id),
+      children: s.children?.map(c => ({ label: c.label, href: solutionPath(c.id) }))
     }))
   },
   {

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { solutionHref, solutions } from '~/data/solutions'
+import { solutionPath, solutions } from '~/data/solutions'
 
 definePageMeta({ layout: 'landing' })
 
@@ -22,10 +22,10 @@ const groups: Array<{ label: string; items: MapItem[] }> = [
   },
   {
     label: 'Solutions',
-    items: solutions.flatMap(s => [
-      { label: s.label, href: solutionHref(s.children ? s.children[0].id : s.id) },
-      ...(s.children ?? []).map(c => ({ label: c.label, href: solutionHref(c.id), indent: true }))
-    ])
+    items: [{ label: 'All solutions', href: '/solutions' }, ...solutions.flatMap(s => [
+      { label: s.label, href: solutionPath(s.id) },
+      ...(s.children ?? []).map(c => ({ label: c.label, href: solutionPath(c.id), indent: true }))
+    ])]
   },
   {
     label: 'Company',

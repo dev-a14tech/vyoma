@@ -12,6 +12,7 @@ import { SiteSettingsModule } from './modules/site-settings/site-settings.module
 import { LeadsModule } from './modules/leads/leads.module.js';
 import { UploadsModule } from './modules/uploads/uploads.module.js';
 import { HealthModule } from './modules/health/health.module.js';
+import { ChatModule } from './modules/chat/chat.module.js';
 
 @Module({
   imports: [
@@ -34,7 +35,8 @@ import { HealthModule } from './modules/health/health.module.js';
     SiteSettingsModule,
     LeadsModule,
     UploadsModule,
-    HealthModule
+    HealthModule,
+    ChatModule
   ],
   providers: [{ provide: APP_GUARD, useClass: ThrottlerGuard }]
 })

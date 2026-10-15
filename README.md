@@ -39,4 +39,4 @@ Public pages pull live content from the API (`/api/content/*`): feature themes, 
 - Real per-feature animated videos (separate production track, not blocking this build)
 - Legal pages (`/legal/*`) are placeholder content pending legal review
 - Settings admin screen not built yet (backend endpoint exists: `GET/PUT /admin/settings`)
-- No real hosting/domain wired up yet — see the plan's "Open assumptions" section
+- Production hosting: see [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) (Vercel, MongoDB Atlas, Gemini key for the chat assistant)
