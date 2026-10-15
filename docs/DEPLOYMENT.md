@@ -101,7 +101,17 @@ The same data is in Atlas under *Browse Collections* > `vyoma_website` > `leadsu
 4. Fill in **Book a Demo** and submit. You should see the success message.
 5. Open `https://<your-domain>/admin`, sign in, and open **Leads**: the submission is there. (Or in Atlas: *Browse Collections* > `vyoma_website` > `leadsubmissions`.)
 
-## 7. Good to know
+## 7. If something does not work
+
+| Symptom | Likely cause | What to do |
+|---|---|---|
+| `https://<domain>` closes the connection (`ERR_CONNECTION_CLOSED`) | DNS still points at the old forwarder, or Vercel has not issued the certificate yet | Domains page in Vercel must show **Valid Configuration** for `<domain>` and `www.<domain>`. Test with the `*.vercel.app` address meanwhile |
+| `/api/health` shows `"db":"connecting"` or `"disconnected"` | MongoDB is unreachable | Check `MONGODB_URI` (password, database name, special characters encoded) and Atlas **Network Access** (`0.0.0.0/0`). Then redeploy |
+| `/api/health` returns 500 `FUNCTION_INVOCATION_FAILED` | The API crashed on start | Vercel > Deployments > latest > **Logs** (runtime), filter `/api/health`, read the first error |
+| Form says it could not send | The API cannot save (see `db` above) | Fix the database first |
+| No **Ask VYOMA** button | `GET /api/chat/status` does not return `{"enabled":true}` | API is down, or `GEMINI_API_KEY` is missing. Redeploy after adding it |
+
+## 8. Good to know
 
 - **Free Gemini keys have rate limits.** Heavy traffic can return "could not answer right now". The widget handles that gracefully. For a public launch use a billed key, and set a budget alert in Google AI Studio.
 - The API limits chat to 12 questions per minute and the forms to 5 submissions per minute per visitor, to keep bots from burning the key or filling the database.

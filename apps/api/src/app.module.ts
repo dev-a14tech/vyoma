@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
+import type { Connection } from 'mongoose';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { APP_GUARD } from '@nestjs/core';
 import { AuthModule } from './modules/auth/auth.module.js';
@@ -21,7 +22,22 @@ import { ChatModule } from './modules/chat/chat.module.js';
       imports: [ConfigModule],
       inject: [ConfigService],
       useFactory: (config: ConfigService) => ({
-        uri: config.get<string>('MONGODB_URI', 'mongodb://127.0.0.1:27018/vyoma_website')
+        uri: config.get<string>('MONGODB_URI', 'mongodb://127.0.0.1:27018/vyoma_website'),
+        // Do not hold the whole API hostage to the database: on Vercel a function that does
+        // not start listening in time is killed (FUNCTION_INVOCATION_FAILED), which also
+        // took down /api/health and the chat. Connect in the background instead; only the
+        // routes that need Mongo fail, quickly and with a clear error, until it is reachable.
+        lazyConnection: true,
+        serverSelectionTimeoutMS: 5_000,
+        bufferTimeoutMS: 6_000,
+        // The background connect rejects if Atlas is unreachable (wrong password, IP not
+        // allowed, bad URI). Log it instead of letting an unhandled rejection kill the process.
+        connectionFactory: (connection: Connection) => {
+          connection.asPromise().catch((err: Error) => {
+            console.error(`[mongo] could not connect: ${err.message}`);
+          });
+          return connection;
+        }
       })
     }),
     ThrottlerModule.forRoot({
