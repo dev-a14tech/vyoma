@@ -6,11 +6,27 @@ const faqs = [
   },
   {
     q: 'Who is VYOMA designed for?',
-    a: 'Airlines and aircraft operators, CAMO organisations, MRO teams, fleet managers, maintenance controllers and airworthiness teams.'
+    a: 'Airlines, flying training schools, private jet and non-scheduled operators, and CAMO organisations, including their fleet managers, maintenance controllers and airworthiness teams.'
   },
   {
     q: 'What is VYOMA ONE?',
-    a: 'VYOMA ONE is the connected platform at the heart of VYOMA: one workspace where fleet, maintenance, airworthiness and operations teams work from the same information.'
+    a: 'VYOMA ONE is the connected platform at the heart of VYOMA: one workspace where management, maintenance, operations and logistics teams work from the same information.'
+  },
+  {
+    q: 'What is CAMO software?',
+    a: 'A CAMO (Continuing Airworthiness Management Organisation) keeps an aircraft legally airworthy: tracking directives and bulletins, planned maintenance, component life and technical records. CAMO software like VYOMA keeps all of that in one place instead of spreadsheets and paper. An airline can run its own CAMO or subcontract one.'
+  },
+  {
+    q: 'Is VYOMA software for flying training schools?',
+    a: 'Yes. Alongside aircraft maintenance and airworthiness tracking, VYOMA handles the student roster, instructors and examiners, sortie booking, exercise logs, and student-hours and instructor-utilisation reports.'
+  },
+  {
+    q: 'Can private jet and non-scheduled operators use VYOMA?',
+    a: 'Yes. Private jet and non-scheduled operators can manage trip requests through to quote, confirmation and completion, track permits and handling per leg, and see trip costing and margin, with the airworthiness status of each aircraft alongside.'
+  },
+  {
+    q: 'Does VYOMA cover logistics and parts?',
+    a: 'VYOMA includes part masters and vendor masters. Parts carry their life cycle, applicability and effectivity, and are linked to the aircraft and installed components they apply to. Vendors carry classifications, approvals and registrations.'
   },
   {
     q: 'Does VYOMA include fleet management?',
@@ -33,6 +49,25 @@ const faqs = [
     a: 'Use Ask More in the form below and the VYOMA team will get back to you.'
   }
 ]
+
+// FAQPage structured data for the questions shown on this page.
+useHead({
+  script: [
+    {
+      type: 'application/ld+json',
+      key: 'ld-faq',
+      innerHTML: JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        mainEntity: faqs.map(f => ({
+          '@type': 'Question',
+          name: f.q,
+          acceptedAnswer: { '@type': 'Answer', text: f.a }
+        }))
+      })
+    }
+  ]
+})
 
 const open = ref<number | null>(0)
 </script>

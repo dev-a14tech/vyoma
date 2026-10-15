@@ -35,7 +35,8 @@ const footerNav = [
 
 const legalNav = [
   { label: 'Privacy Policy', href: '/legal/privacy' },
-  { label: 'Terms of Use', href: '/legal/terms' }
+  { label: 'Terms of Use', href: '/legal/terms' },
+  { label: 'Sitemap', href: '/sitemap' }
 ]
 
 const year = new Date().getFullYear()
