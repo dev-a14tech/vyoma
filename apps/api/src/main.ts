@@ -1,58 +1,13 @@
-import { NestFactory } from '@nestjs/core';
-import { ValidationPipe } from '@nestjs/common';
-import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import cookieParser from 'cookie-parser';
-import mongoose from 'mongoose';
-import { AppModule } from './app.module.js';
-
-// The admin panel and the shared types use `id`, but Mongo documents serialise as `_id`.
-// Expose `id` (and drop `_id` and `__v`) on every JSON response.
-mongoose.set('toJSON', {
-  virtuals: true,
-  versionKey: false,
-  transform: (_doc, ret) => {
-    const { _id, ...rest } = ret as Record<string, unknown>;
-    void _id;
-    return rest;
-  },
-});
-
-async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
-
-  app.use(cookieParser());
-
-  app.enableCors({
-    origin: process.env.CORS_ORIGIN ?? 'http://localhost:3000',
-    credentials: true,
-  });
-
-  app.useGlobalPipes(
-    new ValidationPipe({
-      whitelist: true,
-      transform: true,
-      forbidNonWhitelisted: true,
-    }),
-  );
-
-  // No exclusions: every route, including /health, lives under /api so a single
-  // Vercel rewrite ("/api/(.*)" -> this service) covers the whole app.
-  app.setGlobalPrefix('api');
-
-  const config = new DocumentBuilder()
-    .setTitle('VYOMA Website CMS API')
-    .setDescription('Content API powering the VYOMA marketing site and its admin panel')
-    .setVersion('0.1')
-    .addBearerAuth()
-    .build();
-  const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api/docs', app, document);
-
-  const port = process.env.PORT ?? 3001;
-  await app.listen(port);
-  console.log(`VYOMA API listening on http://localhost:${port} (docs at /api/docs)`);
+// Entry point (Vercel looks for src/main.ts).
+//
+// Prefers the self-contained bundle built by `pnpm build:bundle` (server.bundle.cjs): it has
+// every dependency inlined, so it runs even where node_modules is not shipped. If the
+// bundle is missing (local `nest start`, tests) it runs the app from source instead.
+let started = false;
+try {
+  require('./server.bundle.cjs');
+  started = true;
+} catch (err) {
+  if ((err as NodeJS.ErrnoException).code !== 'MODULE_NOT_FOUND') throw err;
 }
-bootstrap().catch((err) => {
-  console.error(err);
-  process.exit(1);
-});
+if (!started) require('./server');

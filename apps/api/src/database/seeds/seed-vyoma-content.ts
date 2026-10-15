@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import * as bcrypt from 'bcrypt';
+import * as bcrypt from 'bcryptjs';
 import { Admin, AdminSchema } from '../schemas/admin.schema.js';
 import { FeatureTheme, FeatureThemeSchema } from '../schemas/feature-theme.schema.js';
 import { AudienceSegment, AudienceSegmentSchema } from '../schemas/audience-segment.schema.js';
