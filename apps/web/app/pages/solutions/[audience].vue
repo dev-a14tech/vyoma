@@ -1,51 +1,30 @@
 <script setup lang="ts">
+import { solutions } from '~/data/solutions'
+
+definePageMeta({ layout: 'landing' })
+
 const route = useRoute()
 const slug = route.params.audience as string
 
-const { data: audience } = await useAudience(slug)
-
-if (!audience.value) {
-  throw createError({ statusCode: 404, statusMessage: 'Solution not found' })
+// Old CMS audience pages (before the restructure) now live on the new solution pages.
+const legacy: Record<string, string> = {
+  'airline-operators': '/solutions/operations/airlines',
+  'camo-organisations': '/solutions/maintenance',
+  'aircraft-lessors': '/solutions/management',
+  'mro-partners': '/solutions/maintenance',
+  'regulatory-auditors': '/solutions/management'
 }
 
-const { data: allFeatures } = await useFeatures()
+if (legacy[slug]) {
+  await navigateTo(legacy[slug], { redirectCode: 301 })
+}
 
-const relevantFeatures = computed(() => {
-  if (!audience.value || !allFeatures.value) return []
-  const slugs = new Set(audience.value.relevantFeatureSlugs)
-  return allFeatures.value.filter((f) => slugs.has(f.slug))
-})
-
-usePageSeo({
-  title: `${audience.value.title} Aviation Software`,
-  description: audience.value.heroCopy,
-  keywords: 'solutions'
-})
+const solution = solutions.find(s => s.slug === slug)
+if (!solution) {
+  throw createError({ statusCode: 404, statusMessage: 'Solution not found', fatal: true })
+}
 </script>
 
 <template>
-  <div v-if="audience">
-    <SectionsHeroSection eyebrow="Solutions" :title="audience.title" :subtitle="audience.heroCopy" compact />
-
-    <section class="py-16">
-      <div class="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
-        <h2 class="font-heading text-2xl font-bold text-[var(--vyoma-deep-navy)] mb-6">What this usually looks like today</h2>
-        <ul class="space-y-3">
-          <li v-for="pp in audience.painPoints" :key="pp" class="flex items-start gap-3 text-slate-700">
-            <UIcon name="i-lucide-alert-circle" class="w-4 h-4 mt-1 text-amber-500 shrink-0" />
-            {{ pp }}
-          </li>
-        </ul>
-      </div>
-    </section>
-
-    <section v-if="relevantFeatures.length" class="py-16 bg-[var(--vyoma-section-bg-alt)]">
-      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <h2 class="font-heading text-2xl font-bold text-center text-[var(--vyoma-deep-navy)] mb-10">Relevant modules</h2>
-        <SectionsFeatureBentoGrid :features="relevantFeatures" />
-      </div>
-    </section>
-
-    <SectionsDemoRequestCta />
-  </div>
+  <SolutionsSolutionDetail v-if="solution" :id="solution.id" />
 </template>

@@ -22,7 +22,7 @@ export default defineNuxtConfig({
       siteUrl: process.env.NUXT_PUBLIC_SITE_URL || 'https://vyoma.aero',
       // Same-origin in production ("/api", routed to the api service by vercel.json's
       // rewrite) so the browser never needs CORS or to know the api service's own host.
-      apiBase: process.env.NUXT_PUBLIC_API_BASE || 'http://localhost:3001/api'
+      apiBase: process.env.NUXT_PUBLIC_API_BASE || (process.env.NODE_ENV === 'production' ? '/api' : 'http://localhost:3001/api')
     }
   },
 
@@ -30,6 +30,18 @@ export default defineNuxtConfig({
   // disable Nuxt UI's dark-mode detection entirely rather than ship a half-dark site.
   ui: {
     colorMode: false
+  },
+
+  // The earlier multi-page scaffold's URLs now point at the sections of the landing page
+  // or the new solution pages, so old links and search results keep working.
+  routeRules: {
+    '/platform': { redirect: { to: '/#capabilities', statusCode: 301 } },
+    '/features': { redirect: { to: '/#features', statusCode: 301 } },
+    '/features/**': { redirect: { to: '/#features', statusCode: 301 } },
+    '/why-vyoma': { redirect: { to: '/#why', statusCode: 301 } },
+    '/about': { redirect: { to: '/#about', statusCode: 301 } },
+    '/contact': { redirect: { to: '/#demo-ask', statusCode: 301 } },
+    '/request-demo': { redirect: { to: '/#demo', statusCode: 301 } }
   },
 
   compatibilityDate: '2026-06-30',

@@ -2,7 +2,20 @@ import { NestFactory } from '@nestjs/core';
 import { ValidationPipe } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import cookieParser from 'cookie-parser';
+import mongoose from 'mongoose';
 import { AppModule } from './app.module.js';
+
+// The admin panel and the shared types use `id`, but Mongo documents serialise as `_id`.
+// Expose `id` (and drop `_id` and `__v`) on every JSON response.
+mongoose.set('toJSON', {
+  virtuals: true,
+  versionKey: false,
+  transform: (_doc, ret) => {
+    const { _id, ...rest } = ret as Record<string, unknown>;
+    void _id;
+    return rest;
+  },
+});
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);

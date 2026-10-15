@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { solutionHref, solutions } from '~/data/solutions'
+import { solutionPath, solutions } from '~/data/solutions'
 
 definePageMeta({ layout: 'landing' })
 
@@ -22,10 +22,10 @@ const groups: Array<{ label: string; items: MapItem[] }> = [
   },
   {
     label: 'Solutions',
-    items: solutions.flatMap(s => [
-      { label: s.label, href: solutionHref(s.children ? s.children[0].id : s.id) },
-      ...(s.children ?? []).map(c => ({ label: c.label, href: solutionHref(c.id), indent: true }))
-    ])
+    items: [{ label: 'All solutions', href: '/solutions' }, ...solutions.flatMap(s => [
+      { label: s.label, href: solutionPath(s.id) },
+      ...(s.children ?? []).map(c => ({ label: c.label, href: solutionPath(c.id), indent: true }))
+    ])]
   },
   {
     label: 'Company',
@@ -51,10 +51,10 @@ const groups: Array<{ label: string; items: MapItem[] }> = [
   <section class="hero-bg pb-28 pt-[152px]">
     <div class="container-v max-w-[820px]">
       <a href="/" class="text-[0.85rem] font-medium text-ocean hover:underline">&larr; Back to home</a>
-      <h1 class="display-lg mt-6 text-navy">Sitemap</h1>
-      <p class="lede mt-5">Every page and section of the VYOMA website.</p>
+      <h1 v-reveal class="display-lg mt-6 text-navy">Sitemap</h1>
+      <p v-reveal="100" class="lede mt-5">Every page and section of the VYOMA website.</p>
       <div class="mt-12 grid gap-10 sm:grid-cols-2">
-        <nav v-for="group in groups" :key="group.label" :aria-label="group.label">
+        <nav v-for="(group, i) in groups" :key="group.label" v-reveal="(i % 2) * 120" :aria-label="group.label">
           <h2 class="text-[0.78rem] font-semibold uppercase tracking-[0.14em] text-ocean">{{ group.label }}</h2>
           <ul class="mt-4 space-y-2.5">
             <li v-for="item in group.items" :key="item.href + item.label" :class="item.indent ? 'pl-4' : ''">

@@ -385,3 +385,27 @@ select.field {
   [data-inview] .pop { opacity: 1; transform: none; }
   .bento-card:hover { transform: none; }
 }
+
+/* v-reveal (plugins/reveal.ts): rise from the bottom when scrolled into view. */
+.js-reveal [data-reveal="out"] {
+  opacity: 0;
+  transform: translateY(32px);
+}
+.js-reveal [data-reveal] {
+  transition:
+    opacity 0.85s var(--ease-out-soft),
+    transform 0.85s var(--ease-out-soft);
+}
+.js-reveal [data-reveal="in"] {
+  opacity: 1;
+  transform: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .js-reveal [data-reveal="out"] {
+    opacity: 1;
+    transform: none;
+  }
+  .js-reveal [data-reveal] {
+    transition: none;
+  }
+}

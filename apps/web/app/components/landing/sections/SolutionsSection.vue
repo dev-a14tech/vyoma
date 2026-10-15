@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { legacySolutionIds, resolveSolutionId, solutionLeaves, solutions } from '~/data/solutions'
+import { legacySolutionIds, resolveSolutionId, solutionLeaves, solutionPath, solutions } from '~/data/solutions'
 import type { Solution } from '~/data/solutions'
 
 const active = ref<string>(solutionLeaves[0]!.id)
@@ -84,12 +84,20 @@ const panelId = (s: Solution) => `solutions-panel-${s.children ? s.children[0].i
                   {{ b }}
                 </li>
               </ul>
-              <a href="#demo" class="btn btn-primary self-start">
+              <div class="flex flex-wrap items-center gap-3">
+              <a :href="solutionPath(a.id)" class="btn btn-primary self-start">
+                <span>Explore more</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" class="btn-arrow">
+                  <path d="M5 12h14" /><path d="m12 5 7 7-7 7" />
+                </svg>
+              </a>
+              <a href="#demo" class="btn btn-ghost self-start">
                 <span>Book a Demo</span>
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" class="btn-arrow">
                   <path d="M5 12h14" /><path d="m12 5 7 7-7 7" />
                 </svg>
               </a>
+              </div>
             </div>
           </div>
         </div>

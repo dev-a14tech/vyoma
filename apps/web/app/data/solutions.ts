@@ -6,6 +6,8 @@ export type SolutionIconId = 'management' | 'maintenance' | 'operations' | 'airl
 
 interface SolutionBase {
   id: string
+  // URL segment: /solutions/<slug>, or /solutions/operations/<slug> for the children of Operations
+  slug: string
   label: string
   // Used where space is tight (the homepage tab list); falls back to label.
   shortLabel?: string
@@ -30,6 +32,7 @@ export type Solution = SolutionLeaf | SolutionGroup
 export const solutions: readonly Solution[] = [
   {
     id: 'management',
+    slug: 'management',
     label: 'Management',
     icon: 'management',
     headline: 'See the whole operation at a glance.',
@@ -38,6 +41,7 @@ export const solutions: readonly Solution[] = [
   },
   {
     id: 'maintenance',
+    slug: 'maintenance',
     label: 'Maintenance',
     icon: 'maintenance',
     headline: 'Maintenance that never slips through the cracks.',
@@ -46,11 +50,13 @@ export const solutions: readonly Solution[] = [
   },
   {
     id: 'operations',
+    slug: 'operations',
     label: 'Operations',
     icon: 'operations',
     children: [
       {
         id: 'airlines',
+        slug: 'airlines',
         label: 'Airlines',
         icon: 'airlines',
         headline: 'Keep scheduled fleets flying on time.',
@@ -59,6 +65,7 @@ export const solutions: readonly Solution[] = [
       },
       {
         id: 'flying-training',
+        slug: 'flying-training-schools',
         label: 'Flying Training Schools',
         icon: 'flying-training',
         headline: 'Built for high-utilisation training fleets.',
@@ -67,6 +74,7 @@ export const solutions: readonly Solution[] = [
       },
       {
         id: 'non-scheduled',
+        slug: 'private-jet-operators',
         label: 'Private Jet / Non-Scheduled Operators',
         shortLabel: 'Private Jet & Non-Scheduled',
         icon: 'non-scheduled',
@@ -78,6 +86,7 @@ export const solutions: readonly Solution[] = [
   },
   {
     id: 'logistics',
+    slug: 'logistics',
     label: 'Logistics',
     icon: 'logistics',
     headline: 'Know every part and every vendor.',
@@ -96,7 +105,22 @@ export const legacySolutionIds: Readonly<Record<string, string>> = {
   'fleet': 'operations'
 }
 
+// Landing-page deep link to a solution's tab (the short gist on the home page).
 export const solutionHref = (id: string) => `/#solutions-${id}`
+
+// Detail page of a solution: its own page with the full brief.
+export function solutionPath(id: string): string {
+  for (const s of solutions) {
+    if (s.id === id) return `/solutions/${s.slug}`
+    const child = s.children?.find(c => c.id === id)
+    if (child) return `/solutions/${s.slug}/${child.slug}`
+  }
+  return '/solutions'
+}
+
+export function findSolution(id: string): Solution | undefined {
+  return solutions.find(s => s.id === id) ?? solutionLeaves.find(s => s.id === id)
+}
 
 // Selectable leaves (solutions with content panels), in display order.
 export const solutionLeaves: readonly SolutionLeaf[] = solutions.flatMap(s => s.children ?? [s])

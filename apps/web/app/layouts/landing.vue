@@ -8,5 +8,6 @@
       <slot />
     </main>
     <LandingFooter />
+    <LandingChatWidget />
   </div>
 </template>
