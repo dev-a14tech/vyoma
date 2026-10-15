@@ -1,6 +1,6 @@
 <script setup lang="ts">
-type NavLink = { label: string; href: string; description?: string }
-type NavGroup = { label: string; items: NavLink[] }
+import { solutionHref, solutions } from '~/data/solutions'
+import type { NavGroup } from '~/types/nav'
 
 const mainNav: NavGroup[] = [
   {
@@ -16,12 +16,11 @@ const mainNav: NavGroup[] = [
   },
   {
     label: 'Solutions',
-    items: [
-      { label: 'For Airlines', href: '/#solutions-airlines' },
-      { label: 'For CAMO Organisations', href: '/#solutions-camo' },
-      { label: 'For MRO Teams', href: '/#solutions-mro' },
-      { label: 'For Fleet Managers', href: '/#solutions-fleet' }
-    ]
+    items: solutions.map(s => ({
+      label: s.label,
+      href: solutionHref(s.id),
+      children: s.children?.map(c => ({ label: c.label, href: solutionHref(c.id) }))
+    }))
   },
   {
     label: 'Company',
@@ -127,6 +126,16 @@ watch(drawer, (isOpen) => {
                         <path d="M7 17 17 7" /><path d="M7 7h10v10" />
                       </svg>
                     </a>
+                    <ul v-if="item.children" class="mb-1">
+                      <li v-for="child in item.children" :key="child.label">
+                        <a :href="child.href" class="group flex items-start justify-between gap-3 rounded-xl py-2 pl-7 pr-3.5 hover:bg-ice focus-visible:bg-ice" @click="open = null">
+                          <span class="block text-[0.85rem] text-muted group-hover:text-navy">{{ child.label }}</span>
+                          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" class="mt-0.5 shrink-0 -translate-x-1 text-sky opacity-0 transition-all group-hover:translate-x-0 group-hover:opacity-100">
+                            <path d="M7 17 17 7" /><path d="M7 7h10v10" />
+                          </svg>
+                        </a>
+                      </li>
+                    </ul>
                   </li>
                 </ul>
               </div>

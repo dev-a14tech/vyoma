@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { solutionHref, solutions } from '~/data/solutions'
+
 const footerNav = [
   {
     label: 'Platform',
@@ -11,12 +13,7 @@ const footerNav = [
   },
   {
     label: 'Solutions',
-    items: [
-      { label: 'Airlines', href: '/#solutions-airlines' },
-      { label: 'CAMO', href: '/#solutions-camo' },
-      { label: 'MRO', href: '/#solutions-mro' },
-      { label: 'Fleet Managers', href: '/#solutions-fleet' }
-    ]
+    items: solutions.map(s => ({ label: s.label, href: solutionHref(s.id) }))
   },
   {
     label: 'Company',

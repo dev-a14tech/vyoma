@@ -1,6 +1,5 @@
 <script setup lang="ts">
-type NavLink = { label: string; href: string; description?: string }
-type NavGroup = { label: string; items: NavLink[] }
+import type { NavGroup } from '~/types/nav'
 
 defineProps<{ nav: NavGroup[] }>()
 const emit = defineEmits<{ close: [] }>()
@@ -31,6 +30,13 @@ const section = ref<string | null>('Platform')
                   <a :href="item.href" class="flex min-h-11 items-center rounded-lg px-3 text-[0.95rem] text-muted hover:bg-ice hover:text-navy" @click="emit('close')">
                     {{ item.label }}
                   </a>
+                  <ul v-if="item.children">
+                    <li v-for="child in item.children" :key="child.label">
+                      <a :href="child.href" class="flex min-h-11 items-center rounded-lg pl-7 pr-3 text-[0.9rem] text-muted hover:bg-ice hover:text-navy" @click="emit('close')">
+                        {{ child.label }}
+                      </a>
+                    </li>
+                  </ul>
                 </li>
               </ul>
             </div>
