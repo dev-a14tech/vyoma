@@ -8,6 +8,6 @@
     "node": true
   },
   "ignorePatterns": [
-    "src/server.bundle.cjs"
+    "src/main.cjs"
   ]
 }
