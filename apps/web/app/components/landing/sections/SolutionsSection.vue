@@ -1,56 +1,24 @@
 <script setup lang="ts">
-const audiences = [
-  {
-    id: 'airlines',
-    label: 'Airlines',
-    headline: 'Engineering and operations, reading the same fleet.',
-    body: "Give operations and engineering one shared view of aircraft status, so planning decisions reflect each aircraft's real position.",
-    benefits: ['Fewer surprises when allocating aircraft', 'Shared priorities across departments', 'Fleet status without chasing updates']
-  },
-  {
-    id: 'camo',
-    label: 'CAMO Teams',
-    headline: 'Continuing airworthiness, kept current.',
-    body: 'Stay on top of airworthiness obligations with compliance status that comes straight from the underlying records.',
-    benefits: ['Compliance status ready for review', 'Overdue items surfaced early', 'Traceable records for every aircraft']
-  },
-  {
-    id: 'mro',
-    label: 'MRO Organisations',
-    headline: 'Maintenance work with the full aircraft context.',
-    body: "Plan and complete maintenance with the aircraft's history and current position close at hand.",
-    benefits: ['Complete aircraft context for every job', 'Clear status on work in progress', 'Structured records on completion']
-  },
-  {
-    id: 'fleet',
-    label: 'Fleet Managers',
-    headline: 'Fleet health without the spreadsheet.',
-    body: 'Understand the health, availability and utilisation of your fleet at a glance.',
-    benefits: ['Fleet-wide view in one place', 'Early sight of upcoming workload', 'Insight for confident decisions']
-  },
-  {
-    id: 'control',
-    label: 'Maintenance Controllers',
-    headline: "What's due, what's overdue, what's next.",
-    body: 'Know which items need attention first and plan maintenance ahead of time.',
-    benefits: ['Clear priorities, not long lists', 'Planning across short and long horizons', 'Less time reconciling data']
-  },
-  {
-    id: 'airworthiness',
-    label: 'Airworthiness Teams',
-    headline: "Records that are complete before they're needed.",
-    body: "Capture technical records once, in a structured way, so they're accurate and ready when they're needed.",
-    benefits: ['Structured technical records', 'Consistent data across the fleet', 'Ready for audits and reviews']
-  }
-] as const
+import { legacySolutionIds, resolveSolutionId, solutionLeaves, solutions } from '~/data/solutions'
+import type { Solution } from '~/data/solutions'
 
-const active = ref<string>(audiences[0].id)
+const active = ref<string>(solutionLeaves[0]!.id)
 useHashSelect(
   'solutions',
-  audiences.map((a) => a.id),
-  (id) => (active.value = id)
+  [...solutions.map(s => s.id), ...solutionLeaves.map(s => s.id), ...Object.keys(legacySolutionIds)],
+  id => (active.value = resolveSolutionId(id) ?? active.value)
 )
-const a = computed(() => audiences.find((x) => x.id === active.value) ?? audiences[0])
+
+// Flattened tab rows: groups (Operations) followed by their children, indented on desktop.
+const rows = solutions.flatMap(s => [
+  { item: s as Solution, child: false },
+  ...(s.children ?? []).map(c => ({ item: c as Solution, child: true }))
+])
+
+const isActive = (s: Solution) => s.id === active.value
+const hasActiveChild = (s: Solution) => !!s.children?.some(c => c.id === active.value)
+const select = (s: Solution) => (active.value = resolveSolutionId(s.id) ?? active.value)
+const panelId = (s: Solution) => `solutions-panel-${s.children ? s.children[0].id : s.id}`
 </script>
 
 <template>
@@ -58,43 +26,60 @@ const a = computed(() => audiences.find((x) => x.id === active.value) ?? audienc
     <div class="container-v">
       <div class="max-w-[760px]">
         <h2 id="solutions-title" class="display-lg text-navy">Built for the People Behind Every Aircraft.</h2>
-        <p class="lede mt-5 max-w-[620px]">Choose your role to see where VYOMA helps.</p>
+        <p class="lede mt-5 max-w-[620px]">Choose your area to see where VYOMA helps.</p>
       </div>
 
       <div class="mt-14 grid gap-6 lg:grid-cols-[300px_minmax(0,1fr)] lg:gap-10">
-        <div role="tablist" aria-label="Audiences" aria-orientation="vertical" class="tablist -mx-5 flex gap-2 overflow-x-auto px-5 lg:mx-0 lg:flex-col lg:gap-1 lg:px-0">
+        <div role="tablist" aria-label="Solutions" aria-orientation="vertical" class="tablist -mx-5 flex gap-2 overflow-x-auto px-5 lg:mx-0 lg:flex-col lg:gap-1 lg:px-0">
           <button
-            v-for="x in audiences"
+            v-for="{ item: x, child } in rows"
             :key="x.id"
             role="tab"
-            :aria-selected="x.id === active"
-            aria-controls="solutions-panel"
+            :aria-selected="isActive(x)"
+            :aria-controls="panelId(x)"
             :id="`aud-${x.id}`"
-            class="relative flex h-12 shrink-0 items-center gap-3 rounded-xl border px-4 text-left text-[0.93rem] font-medium transition-colors lg:h-14 lg:border-transparent"
-            :class="x.id === active ? 'border-navy bg-navy text-white lg:bg-white lg:text-navy lg:shadow-[0_8px_24px_-16px_rgba(20,55,88,0.5)]' : 'border-line bg-white text-muted hover:text-navy lg:bg-transparent lg:hover:bg-white/70'"
-            @click="active = x.id"
+            class="relative flex h-12 shrink-0 items-center gap-3 rounded-xl border px-4 text-left font-medium transition-colors lg:border-transparent"
+            :class="[
+              child ? 'text-[0.9rem] lg:ml-6 lg:h-11' : 'text-[0.93rem] lg:h-14',
+              isActive(x)
+                ? 'border-navy bg-navy text-white lg:bg-white lg:text-navy lg:shadow-[0_8px_24px_-16px_rgba(20,55,88,0.5)]'
+                : hasActiveChild(x)
+                  ? 'border-navy/40 bg-white text-navy lg:bg-transparent lg:hover:bg-white/70'
+                  : 'border-line bg-white text-muted hover:text-navy lg:bg-transparent lg:hover:bg-white/70'
+            ]"
+            @click="select(x)"
           >
             <span
               class="absolute inset-y-3 left-0 hidden w-[3px] rounded-full bg-sky transition-opacity lg:block"
-              :class="x.id === active ? 'opacity-100' : 'opacity-0'"
+              :class="isActive(x) ? 'opacity-100' : 'opacity-0'"
             />
-            <LandingAudienceIcon :id="x.id" :size="18" :class="x.id === active ? 'text-cyan lg:text-ocean' : 'text-muted'" />
-            {{ x.label }}
+            <LandingAudienceIcon :id="x.icon" :size="child ? 16 : 18" :class="isActive(x) ? 'text-cyan lg:text-ocean' : hasActiveChild(x) ? 'text-ocean' : 'text-muted'" />
+            {{ x.shortLabel ?? x.label }}
           </button>
         </div>
 
-        <div id="solutions-panel" role="tabpanel" :aria-labelledby="`aud-${a.id}`" class="rounded-[28px] border border-line bg-white p-7 md:p-10">
-          <div :key="a.id" class="fade-swap grid gap-8 xl:grid-cols-[1.2fr_1fr] xl:gap-12">
+        <!-- Every panel is server-rendered (v-show) so each solution's copy is crawlable. -->
+        <div
+          v-for="a in solutionLeaves"
+          v-show="a.id === active"
+          :id="`solutions-panel-${a.id}`"
+          :key="a.id"
+          role="tabpanel"
+          :aria-labelledby="`aud-${a.id}`"
+          :aria-hidden="a.id !== active"
+          class="rounded-[28px] border border-line bg-white p-7 md:p-10"
+        >
+          <div class="fade-swap grid gap-8 xl:grid-cols-[1.2fr_1fr] xl:gap-12">
             <div>
               <span class="grid h-12 w-12 place-items-center rounded-2xl bg-navy text-white">
-                <LandingAudienceIcon :id="a.id" :size="22" />
+                <LandingAudienceIcon :id="a.icon" :size="22" />
               </span>
               <h3 class="display-md mt-6 text-navy">{{ a.headline }}</h3>
-              <p class="mt-4 text-[0.98rem] leading-relaxed text-muted">{{ a.body }}</p>
+              <p class="mt-4 text-[0.98rem] leading-relaxed text-muted">{{ a.description }}</p>
             </div>
             <div class="flex flex-col justify-between gap-8 xl:border-l xl:border-line xl:pl-10">
               <ul class="space-y-3.5">
-                <li v-for="b in a.benefits" :key="b" class="flex gap-3 text-[0.95rem] text-ink">
+                <li v-for="b in a.bullets" :key="b" class="flex gap-3 text-[0.95rem] text-ink">
                   <span class="mt-[9px] h-1.5 w-1.5 shrink-0 rounded-full bg-sky" />
                   {{ b }}
                 </li>
