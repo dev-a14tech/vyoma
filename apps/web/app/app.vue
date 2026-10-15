@@ -28,6 +28,9 @@ useHead({
   ],
   htmlAttrs: { lang: 'en' },
   script: [
+    // Turns on the hidden start state of v-reveal (plugins/reveal.ts). Runs before first paint,
+    // and only when JavaScript is available, so no-JS visitors and crawlers see everything.
+    { key: 'js-reveal', innerHTML: "document.documentElement.classList.add('js-reveal')", tagPosition: 'head' },
     {
       type: 'application/ld+json',
       key: 'ld-organization',

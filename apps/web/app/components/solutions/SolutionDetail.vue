@@ -52,7 +52,7 @@ useHead({
   <div>
     <section class="hero-bg relative overflow-hidden pb-12 pt-[132px] md:pb-16 md:pt-[152px]">
       <div class="container-v relative">
-        <nav aria-label="Breadcrumb" class="text-[0.82rem] text-muted">
+        <nav v-reveal aria-label="Breadcrumb" class="text-[0.82rem] text-muted">
           <ol class="flex flex-wrap items-center gap-x-2 gap-y-1">
             <li v-for="(c, i) in crumbs" :key="c.href" class="flex items-center gap-2">
               <a v-if="i < crumbs.length - 1" :href="c.href" class="hover:text-navy hover:underline">{{ c.label }}</a>
@@ -63,10 +63,10 @@ useHead({
         </nav>
 
         <div class="mt-8 max-w-[820px]">
-          <p class="text-[0.74rem] font-semibold uppercase tracking-[0.16em] text-ocean">{{ detail.eyebrow }}</p>
-          <h1 class="display-xl mt-5 text-navy">{{ detail.title }}</h1>
-          <p class="lede mt-7 max-w-[680px]">{{ detail.intro }}</p>
-          <div class="mt-9 flex flex-wrap gap-3">
+          <p v-reveal="60" class="text-[0.74rem] font-semibold uppercase tracking-[0.16em] text-ocean">{{ detail.eyebrow }}</p>
+          <h1 v-reveal="140" class="display-xl mt-5 text-navy">{{ detail.title }}</h1>
+          <p v-reveal="230" class="lede mt-7 max-w-[680px]">{{ detail.intro }}</p>
+          <div v-reveal="320" class="mt-9 flex flex-wrap gap-3">
             <a href="/#demo" class="btn btn-primary">
               <span>Book a Demo</span>
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" class="btn-arrow">
@@ -82,11 +82,12 @@ useHead({
     <!-- Operations: the three kinds of operator -->
     <section v-if="children.length" class="section bg-white" aria-labelledby="sub-title">
       <div class="container-v">
-        <h2 id="sub-title" class="display-md text-navy">Choose how you fly</h2>
+        <h2 id="sub-title" v-reveal class="display-md text-navy">Choose how you fly</h2>
         <div class="mt-10 grid gap-6 md:grid-cols-3">
           <a
-            v-for="c in children"
+            v-for="(c, i) in children"
             :key="c.id"
+            v-reveal="i * 110"
             :href="solutionPath(c.id)"
             class="group flex flex-col rounded-[24px] border border-line bg-white p-7 transition-shadow hover:shadow-[0_20px_50px_-28px_rgba(20,55,88,0.45)]"
           >
@@ -108,11 +109,12 @@ useHead({
 
     <section class="section" :class="children.length ? 'bg-ice' : 'bg-white'" aria-labelledby="covers-title">
       <div class="container-v">
-        <h2 id="covers-title" class="display-md text-navy">{{ children.length ? 'What every operator gets' : 'What it covers' }}</h2>
+        <h2 id="covers-title" v-reveal class="display-md text-navy">{{ children.length ? 'What every operator gets' : 'What it covers' }}</h2>
         <div class="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           <article
-            v-for="h in detail.highlights"
+            v-for="(h, i) in detail.highlights"
             :key="h.title"
+            v-reveal="(i % 3) * 110"
             class="rounded-[24px] border border-line bg-white p-7"
           >
             <span class="grid h-9 w-9 place-items-center rounded-full bg-[#e8f1f8] text-ocean">
@@ -130,17 +132,18 @@ useHead({
     <section class="section bg-white" aria-labelledby="who-title">
       <div class="container-v grid gap-12 lg:grid-cols-12">
         <div class="lg:col-span-5">
-          <h2 id="who-title" class="display-md text-navy">Who it is for</h2>
-          <ul class="mt-7 flex flex-wrap gap-2.5">
+          <h2 id="who-title" v-reveal class="display-md text-navy">Who it is for</h2>
+          <ul v-reveal="100" class="mt-7 flex flex-wrap gap-2.5">
             <li v-for="a in detail.audience" :key="a" class="rounded-full border border-line bg-ice px-4 py-2 text-[0.9rem] text-navy">{{ a }}</li>
           </ul>
         </div>
         <div v-if="related.length" class="lg:col-span-6 lg:col-start-7">
-          <h2 class="display-md text-navy">Works with</h2>
+          <h2 v-reveal class="display-md text-navy">Works with</h2>
           <div class="mt-7 grid gap-4 sm:grid-cols-2">
             <a
-              v-for="r in related"
+              v-for="(r, i) in related"
               :key="r.id"
+              v-reveal="100 + i * 110"
               :href="solutionPath(r.id)"
               class="group rounded-[20px] border border-line p-5 transition-colors hover:bg-ice"
             >
@@ -155,7 +158,7 @@ useHead({
 
     <section class="section bg-white pt-0" aria-label="Book a demo">
       <div class="container-v">
-        <div class="dark-band relative overflow-hidden rounded-[32px] px-6 py-14 text-center sm:px-10 md:py-16">
+        <div v-reveal class="dark-band relative overflow-hidden rounded-[32px] px-6 py-14 text-center sm:px-10 md:py-16">
           <h2 class="display-md text-white">See it on your own fleet.</h2>
           <p class="lede mx-auto mt-4 max-w-[540px] !text-[#a9bdd0]">Book a short walkthrough and we will show you how this fits the way your team works.</p>
           <div class="mt-8 flex flex-wrap justify-center gap-3">

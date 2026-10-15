@@ -15,9 +15,9 @@ usePageSeo({
   <div>
     <section class="hero-bg pb-16 pt-[132px] md:pb-20 md:pt-[152px]">
       <div class="container-v">
-        <p class="text-[0.74rem] font-semibold uppercase tracking-[0.16em] text-ocean">Solutions</p>
-        <h1 class="display-xl mt-5 max-w-[820px] text-navy">One platform, four modules.</h1>
-        <p class="lede mt-7 max-w-[680px]">
+        <p v-reveal class="text-[0.74rem] font-semibold uppercase tracking-[0.16em] text-ocean">Solutions</p>
+        <h1 v-reveal="90" class="display-xl mt-5 max-w-[820px] text-navy">One platform, four modules.</h1>
+        <p v-reveal="180" class="lede mt-7 max-w-[680px]">
           Management, maintenance, operations and logistics share the same aircraft information, so every team works from the same picture. Pick a module to see what it covers.
         </p>
       </div>
@@ -26,8 +26,9 @@ usePageSeo({
     <section class="section bg-white pt-4" aria-label="Solutions">
       <div class="container-v grid gap-6 md:grid-cols-2">
         <article
-          v-for="s in solutions"
+          v-for="(s, i) in solutions"
           :key="s.id"
+          v-reveal="(i % 2) * 120"
           class="flex flex-col rounded-[28px] border border-line bg-white p-8"
         >
           <span class="grid h-12 w-12 place-items-center rounded-2xl bg-navy text-white">
