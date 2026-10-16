@@ -1,39 +1,49 @@
 <script setup lang="ts">
+interface Breadcrumb {
+  label: string
+  // Omitted on the current page, which is shown as plain text.
+  to?: string
+}
+
 withDefaults(
   defineProps<{
     eyebrow?: string
     title: string
-    subtitle: string
+    subtitle?: string
+    // Kept for existing callers; the v2 page hero has a single size.
     compact?: boolean
+    breadcrumbs?: Breadcrumb[]
   }>(),
-  { eyebrow: 'Digital Backbone of Aviation' }
+  { eyebrow: 'Digital Backbone of Aviation', subtitle: '', compact: false, breadcrumbs: () => [] }
 )
 </script>
 
 <template>
-  <section class="relative overflow-hidden border-b border-[var(--vyoma-cloud)]">
-    <BrandOrbitRing :size="760" />
-    <div class="motif-yantra-bg absolute inset-0 opacity-40" aria-hidden="true" />
-    <div
-      class="relative mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 text-center"
-      :class="compact ? 'py-16 sm:py-20' : 'py-24 sm:py-32'"
-    >
-      <span class="inline-block text-xs font-semibold tracking-widest uppercase text-[var(--vyoma-aviation-blue)] mb-5">
-        {{ eyebrow }}
-      </span>
-      <h1 class="font-heading font-extrabold text-[var(--vyoma-deep-navy)] leading-tight" :class="compact ? 'text-3xl sm:text-4xl' : 'text-4xl sm:text-6xl'">
-        {{ title }}
-      </h1>
-      <p class="mt-5 text-lg text-slate-600 max-w-2xl mx-auto">
-        {{ subtitle }}
-      </p>
-      <div class="mt-9 flex flex-col sm:flex-row items-center justify-center gap-3">
-        <UButton to="/request-demo" size="xl" color="primary" class="font-semibold px-6">
-          Book a Demo
-        </UButton>
-        <UButton to="/features" size="xl" color="neutral" variant="soft" class="font-semibold px-6">
-          Explore Features
-        </UButton>
+  <section class="page-hero">
+    <img class="page-hero__mark" src="/images/brand/vyoma-logomark.png" alt="" aria-hidden="true" width="752" height="622" draggable="false" />
+    <div class="relative mx-auto w-full max-w-[calc(var(--container)+2*var(--gutter))] px-(--gutter)">
+      <nav v-if="breadcrumbs.length" class="breadcrumb" aria-label="Breadcrumb">
+        <ol>
+          <li v-for="crumb in breadcrumbs" :key="crumb.label">
+            <NuxtLink v-if="crumb.to" :to="crumb.to">{{ crumb.label }}</NuxtLink>
+            <span v-else aria-current="page">{{ crumb.label }}</span>
+          </li>
+        </ol>
+      </nav>
+      <p v-if="eyebrow" class="eyebrow">{{ eyebrow }}</p>
+      <h1 class="h1">{{ title }}</h1>
+      <p v-if="subtitle" class="lede">{{ subtitle }}</p>
+      <div class="btn-row">
+        <!-- Pages pass their own buttons; without them the hero keeps its original pair. -->
+        <slot>
+          <NuxtLink to="/request-demo" class="btn btn--primary">
+            Book a Demo
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+              <path d="M5 12h14" /><path d="m12 5 7 7-7 7" />
+            </svg>
+          </NuxtLink>
+          <NuxtLink to="/features" class="btn btn--ghost">Explore Features</NuxtLink>
+        </slot>
       </div>
     </div>
   </section>

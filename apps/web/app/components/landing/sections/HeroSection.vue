@@ -1,8 +1,135 @@
 <script setup lang="ts">
-const { root } = useInViewReveal()
-const { root: stage } = usePointerParallax()
+import { sitePaths, solutionPath } from '~/data/solutions'
+
+// Lucide icon paths for the audience chips.
+const segments = [
+  { label: 'Airlines & Operators', to: solutionPath('airlines'), icon: ['M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z'] },
+  { label: 'CAMO Organisations', to: solutionPath('maintenance'), icon: ['M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z', 'm9 12 2 2 4-4'] },
+  { label: 'Flying Training Schools', to: solutionPath('flying-training'), icon: ['M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z', 'M22 10v6', 'M6 12.5V16a6 3 0 0 0 12 0v-3.5'] },
+  { label: 'Private & Non-Scheduled Operators', to: solutionPath('non-scheduled'), icon: ['M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16'], rect: true }
+]
+
+const rings = [
+  { label: 'Fleet', stroke: '#005F8F', dash: '97.26 113.1' },
+  { label: 'Planning', stroke: '#41A1D9', dash: '72.38 113.1' },
+  { label: 'Compliance', stroke: '#143758', dash: '105.18 113.1' }
+]
+
+const plane = 'M12 1.6c.9 0 1.5 1 1.5 2.2v5.5l8 4.6v2.1l-8-2.5v4.9l2.4 1.8v1.6L12 21l-3.9.8v-1.6l2.4-1.8v-4.9l-8 2.5v-2.1l8-4.6V3.8c0-1.2.6-2.2 1.5-2.2z'
 </script>
 
 <template>
-<section id="top" class="hero-bg relative overflow-hidden pt-[72px]" aria-labelledby="hero-title" ref="root"><div class="hero-grid pointer-events-none absolute inset-0" aria-hidden="true"></div><img src="/images/brand/vyoma-logomark.png" alt="" aria-hidden="true" width="677" height="560" class="watermark absolute -bottom-56 -left-60 hidden opacity-[0.05] md:block" style="height:560px;width:auto" draggable="false"/><div class="container-v relative grid items-center gap-14 pb-20 pt-14 md:pt-20 lg:grid-cols-[minmax(0,5.2fr)_minmax(0,6.8fr)] lg:gap-10 lg:pb-28 lg:pt-24"><div class="relative z-10 max-w-[580px]"><p class="enter d1 text-[0.74rem] font-semibold tracking-[0.16em] text-ocean">THE FUTURE OF AVIATION INTELLIGENCE</p><h1 id="hero-title" class="display-xl enter d2 mt-6 text-navy">Every Aircraft.<br/>Every Insight.<br/><span class="bg-[linear-gradient(100deg,#143758_0%,#005f8f_55%,#41a1d9_100%)] bg-clip-text text-transparent">One VYOMA.</span></h1><p class="lede enter d3 mt-7 max-w-[500px]">A connected aviation platform bringing fleet visibility, maintenance intelligence, airworthiness management and operational clarity into one digital workspace.</p><div class="enter d4 mt-9 flex flex-wrap gap-3"><a href="#demo" class="btn btn-primary  "><span>Book a Demo</span><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" class="btn-arrow"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg></a><a href="#capabilities" class="btn btn-ghost  "><span>Explore the Platform</span><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" class="btn-arrow btn-arrow-diag"><path d="M7 17 17 7"></path><path d="M7 7h10v10"></path></svg></a></div><p class="enter d5 mt-10 border-t border-line pt-6 text-[0.86rem] text-muted">Part of the <a href="https://www.avajet.in" class="font-medium text-navy underline decoration-sky/40 underline-offset-4 hover:decoration-sky">AVAJet</a> family, managing risk across the aircraft lifecycle.</p></div><div class="relative" ref="stage"><svg class="pointer-events-none absolute -left-[10%] -top-[16%] h-[132%] w-[120%]" viewBox="0 0 900 700" fill="none" aria-hidden="true"><ellipse cx="460" cy="350" rx="420" ry="250" transform="rotate(-14 460 350)" stroke="#41a1d9" stroke-opacity="0.28" stroke-width="1.2" class="orbit-path"></ellipse><ellipse cx="460" cy="350" rx="330" ry="190" transform="rotate(-14 460 350)" stroke="#143758" stroke-opacity="0.1" stroke-dasharray="3 7"></ellipse><circle r="5" fill="#41a1d9"><animateMotion dur="16s" repeatCount="indefinite" path="M 40 350 a 420 250 0 1 0 840 0 a 420 250 0 1 0 -840 0"></animateMotion></circle></svg><div class="bg-drift pointer-events-none absolute left-[22%] top-[6%] h-[80%] w-[70%] rounded-full bg-cyan/25 blur-[90px]" aria-hidden="true"></div><div data-inview="false" class="enter-stage relative mx-auto max-w-[600px]"><div class="glass rounded-[28px] p-4 sm:p-5"><div class="flex items-center justify-between px-1 pb-4"><div class="flex items-center gap-2.5"><img src="/images/brand/vyoma-logomark.png" alt="" aria-hidden="true" width="27" height="22" class="" style="height:22px;width:auto" draggable="false"/><span class="h-2 w-20 rounded-full bg-line"></span></div><div class="flex gap-1.5" aria-hidden="true"><span class="h-2 w-2 rounded-full bg-line"></span><span class="h-2 w-2 rounded-full bg-line"></span><span class="h-2 w-2 rounded-full bg-sky"></span></div></div><div class="grid grid-cols-3 gap-2.5 sm:gap-3"><div class="flex flex-col items-center gap-2 rounded-2xl border border-line bg-white px-2 py-3 sm:flex-row sm:px-3"><svg width="46" height="46" viewBox="0 0 46 46" aria-hidden="true"><circle cx="23" cy="23" r="18" fill="none" stroke="#E8F1F8" stroke-width="5"></circle><circle cx="23" cy="23" r="18" fill="none" stroke="#005F8F" stroke-width="5" stroke-linecap="round" stroke-dasharray="97.26370855514 113.09733552923255" transform="rotate(-90 23 23)"></circle></svg><div class="flex flex-col items-center gap-1.5 sm:items-start"><span class="text-[0.72rem] font-medium text-navy sm:text-[0.78rem]">Fleet</span><span class="h-1.5 w-10 rounded-full bg-mist"></span></div></div><div class="flex flex-col items-center gap-2 rounded-2xl border border-line bg-white px-2 py-3 sm:flex-row sm:px-3"><svg width="46" height="46" viewBox="0 0 46 46" aria-hidden="true"><circle cx="23" cy="23" r="18" fill="none" stroke="#E8F1F8" stroke-width="5"></circle><circle cx="23" cy="23" r="18" fill="none" stroke="#41A1D9" stroke-width="5" stroke-linecap="round" stroke-dasharray="72.38229473870884 113.09733552923255" transform="rotate(-90 23 23)"></circle></svg><div class="flex flex-col items-center gap-1.5 sm:items-start"><span class="text-[0.72rem] font-medium text-navy sm:text-[0.78rem]">Planning</span><span class="h-1.5 w-10 rounded-full bg-mist"></span></div></div><div class="flex flex-col items-center gap-2 rounded-2xl border border-line bg-white px-2 py-3 sm:flex-row sm:px-3"><svg width="46" height="46" viewBox="0 0 46 46" aria-hidden="true"><circle cx="23" cy="23" r="18" fill="none" stroke="#E8F1F8" stroke-width="5"></circle><circle cx="23" cy="23" r="18" fill="none" stroke="#143758" stroke-width="5" stroke-linecap="round" stroke-dasharray="105.18052204218628 113.09733552923255" transform="rotate(-90 23 23)"></circle></svg><div class="flex flex-col items-center gap-1.5 sm:items-start"><span class="text-[0.72rem] font-medium text-navy sm:text-[0.78rem]">Compliance</span><span class="h-1.5 w-10 rounded-full bg-mist"></span></div></div></div><div class="mt-3 rounded-2xl border border-line bg-[linear-gradient(180deg,#ffffff,#f4f8fc)] p-2"><div class="aspect-[2/1]"><svg viewBox="0 0 400 200" width="100%" height="100%" role="img" aria-label="Aircraft and data points connected in a network" preserveAspectRatio="xMidYMid meet"><line class="draw" pathLength="1" x1="70" y1="70" x2="160" y2="40" stroke="#41A1D9" stroke-opacity="0.5" stroke-width="1.2" style="transition-delay:0.6s"></line><line class="draw" pathLength="1" x1="160" y1="40" x2="260" y2="78" stroke="#41A1D9" stroke-opacity="0.5" stroke-width="1.2" style="transition-delay:0.6799999999999999s"></line><line class="draw" pathLength="1" x1="260" y1="78" x2="330" y2="46" stroke="#41A1D9" stroke-opacity="0.5" stroke-width="1.2" style="transition-delay:0.76s"></line><line class="draw" pathLength="1" x1="70" y1="70" x2="110" y2="150" stroke="#41A1D9" stroke-opacity="0.5" stroke-width="1.2" style="transition-delay:0.84s"></line><line class="draw" pathLength="1" x1="110" y1="150" x2="220" y2="160" stroke="#41A1D9" stroke-opacity="0.5" stroke-width="1.2" style="transition-delay:0.9199999999999999s"></line><line class="draw" pathLength="1" x1="220" y1="160" x2="320" y2="140" stroke="#41A1D9" stroke-opacity="0.5" stroke-width="1.2" style="transition-delay:1s"></line><line class="draw" pathLength="1" x1="260" y1="78" x2="220" y2="160" stroke="#41A1D9" stroke-opacity="0.5" stroke-width="1.2" style="transition-delay:1.08s"></line><line class="draw" pathLength="1" x1="160" y1="40" x2="220" y2="160" stroke="#41A1D9" stroke-opacity="0.5" stroke-width="1.2" style="transition-delay:1.1600000000000001s"></line><line class="draw" pathLength="1" x1="330" y1="46" x2="320" y2="140" stroke="#41A1D9" stroke-opacity="0.5" stroke-width="1.2" style="transition-delay:1.24s"></line><g><circle cx="70" cy="70" r="9" fill="#41A1D9" fill-opacity="0.15"></circle><circle cx="70" cy="70" r="4" fill="#6CC9F5"></circle></g><g><circle cx="160" cy="40" r="16" fill="#fff" stroke="#DCE6EF"></circle><g transform="translate(160 40) rotate(70) scale(0.7083333333333334) translate(-12 -12)" opacity="1"><path d="M12 1.6c.9 0 1.5 1 1.5 2.2v5.5l8 4.6v2.1l-8-2.5v4.9l2.4 1.8v1.6L12 21l-3.9.8v-1.6l2.4-1.8v-4.9l-8 2.5v-2.1l8-4.6V3.8c0-1.2.6-2.2 1.5-2.2z" fill="#143758"></path></g></g><g><circle cx="260" cy="78" r="9" fill="#41A1D9" fill-opacity="0.15"></circle><circle cx="260" cy="78" r="4" fill="#6CC9F5"></circle></g><g><circle cx="330" cy="46" r="9" fill="#41A1D9" fill-opacity="0.15"></circle><circle cx="330" cy="46" r="4" fill="#005F8F"></circle></g><g><circle cx="110" cy="150" r="16" fill="#fff" stroke="#DCE6EF"></circle><g transform="translate(110 150) rotate(20) scale(0.7083333333333334) translate(-12 -12)" opacity="1"><path d="M12 1.6c.9 0 1.5 1 1.5 2.2v5.5l8 4.6v2.1l-8-2.5v4.9l2.4 1.8v1.6L12 21l-3.9.8v-1.6l2.4-1.8v-4.9l-8 2.5v-2.1l8-4.6V3.8c0-1.2.6-2.2 1.5-2.2z" fill="#143758"></path></g></g><g><circle cx="220" cy="160" r="9" fill="#41A1D9" fill-opacity="0.15"></circle><circle cx="220" cy="160" r="4" fill="#005F8F"></circle></g><g><circle cx="320" cy="140" r="16" fill="#fff" stroke="#DCE6EF"></circle><g transform="translate(320 140) rotate(-40) scale(0.7083333333333334) translate(-12 -12)" opacity="1"><path d="M12 1.6c.9 0 1.5 1 1.5 2.2v5.5l8 4.6v2.1l-8-2.5v4.9l2.4 1.8v1.6L12 21l-3.9.8v-1.6l2.4-1.8v-4.9l-8 2.5v-2.1l8-4.6V3.8c0-1.2.6-2.2 1.5-2.2z" fill="#143758"></path></g></g></svg></div></div><div class="mt-3 grid grid-cols-[1.4fr_1fr] gap-3"><div class="rounded-2xl border border-line bg-white p-3"><div class="mb-1 flex items-center justify-between"><span class="h-2 w-16 rounded-full bg-line"></span><span class="h-2 w-6 rounded-full bg-mist"></span></div><svg viewBox="0 0 200 54" width="100%" height="54" aria-hidden="true" preserveAspectRatio="none"><defs><linearGradient id="hs-fill" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#41A1D9" stop-opacity="0.3"></stop><stop offset="1" stop-color="#41A1D9" stop-opacity="0"></stop></linearGradient></defs><path d="M 4 46 C 30 40, 44 22, 70 28 S 110 12, 136 18 S 176 4, 196 8 L 196 54 L 4 54 Z" fill="url(#hs-fill)"></path><path d="M 4 46 C 30 40, 44 22, 70 28 S 110 12, 136 18 S 176 4, 196 8" fill="none" stroke="#005F8F" stroke-width="2.2" stroke-linecap="round" vector-effect="non-scaling-stroke"></path></svg></div><div class="flex flex-col justify-center gap-2 rounded-2xl border border-line bg-white p-3"><div class="flex items-center gap-2"><span class="h-2 w-2 shrink-0 rounded-full bg-ok"></span><span class="h-1.5 flex-1 overflow-hidden rounded-full bg-mist"><span class="block h-full rounded-full bg-[linear-gradient(90deg,#005f8f,#41a1d9)]" style="width:82%"></span></span></div><div class="flex items-center gap-2"><span class="h-2 w-2 shrink-0 rounded-full bg-sky"></span><span class="h-1.5 flex-1 overflow-hidden rounded-full bg-mist"><span class="block h-full rounded-full bg-[linear-gradient(90deg,#005f8f,#41a1d9)]" style="width:57.99999999999999%"></span></span></div><div class="flex items-center gap-2"><span class="h-2 w-2 shrink-0 rounded-full bg-navy"></span><span class="h-1.5 flex-1 overflow-hidden rounded-full bg-mist"><span class="block h-full rounded-full bg-[linear-gradient(90deg,#005f8f,#41a1d9)]" style="width:70%"></span></span></div></div></div></div><div class="absolute z-10 transition-transform duration-700 ease-out -left-4 top-[22%] hidden sm:block lg:-left-12" style="transform:translate3d(calc(var(--px, 0) * -18px), calc(var(--py, 0) * -18px), 0)"><div class="enter d6"><div class="float-card floaty flex items-center gap-3 px-4 py-3"><span class="grid h-10 w-10 place-items-center rounded-xl bg-navy"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M12 1.6c.9 0 1.5 1 1.5 2.2v5.5l8 4.6v2.1l-8-2.5v4.9l2.4 1.8v1.6L12 21l-3.9.8v-1.6l2.4-1.8v-4.9l-8 2.5v-2.1l8-4.6V3.8c0-1.2.6-2.2 1.5-2.2z" fill="#fff" transform="rotate(45 12 12)"></path></svg></span><span class="leading-tight"><span class="block text-[0.85rem] font-semibold text-navy">Every aircraft in view</span><span class="mt-1.5 flex gap-1"><i class="h-1.5 w-6 rounded-full bg-ok"></i><i class="h-1.5 w-6 rounded-full bg-ok"></i><i class="h-1.5 w-6 rounded-full bg-sky"></i><i class="h-1.5 w-6 rounded-full bg-line"></i></span></span></div></div></div><div class="absolute z-10 transition-transform duration-700 ease-out -right-3 -top-6 hidden sm:block lg:-right-8" style="transform:translate3d(calc(var(--px, 0) * 22px), calc(var(--py, 0) * 22px), 0)"><div class="enter d7"><div class="float-card floaty-slow flex items-center gap-2.5 px-3.5 py-2.5"><span class="grid h-8 w-8 place-items-center rounded-full bg-[#e7f6ec] text-ok"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"></path><path d="m9 12 2 2 4-4"></path></svg></span><span class="text-[0.82rem] font-semibold text-navy">Airworthy &amp; on track</span></div></div></div><div class="absolute z-10 transition-transform duration-700 ease-out -bottom-7 right-[8%] hidden md:block" style="transform:translate3d(calc(var(--px, 0) * -14px), calc(var(--py, 0) * -14px), 0)"><div class="enter d8"><div class="float-card floaty flex items-end gap-1.5 px-4 pb-3 pt-4" aria-hidden="true"><span class="w-2.5 rounded-t-[4px] bg-[linear-gradient(180deg,#41a1d9,#005f8f)]" style="height:18px;opacity:0.55"></span><span class="w-2.5 rounded-t-[4px] bg-[linear-gradient(180deg,#41a1d9,#005f8f)]" style="height:28px;opacity:0.63"></span><span class="w-2.5 rounded-t-[4px] bg-[linear-gradient(180deg,#41a1d9,#005f8f)]" style="height:22px;opacity:0.7100000000000001"></span><span class="w-2.5 rounded-t-[4px] bg-[linear-gradient(180deg,#41a1d9,#005f8f)]" style="height:36px;opacity:0.79"></span><span class="w-2.5 rounded-t-[4px] bg-[linear-gradient(180deg,#41a1d9,#005f8f)]" style="height:30px;opacity:0.8700000000000001"></span><span class="w-2.5 rounded-t-[4px] bg-[linear-gradient(180deg,#41a1d9,#005f8f)]" style="height:42px;opacity:0.9500000000000001"></span></div></div></div></div></div></div></section>
+  <section class="hero" aria-labelledby="hero-title">
+    <img class="hero__mark" src="/images/brand/vyoma-logomark.png" alt="" width="752" height="622" draggable="false" />
+    <div class="hero__grid mx-auto w-full max-w-[calc(var(--container)+2*var(--gutter))] px-(--gutter)">
+      <div class="hero__copy">
+        <p class="eyebrow">Aviation management software</p>
+        <h1 id="hero-title" class="display display--tag">One Aviation Platform.<br /><span class="gradient-text">Every Operation.</span></h1>
+        <p class="lede">Manage your aviation operations with one connected software platform built for airlines, CAMO organisations, flying training schools, and private and non-scheduled operators.</p>
+        <ul class="seg-chips" role="list">
+          <li v-for="s in segments" :key="s.label">
+            <NuxtLink :to="s.to">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                <path v-for="d in s.icon" :key="d" :d="d" />
+                <rect v-if="s.rect" width="20" height="14" x="2" y="6" rx="2" />
+              </svg>
+              {{ s.label }}
+            </NuxtLink>
+          </li>
+        </ul>
+        <div class="btn-row">
+          <NuxtLink :to="sitePaths.demo" class="btn btn--primary">
+            Book a Demo
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+              <path d="M5 12h14" /><path d="m12 5 7 7-7 7" />
+            </svg>
+          </NuxtLink>
+          <NuxtLink :to="sitePaths.platform" class="btn btn--ghost">Explore the Platform</NuxtLink>
+        </div>
+      </div>
+
+      <!-- Decorative mock-up: no real UI or data. -->
+      <div class="stage" aria-hidden="true">
+        <svg class="stage__orbit" viewBox="0 0 900 700" fill="none">
+          <ellipse cx="460" cy="350" rx="420" ry="250" transform="rotate(-14 460 350)" stroke="#41a1d9" stroke-opacity="0.28" stroke-width="1.2" />
+          <ellipse cx="460" cy="350" rx="330" ry="190" transform="rotate(-14 460 350)" stroke="#143758" stroke-opacity="0.1" stroke-dasharray="3 7" />
+        </svg>
+        <div class="stage__glow" />
+        <div class="panel">
+          <div class="panel__bar">
+            <div class="panel__bar-left">
+              <img src="/images/brand/vyoma-logomark.png" alt="" width="752" height="622" draggable="false" />
+              <span class="pill" style="width:80px" />
+            </div>
+            <div class="dots"><i /><i /><i /></div>
+          </div>
+          <div class="panel__rings">
+            <div v-for="r in rings" :key="r.label" class="ring-card">
+              <svg viewBox="0 0 46 46">
+                <circle cx="23" cy="23" r="18" fill="none" stroke="#E8F1F8" stroke-width="5" />
+                <circle cx="23" cy="23" r="18" fill="none" :stroke="r.stroke" stroke-width="5" stroke-linecap="round" :stroke-dasharray="r.dash" transform="rotate(-90 23 23)" />
+              </svg>
+              <div class="ring-card__text"><span>{{ r.label }}</span><i class="pill" /></div>
+            </div>
+          </div>
+          <div class="panel__network">
+            <svg viewBox="0 0 400 200" preserveAspectRatio="xMidYMid meet">
+              <g stroke="#41A1D9" stroke-opacity="0.5" stroke-width="1.2">
+                <line x1="70" y1="70" x2="160" y2="40" /><line x1="160" y1="40" x2="260" y2="78" /><line x1="260" y1="78" x2="330" y2="46" />
+                <line x1="70" y1="70" x2="110" y2="150" /><line x1="110" y1="150" x2="220" y2="160" /><line x1="220" y1="160" x2="320" y2="140" />
+                <line x1="260" y1="78" x2="220" y2="160" /><line x1="160" y1="40" x2="220" y2="160" /><line x1="330" y1="46" x2="320" y2="140" />
+              </g>
+              <circle cx="70" cy="70" r="9" fill="#41A1D9" fill-opacity="0.15" /><circle cx="70" cy="70" r="4" fill="#6CC9F5" />
+              <circle cx="160" cy="40" r="16" fill="#fff" stroke="#DCE6EF" />
+              <g transform="translate(160 40) rotate(70) scale(0.7083) translate(-12 -12)"><path :d="plane" fill="#143758" /></g>
+              <circle cx="260" cy="78" r="9" fill="#41A1D9" fill-opacity="0.15" /><circle cx="260" cy="78" r="4" fill="#6CC9F5" />
+              <circle cx="330" cy="46" r="9" fill="#41A1D9" fill-opacity="0.15" /><circle cx="330" cy="46" r="4" fill="#005F8F" />
+              <circle cx="110" cy="150" r="16" fill="#fff" stroke="#DCE6EF" />
+              <g transform="translate(110 150) rotate(20) scale(0.7083) translate(-12 -12)"><path :d="plane" fill="#143758" /></g>
+              <circle cx="220" cy="160" r="9" fill="#41A1D9" fill-opacity="0.15" /><circle cx="220" cy="160" r="4" fill="#005F8F" />
+              <circle cx="320" cy="140" r="16" fill="#fff" stroke="#DCE6EF" />
+              <g transform="translate(320 140) rotate(-40) scale(0.7083) translate(-12 -12)"><path :d="plane" fill="#143758" /></g>
+            </svg>
+          </div>
+          <div class="panel__lower">
+            <div class="panel__box">
+              <svg viewBox="0 0 200 54" preserveAspectRatio="none">
+                <defs>
+                  <linearGradient id="hs-fill" x1="0" x2="0" y1="0" y2="1">
+                    <stop offset="0" stop-color="#41A1D9" stop-opacity="0.3" />
+                    <stop offset="1" stop-color="#41A1D9" stop-opacity="0" />
+                  </linearGradient>
+                </defs>
+                <path d="M 4 46 C 30 40, 44 22, 70 28 S 110 12, 136 18 S 176 4, 196 8 L 196 54 L 4 54 Z" fill="url(#hs-fill)" />
+                <path d="M 4 46 C 30 40, 44 22, 70 28 S 110 12, 136 18 S 176 4, 196 8" fill="none" stroke="#005F8F" stroke-width="2.2" stroke-linecap="round" vector-effect="non-scaling-stroke" />
+              </svg>
+            </div>
+            <div class="panel__box bars">
+              <div class="bar"><i style="background:#22a06b" /><b><span style="width:82%" /></b></div>
+              <div class="bar"><i style="background:#41a1d9" /><b><span style="width:58%" /></b></div>
+              <div class="bar"><i style="background:#143758" /><b><span style="width:70%" /></b></div>
+            </div>
+          </div>
+        </div>
+        <div class="float-card float-card--a">
+          <span class="plane-tile">
+            <svg viewBox="0 0 24 24"><path :d="plane" fill="#fff" transform="rotate(45 12 12)" /></svg>
+          </span>
+          <span><strong>Every aircraft in view</strong><span class="seg"><i /><i /><i /><i /></span></span>
+        </div>
+        <div class="float-card float-card--b">
+          <span class="ok-tile">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z" /><path d="m9 12 2 2 4-4" />
+            </svg>
+          </span>
+          <strong>Airworthy &amp; on track</strong>
+        </div>
+        <div class="float-card float-card--c mini-bars">
+          <i style="height:18px;opacity:0.55" /><i style="height:28px;opacity:0.63" /><i style="height:22px;opacity:0.71" />
+          <i style="height:36px;opacity:0.79" /><i style="height:30px;opacity:0.87" /><i style="height:42px;opacity:0.95" />
+        </div>
+      </div>
+    </div>
+  </section>
 </template>

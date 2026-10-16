@@ -1,88 +1,66 @@
 <script setup lang="ts">
-import { solutionPath, solutions } from '~/data/solutions'
+import { avajetUrl, footerCompanyLinks, footerPlatformLinks, footerSolutionLinks, legalLinks, sitePaths } from '~/data/solutions'
 
-const footerNav = [
-  {
-    label: 'Platform',
-    items: [
-      { label: 'VYOMA ONE', href: '/#capabilities' },
-      { label: 'Fleet Management', href: '/#capabilities' },
-      { label: 'Maintenance Planning', href: '/#capabilities' },
-      { label: 'Airworthiness', href: '/#capabilities' }
-    ]
-  },
-  {
-    label: 'Solutions',
-    items: solutions.flatMap(s => [{ label: s.label, href: solutionPath(s.id) }, ...(s.children ?? []).map(c => ({ label: c.label, href: solutionPath(c.id) }))])
-  },
-  {
-    label: 'Company',
-    items: [
-      { label: 'About', href: '/#about' },
-      { label: 'FAQs', href: '/#faq' },
-      { label: 'Careers', href: '/careers/' }
-    ]
-  },
-  {
-    label: 'Connect',
-    items: [
-      { label: 'Book a Demo', href: '/#demo' },
-      { label: 'Ask More', href: '/#demo-ask' },
-      { label: 'AVAJet', href: 'https://www.avajet.in' }
-    ]
-  }
-]
-
-const legalNav = [
-  { label: 'Privacy Policy', href: '/legal/privacy' },
-  { label: 'Terms of Use', href: '/legal/terms' },
-  { label: 'Sitemap', href: '/sitemap' }
+const columns = [
+  { label: 'Platform', items: footerPlatformLinks },
+  { label: 'Solutions', items: footerSolutionLinks },
+  { label: 'Company', items: footerCompanyLinks }
 ]
 
 const year = new Date().getFullYear()
+
+const linkClass = 'inline-block py-1.5 text-[0.9rem] text-footer-link transition-colors duration-200 hover:text-white'
 </script>
 
 <template>
-  <footer class="relative overflow-hidden bg-navy-deep text-[#c4d4e2]" aria-labelledby="footer-title">
-    <h2 id="footer-title" class="sr-only">Site footer</h2>
-    <img src="/images/brand/vyoma-logomark.png" alt="" aria-hidden="true" width="774" height="640" class="watermark absolute -right-40 -top-24 opacity-[0.05]" style="height:640px;width:auto" draggable="false" />
-    <div class="container-v relative pb-10 pt-16 md:pt-20">
-      <div class="flex flex-col gap-8 rounded-[28px] bg-white p-7 md:flex-row md:items-center md:justify-between md:p-9">
+  <footer class="relative overflow-hidden bg-navy-deep pb-7 pt-[clamp(56px,7vw,88px)] text-footer-text">
+    <img src="/images/brand/vyoma-logomark.png" alt="" aria-hidden="true" width="752" height="622" class="pointer-events-none absolute -bottom-40 -right-35 h-auto w-130 select-none opacity-5" draggable="false" />
+    <div class="mx-auto w-full max-w-[calc(var(--container)+2*var(--gutter))] px-(--gutter)">
+      <div class="relative grid items-center gap-6 rounded-v-lg bg-white p-[clamp(24px,3vw,36px)] text-muted md:grid-cols-[1fr_auto]">
         <div>
-          <BrandVyomaWordmark :height="38" />
-          <p class="mt-4 max-w-[440px] text-[0.95rem] leading-relaxed text-muted">Every aircraft. Every insight. One connected workspace for aviation teams.</p>
+          <img src="/images/brand/vyoma-logo-full.png" alt="VYOMA" width="140" height="43" class="h-auto w-35" draggable="false" />
+          <p class="mt-3 max-w-105 text-[0.95rem]">CAMO software for the teams who keep aircraft flying.</p>
+          <p class="mt-1.5 max-w-105 text-[0.88rem]">Every aircraft. Every insight. One connected workspace for aviation teams.</p>
         </div>
         <div class="flex flex-wrap gap-3">
-          <a href="/#demo" class="btn btn-primary">
-            <span>Book a Demo</span>
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" class="btn-arrow">
+          <NuxtLink :to="sitePaths.demo" class="btn btn--primary">
+            Book a Demo
+            <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
               <path d="M5 12h14" /><path d="m12 5 7 7-7 7" />
             </svg>
-          </a>
-          <a href="/#demo-ask" class="btn btn-ghost">Ask More</a>
+          </NuxtLink>
+          <NuxtLink :to="sitePaths.contact" class="btn btn--ghost">Contact Us</NuxtLink>
         </div>
       </div>
 
-      <nav aria-label="Footer" class="mt-16 grid grid-cols-2 gap-x-6 gap-y-10 md:grid-cols-4">
-        <div v-for="group in footerNav" :key="group.label">
-          <h3 class="text-[0.85rem] font-semibold text-white">{{ group.label }}</h3>
-          <ul class="mt-4 space-y-2.5">
-            <li v-for="item in group.items" :key="item.label">
-              <a :href="item.href" class="text-[0.88rem] text-[#a9bdd0] transition-colors hover:text-white">{{ item.label }}</a>
+      <nav aria-label="Footer" class="relative mt-14 grid grid-cols-2 gap-x-6 gap-y-10 md:grid-cols-4">
+        <div v-for="col in columns" :key="col.label">
+          <h2 class="text-[0.85rem] font-semibold text-white">{{ col.label }}</h2>
+          <ul class="mt-3">
+            <li v-for="item in col.items" :key="item.href">
+              <NuxtLink :to="item.href" :class="linkClass">{{ item.label }}</NuxtLink>
             </li>
+          </ul>
+        </div>
+        <div>
+          <h2 class="text-[0.85rem] font-semibold text-white">Contact</h2>
+          <ul class="mt-3">
+            <li><NuxtLink :to="sitePaths.demo" :class="linkClass">Book a Demo</NuxtLink></li>
+            <li><NuxtLink :to="sitePaths.contact" :class="linkClass">Ask a question</NuxtLink></li>
+            <li><NuxtLink :to="avajetUrl" rel="noopener" :class="linkClass">AVAJet ↗</NuxtLink></li>
           </ul>
         </div>
       </nav>
 
-      <div class="mt-16 flex flex-col gap-4 border-t border-white/10 pt-6 text-[0.8rem] text-[#7f97ad] md:flex-row md:items-center md:justify-between">
+      <div class="relative mt-14 flex flex-col gap-3 border-t border-white/10 pt-5 text-[0.82rem] text-footer-dim md:flex-row md:items-center md:justify-between">
         <p>
           &copy; {{ year }} VYOMA &middot; Part of the
-          <a href="https://www.avajet.in" class="text-[#a9bdd0] hover:text-white">AVAJet</a>
-          family
+          <NuxtLink :to="avajetUrl" rel="noopener" class="inline-block py-1.5 hover:text-white">AVAJet</NuxtLink>
+          family &middot; Powered by A14 Technologies
         </p>
-        <ul class="flex flex-wrap gap-x-6 gap-y-2">
-          <li v-for="l in legalNav" :key="l.label">
-            <a :href="l.href" class="hover:text-white">{{ l.label }}</a>
+        <ul class="flex flex-wrap gap-x-5 gap-y-1">
+          <li v-for="l in legalLinks" :key="l.href">
+            <NuxtLink :to="l.href" class="inline-block py-1.5 hover:text-white">{{ l.label }}</NuxtLink>
           </li>
         </ul>
       </div>

@@ -10,7 +10,7 @@ useSeoMeta({ robots: 'noindex, follow' })
 </script>
 
 <template>
-  <section class="hero-bg pb-28 pt-[152px]">
+  <section class="hero-bg pb-28 pt-20">
     <div class="container-v max-w-[820px]">
       <a href="/" class="text-[0.85rem] font-medium text-ocean hover:underline">&larr; Back to home</a>
       <h1 class="display-lg mt-6 text-navy">Careers</h1>

@@ -16,7 +16,7 @@ const groups: Array<{ label: string; items: MapItem[] }> = [
     items: [
       { label: 'Home', href: '/' },
       { label: 'VYOMA ONE', href: '/#capabilities' },
-      { label: 'What is VYOMA', href: '/#what-is-vyoma' },
+      { label: 'What is VYOMA', href: '/#what-we-do' },
       { label: 'Security', href: '/#security' }
     ]
   },
@@ -48,8 +48,8 @@ const groups: Array<{ label: string; items: MapItem[] }> = [
 </script>
 
 <template>
-  <section class="hero-bg pb-28 pt-[152px]">
-    <div class="container-v max-w-[820px]">
+  <section class="hero-bg pb-28 pt-20">
+    <div class="container-v max-w-205">
       <a href="/" class="text-[0.85rem] font-medium text-ocean hover:underline">&larr; Back to home</a>
       <h1 v-reveal class="display-lg mt-6 text-navy">Sitemap</h1>
       <p v-reveal="100" class="lede mt-5">Every page and section of the VYOMA website.</p>

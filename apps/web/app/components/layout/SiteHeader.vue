@@ -21,24 +21,24 @@ const solutionsOpen = ref(false)
 </script>
 
 <template>
-  <header class="sticky top-0 z-40 bg-white/90 backdrop-blur border-b border-[var(--vyoma-cloud)]">
+  <header class="sticky top-0 z-40 bg-white/90 backdrop-blur border-b border-(--vyoma-cloud)">
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
       <NuxtLink to="/" class="shrink-0">
         <BrandVyomaWordmark :height="26" />
       </NuxtLink>
 
-      <nav class="hidden lg:flex items-center gap-7 text-sm font-medium text-[var(--vyoma-deep-navy)]">
+      <nav class="hidden lg:flex items-center gap-7 text-sm font-medium text-(--vyoma-deep-navy)">
         <NuxtLink
           v-for="link in navLinks.slice(0, 2)"
           :key="link.to"
           :to="link.to"
-          class="hover:text-[var(--vyoma-aviation-blue)] transition-colors"
+          class="hover:text-(--vyoma-aviation-blue) transition-colors"
         >
           {{ link.label }}
         </NuxtLink>
 
         <div class="relative" @mouseenter="solutionsOpen = true" @mouseleave="solutionsOpen = false">
-          <button class="flex items-center gap-1 hover:text-[var(--vyoma-aviation-blue)] transition-colors">
+          <button class="flex items-center gap-1 hover:text-(--vyoma-aviation-blue) transition-colors">
             Solutions
             <UIcon name="i-lucide-chevron-down" class="w-3.5 h-3.5" />
           </button>
@@ -46,12 +46,12 @@ const solutionsOpen = ref(false)
             v-show="solutionsOpen"
             class="absolute left-1/2 -translate-x-1/2 top-full pt-3 w-64"
           >
-            <div class="rounded-xl border border-[var(--vyoma-cloud)] bg-white shadow-lg p-2">
+            <div class="rounded-xl border border-(--vyoma-cloud) bg-white shadow-lg p-2">
               <NuxtLink
                 v-for="s in solutionsLinks"
                 :key="s.to"
                 :to="s.to"
-                class="block px-3 py-2 rounded-lg text-sm hover:bg-[var(--vyoma-section-bg-alt)] transition-colors"
+                class="block px-3 py-2 rounded-lg text-sm hover:bg-(--vyoma-section-bg-alt) transition-colors"
               >
                 {{ s.label }}
               </NuxtLink>
@@ -63,7 +63,7 @@ const solutionsOpen = ref(false)
           v-for="link in navLinks.slice(2)"
           :key="link.to"
           :to="link.to"
-          class="hover:text-[var(--vyoma-aviation-blue)] transition-colors"
+          class="hover:text-(--vyoma-aviation-blue) transition-colors"
         >
           {{ link.label }}
         </NuxtLink>
@@ -80,13 +80,13 @@ const solutionsOpen = ref(false)
       </button>
     </div>
 
-    <div v-if="mobileOpen" class="lg:hidden border-t border-[var(--vyoma-cloud)] bg-white">
+    <div v-if="mobileOpen" class="lg:hidden border-t border-(--vyoma-cloud) bg-white">
       <div class="px-4 py-4 flex flex-col gap-1">
         <NuxtLink
           v-for="link in navLinks"
           :key="link.to"
           :to="link.to"
-          class="px-2 py-2.5 rounded-lg text-sm font-medium hover:bg-[var(--vyoma-section-bg-alt)]"
+          class="px-2 py-2.5 rounded-lg text-sm font-medium hover:bg-(--vyoma-section-bg-alt)"
           @click="mobileOpen = false"
         >
           {{ link.label }}
@@ -96,7 +96,7 @@ const solutionsOpen = ref(false)
           v-for="s in solutionsLinks"
           :key="s.to"
           :to="s.to"
-          class="px-2 py-2.5 rounded-lg text-sm hover:bg-[var(--vyoma-section-bg-alt)]"
+          class="px-2 py-2.5 rounded-lg text-sm hover:bg-(--vyoma-section-bg-alt)"
           @click="mobileOpen = false"
         >
           {{ s.label }}
