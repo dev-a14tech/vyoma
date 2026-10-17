@@ -51,8 +51,8 @@ export const solutions: readonly Solution[] = [
   {
     id: 'maintenance',
     slug: 'maintenance',
-    label: 'Maintenance',
-    menuLabel: 'Aircraft Maintenance Software',
+    label: 'Engineering & Maintenance',
+    menuLabel: 'Aircraft Engineering & Maintenance Software',
     menuBlurb: 'CAMO software for continuing airworthiness',
     icon: 'maintenance',
     headline: 'Maintenance that never slips through the cracks.',

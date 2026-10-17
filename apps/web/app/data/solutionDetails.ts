@@ -98,7 +98,7 @@ export const solutionDetails: Record<string, SolutionDetail> = {
   },
 
   maintenance: {
-    eyebrow: 'Maintenance · CAMO',
+    eyebrow: 'Engineering & Maintenance · CAMO',
     title: 'CAMO software for continuing airworthiness',
     intro:
       'The maintenance module is the CAMO section of VYOMA. Technical records, directives, planned maintenance and component life live in one system, whether your CAMO is an in-house team or a subcontracted organisation.',
