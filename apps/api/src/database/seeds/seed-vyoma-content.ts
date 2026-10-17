@@ -1,9 +1,29 @@
+import { existsSync, readFileSync } from 'node:fs';
+import { dirname, resolve } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import mongoose from 'mongoose';
 import * as bcrypt from 'bcryptjs';
 import { Admin, AdminSchema } from '../schemas/admin.schema.js';
 import { FeatureTheme, FeatureThemeSchema } from '../schemas/feature-theme.schema.js';
 import { AudienceSegment, AudienceSegmentSchema } from '../schemas/audience-segment.schema.js';
 import { PageContent, PageContentSchema } from '../schemas/page-content.schema.js';
+
+// Run standalone via `tsx`, outside Nest's bootstrap, so @nestjs/config's automatic
+// .env loading never happens here - load apps/api/.env by hand, without pulling in a
+// dotenv dependency. Real env vars (CI, Vercel) always win over whatever's in the file.
+function loadDotEnv() {
+  const envPath = resolve(dirname(fileURLToPath(import.meta.url)), '../../../.env');
+  if (!existsSync(envPath)) return;
+  for (const line of readFileSync(envPath, 'utf8').split('\n')) {
+    const match = /^\s*([\w.-]+)\s*=\s*(.*)?\s*$/.exec(line);
+    if (!match) continue;
+    const [, key, rawValue = ''] = match;
+    if (process.env[key] !== undefined) continue;
+    const unquoted = rawValue.replace(/^(['"])(.*)\1$/, '$2');
+    process.env[key] = unquoted;
+  }
+}
+loadDotEnv();
 
 const MONGODB_URI = process.env.MONGODB_URI ?? 'mongodb://127.0.0.1:27018/vyoma_website';
 
