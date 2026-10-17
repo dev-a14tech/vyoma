@@ -13,6 +13,9 @@ interface SolutionBase {
   label: string
   // Used where space is tight (the homepage tab list); falls back to label.
   shortLabel?: string
+  // Shown in the header/mobile Solutions menu specifically; falls back to shortLabel then label.
+  // Keyword-rich ("Aircraft X Software") since this is the one place people search-scan by name.
+  menuLabel?: string
   // One-line summary under the label in the header Solutions menu.
   menuBlurb: string
   icon: SolutionIconId
@@ -38,6 +41,7 @@ export const solutions: readonly Solution[] = [
     id: 'management',
     slug: 'management',
     label: 'Asset Management',
+    menuLabel: 'Aircraft Asset Management Software',
     menuBlurb: 'Analytics and compliance oversight',
     icon: 'management',
     headline: 'See the whole operation at a glance.',
@@ -48,6 +52,7 @@ export const solutions: readonly Solution[] = [
     id: 'maintenance',
     slug: 'maintenance',
     label: 'Maintenance',
+    menuLabel: 'Aircraft Maintenance Software',
     menuBlurb: 'CAMO software for continuing airworthiness',
     icon: 'maintenance',
     headline: 'Maintenance that never slips through the cracks.',
@@ -65,6 +70,7 @@ export const solutions: readonly Solution[] = [
         id: 'airlines',
         slug: 'airlines',
         label: 'Airlines',
+        menuLabel: 'Aircraft Airlines Software',
         menuBlurb: 'Scheduled fleets flying on time',
         icon: 'airlines',
         headline: 'Keep scheduled fleets flying on time.',
@@ -75,6 +81,7 @@ export const solutions: readonly Solution[] = [
         id: 'flying-training',
         slug: 'flying-training-schools',
         label: 'Flying Training Schools',
+        menuLabel: 'Aircraft Flying Training Schools Software',
         menuBlurb: 'Sorties, students and trainer aircraft',
         icon: 'flying-training',
         headline: 'Built for high-utilisation training fleets.',
@@ -86,6 +93,7 @@ export const solutions: readonly Solution[] = [
         slug: 'private-jet-operators',
         label: 'Private Jet / Non-Scheduled Operators',
         shortLabel: 'Private Jet & Non-Scheduled',
+        menuLabel: 'Aircraft Private Jet & Non-Scheduled Operators Software',
         menuBlurb: 'Trips requested, flown and costed',
         icon: 'non-scheduled',
         headline: 'Every trip requested, flown and costed.',
@@ -191,13 +199,13 @@ export const primaryLinks: readonly NavLink[] = [
 
 // Header Solutions menu: the modules, then Operations' children by operation type.
 export const solutionModuleLinks: readonly NavLink[] = solutions.map(s => ({
-  label: s.shortLabel ?? s.label,
+  label: s.menuLabel ?? s.shortLabel ?? s.label,
   href: solutionPath(s.id),
   description: s.menuBlurb
 }))
 
 export const operationTypeLinks: readonly NavLink[] = solutions.flatMap(s => s.children ?? []).map(c => ({
-  label: c.shortLabel ?? c.label,
+  label: c.menuLabel ?? c.shortLabel ?? c.label,
   href: solutionPath(c.id),
   description: c.menuBlurb
 }))
