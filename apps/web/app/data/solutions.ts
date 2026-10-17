@@ -164,7 +164,6 @@ export const sitePaths = {
   whyVyoma: '/why-vyoma',
   solutions: '/solutions',
   about: '/about',
-  aboutAvajet: '/about#avajet',
   careers: '/careers',
   faq: '/faq',
   contact: '/contact',
@@ -174,8 +173,6 @@ export const sitePaths = {
   disclaimer: '/legal/disclaimer',
   sitemap: '/sitemap'
 } as const
-
-export const avajetUrl = 'https://www.avajet.in'
 
 // Header Platform menu (mobile shows the same links without descriptions).
 export const platformLinks: readonly NavLink[] = [
@@ -187,7 +184,7 @@ export const platformLinks: readonly NavLink[] = [
 
 // Header Company menu.
 export const companyLinks: readonly NavLink[] = [
-  { label: 'About VYOMA', href: sitePaths.about, description: 'Our story, vision and the AVAJet family' },
+  { label: 'About VYOMA', href: sitePaths.about, description: 'Our story, vision and mission' },
   { label: 'Careers', href: sitePaths.careers, description: 'Work with the VYOMA team' }
 ]
 
@@ -227,7 +224,6 @@ export const footerSolutionLinks: readonly NavLink[] = solutions.flatMap(s => [s
 
 export const footerCompanyLinks: readonly NavLink[] = [
   { label: 'About', href: sitePaths.about },
-  { label: 'About AVAJet', href: sitePaths.aboutAvajet },
   { label: 'Careers', href: sitePaths.careers },
   { label: 'FAQ', href: sitePaths.faq }
 ]

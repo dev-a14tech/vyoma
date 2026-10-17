@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { avajetUrl, footerCompanyLinks, footerPlatformLinks, footerSolutionLinks, legalLinks, sitePaths } from '~/data/solutions'
+import { footerCompanyLinks, footerPlatformLinks, footerSolutionLinks, legalLinks, sitePaths } from '~/data/solutions'
 
 const columns = [
   { label: 'Platform', items: footerPlatformLinks },
@@ -30,16 +30,13 @@ const linkClass = 'inline-block py-1.5 text-[0.9rem] text-footer-link transition
           <ul class="mt-3">
             <li><NuxtLink :to="sitePaths.demo" :class="linkClass">Book a Demo</NuxtLink></li>
             <li><NuxtLink :to="sitePaths.contact" :class="linkClass">Ask a question</NuxtLink></li>
-            <li><NuxtLink :to="avajetUrl" rel="noopener" :class="linkClass">AVAJet ↗</NuxtLink></li>
           </ul>
         </div>
       </nav>
 
       <div class="relative mt-14 flex flex-col gap-3 border-t border-white/10 pt-5 text-[0.82rem] text-footer-dim md:flex-row md:items-center md:justify-between">
         <p>
-          &copy; {{ year }} VYOMA &middot; Part of the
-          <NuxtLink :to="avajetUrl" rel="noopener" class="inline-block py-1.5 hover:text-white">AVAJet</NuxtLink>
-          family &middot; Powered by
+          &copy; {{ year }} VYOMA &middot; Powered by
           <NuxtLink to="https://www.a14technologies.com/" target="_blank" rel="noopener" class="inline-block py-1.5 hover:text-white">A14 Technologies</NuxtLink>
         </p>
         <ul class="flex flex-wrap gap-x-5 gap-y-1">

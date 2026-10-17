@@ -18,18 +18,20 @@ usePageSeo({
     />
 
     <section class="section bg-white">
-      <div class="container-v max-w-[720px]">
-        <div v-reveal class="flex items-start gap-3 rounded-v border border-line bg-ice px-5 py-4">
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" class="mt-0.5 shrink-0 text-ocean">
-            <circle cx="12" cy="12" r="10" /><path d="M12 16v-4" /><path d="M12 8h.01" />
-          </svg>
-          <p class="text-[0.92rem] leading-relaxed text-ink">
-            Placeholder content, pending legal review before launch. The final wording will be published before public launch.
-          </p>
-        </div>
-        <p class="lede mt-8">
-          VYOMA is a product of AVAJET Aviation Consultants LLP.
-          For questions in the meantime, please use our
+      <div class="container-v max-w-[720px] space-y-6 text-[0.95rem] leading-relaxed text-ink">
+        <p>
+          VYOMA is committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and
+          safeguard your information when you visit our website.
+        </p>
+        <p>
+          We may collect personal identification information from users in a variety of ways, including, but not limited to,
+          when users visit our site, fill out a form, and in connection with other activities, services, features or resources
+          we make available on our site. Users may be asked for, as appropriate, name, email address and phone number. We will
+          collect personal identification information from users only if they voluntarily submit such information to us.
+        </p>
+        <p class="lede">
+          For questions about this policy, please contact us at
+          <a href="mailto:info@vyoma.aero" class="font-medium text-ocean hover:underline">info@vyoma.aero</a>, or use our
           <NuxtLink :to="sitePaths.contact" class="font-medium text-ocean hover:underline">contact form</NuxtLink>.
         </p>
       </div>

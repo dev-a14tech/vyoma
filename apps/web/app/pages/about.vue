@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { avajetUrl, sitePaths } from '~/data/solutions'
+import { sitePaths } from '~/data/solutions'
 
 const { data: page } = await usePageContent('about')
 
@@ -7,7 +7,7 @@ usePageSeo({
   title: page.value?.seoTitle ?? 'About VYOMA',
   description:
     page.value?.seoDescription ??
-    'VYOMA is an aviation software platform from the AVAJet family, built to manage risk across the aircraft lifecycle: maintenance, airworthiness, operations and logistics.',
+    'VYOMA is an aviation software platform built to manage risk across the aircraft lifecycle: maintenance, airworthiness, operations and logistics.',
   keywords: 'about'
 })
 
@@ -30,7 +30,7 @@ const principles = [
       hide-actions
     />
 
-    <section id="avajet" class="section bg-white">
+    <section class="section bg-white">
       <div class="container-v grid gap-10 lg:grid-cols-12 lg:gap-10">
         <div class="lg:col-span-5">
           <p class="eyebrow">Why VYOMA exists</p>
@@ -69,20 +69,8 @@ const principles = [
     </section>
 
     <section class="section bg-white">
-      <div class="container-v grid gap-5 sm:grid-cols-2">
+      <div class="container-v max-w-[520px]">
         <div v-reveal class="ps-card">
-          <h2 class="font-display text-[1.15rem] font-semibold text-navy">Part of the AVAJet family</h2>
-          <p class="mt-2 text-[0.92rem] leading-relaxed text-muted">
-            VYOMA is a product of AVAJET Aviation Consultants LLP. It brings AVAJet's experience in managing risk across the aircraft lifecycle into software.
-          </p>
-          <a :href="avajetUrl" target="_blank" rel="noopener" class="mt-5 inline-flex items-center gap-1.5 self-start font-medium text-ocean hover:underline">
-            Visit AVAJet
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
-              <path d="M5 12h14" /><path d="m12 5 7 7-7 7" />
-            </svg>
-          </a>
-        </div>
-        <div v-reveal="100" class="ps-card">
           <h2 class="font-display text-[1.15rem] font-semibold text-navy">Work with us</h2>
           <p class="mt-2 text-[0.92rem] leading-relaxed text-muted">See current openings at VYOMA.</p>
           <NuxtLink :to="sitePaths.careers" class="mt-5 inline-flex items-center gap-1.5 self-start font-medium text-ocean hover:underline">

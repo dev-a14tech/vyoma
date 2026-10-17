@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { solutionPath, solutions } from '~/data/solutions'
+import { sitePaths, solutionPath, solutions } from '~/data/solutions'
 
 definePageMeta({ layout: 'landing' })
 
@@ -14,10 +14,10 @@ const groups: Array<{ label: string; items: MapItem[] }> = [
   {
     label: 'Platform',
     items: [
-      { label: 'Home', href: '/' },
-      { label: 'VYOMA ONE', href: '/#capabilities' },
+      { label: 'Home', href: sitePaths.home },
+      { label: 'VYOMA ONE', href: sitePaths.capabilities },
       { label: 'What is VYOMA', href: '/#what-we-do' },
-      { label: 'Security', href: '/#security' }
+      { label: 'Security', href: sitePaths.security }
     ]
   },
   {
@@ -30,18 +30,19 @@ const groups: Array<{ label: string; items: MapItem[] }> = [
   {
     label: 'Company',
     items: [
-      { label: 'About', href: '/#about' },
-      { label: 'FAQs', href: '/#faq' },
-      { label: 'Book a Demo', href: '/#demo' },
-      { label: 'Ask More', href: '/#demo-ask' },
-      { label: 'Careers', href: '/careers/' }
+      { label: 'About', href: sitePaths.about },
+      { label: 'FAQs', href: sitePaths.faq },
+      { label: 'Book a Demo', href: sitePaths.demo },
+      { label: 'Contact', href: sitePaths.contact },
+      { label: 'Careers', href: sitePaths.careers }
     ]
   },
   {
     label: 'Legal',
     items: [
-      { label: 'Privacy Policy', href: '/legal/privacy' },
-      { label: 'Terms of Use', href: '/legal/terms' }
+      { label: 'Privacy Policy', href: sitePaths.privacy },
+      { label: 'Terms of Use', href: sitePaths.terms },
+      { label: 'Disclaimer', href: sitePaths.disclaimer }
     ]
   }
 ]

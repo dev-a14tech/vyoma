@@ -61,7 +61,7 @@ export const PAGE_KEYWORDS: Record<string, string[]> = {
     'aviation software audit ready',
     'multi-tenant aviation platform'
   ],
-  about: ['about VYOMA', 'aviation software company', 'AVAJet', 'aircraft lifecycle risk management'],
+  about: ['about VYOMA', 'aviation software company', 'aircraft lifecycle risk management'],
   contact: ['contact VYOMA', 'camo software enquiry', 'aviation software support'],
   'request-demo': [
     'book camo software demo',
