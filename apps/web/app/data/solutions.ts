@@ -174,6 +174,8 @@ export const sitePaths = {
   sitemap: '/sitemap'
 } as const
 
+export const avajetUrl = 'https://www.avajet.in'
+
 // Header Platform menu (mobile shows the same links without descriptions).
 export const platformLinks: readonly NavLink[] = [
   { label: 'Platform overview', href: sitePaths.platform, description: 'VYOMA ONE and how everything connects' },

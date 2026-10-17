@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { footerCompanyLinks, footerPlatformLinks, footerSolutionLinks, legalLinks, sitePaths } from '~/data/solutions'
+import { avajetUrl, footerCompanyLinks, footerPlatformLinks, footerSolutionLinks, legalLinks, sitePaths } from '~/data/solutions'
 
 const columns = [
   { label: 'Platform', items: footerPlatformLinks },
@@ -36,7 +36,9 @@ const linkClass = 'inline-block py-1.5 text-[0.9rem] text-footer-link transition
 
       <div class="relative mt-14 flex flex-col gap-3 border-t border-white/10 pt-5 text-[0.82rem] text-footer-dim md:flex-row md:items-center md:justify-between">
         <p>
-          &copy; {{ year }} VYOMA &middot; Powered by
+          &copy; {{ year }} VYOMA &middot; Part of
+          <NuxtLink :to="avajetUrl" target="_blank" rel="noopener" class="inline-block py-1.5 hover:text-white">AVAJet Aviation Group</NuxtLink>
+          &amp; powered by
           <NuxtLink to="https://www.a14technologies.com/" target="_blank" rel="noopener" class="inline-block py-1.5 hover:text-white">A14 Technologies</NuxtLink>
         </p>
         <ul class="flex flex-wrap gap-x-5 gap-y-1">

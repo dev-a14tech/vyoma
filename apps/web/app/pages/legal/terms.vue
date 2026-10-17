@@ -48,7 +48,7 @@ usePageSeo({
         </p>
         <p class="lede">
           For questions about these terms, please contact us at
-          <a href="mailto:info@vyoma.aero" class="font-medium text-ocean hover:underline">info@vyoma.aero</a>, or use our
+          <a href="mailto:info@avajet.in" class="font-medium text-ocean hover:underline">info@avajet.in</a>, or use our
           <NuxtLink :to="sitePaths.contact" class="font-medium text-ocean hover:underline">contact form</NuxtLink>.
         </p>
       </div>
