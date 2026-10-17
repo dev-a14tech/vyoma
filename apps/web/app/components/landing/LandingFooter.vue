@@ -39,7 +39,8 @@ const linkClass = 'inline-block py-1.5 text-[0.9rem] text-footer-link transition
         <p>
           &copy; {{ year }} VYOMA &middot; Part of the
           <NuxtLink :to="avajetUrl" rel="noopener" class="inline-block py-1.5 hover:text-white">AVAJet</NuxtLink>
-          family &middot; Powered by A14 Technologies
+          family &middot; Powered by
+          <NuxtLink to="https://www.a14technologies.com/" target="_blank" rel="noopener" class="inline-block py-1.5 hover:text-white">A14 Technologies</NuxtLink>
         </p>
         <ul class="flex flex-wrap gap-x-5 gap-y-1">
           <li v-for="l in legalLinks" :key="l.href">
