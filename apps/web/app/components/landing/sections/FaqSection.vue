@@ -1,4 +1,6 @@
 <script setup lang="ts">
+withDefaults(defineProps<{ askHref?: string }>(), { askHref: '#demo-ask' })
+
 const faqs = [
   {
     q: 'What is VYOMA?',
@@ -80,7 +82,7 @@ const open = ref<number | null>(0)
           <h2 id="faq-title" class="display-lg text-navy">Questions, answered.</h2>
           <p class="lede mt-5">
             Something not covered here?
-            <a href="#demo-ask" class="font-medium text-ocean underline decoration-sky/40 underline-offset-4 hover:decoration-sky">Ask us directly</a>.
+            <a :href="askHref" class="font-medium text-ocean underline decoration-sky/40 underline-offset-4 hover:decoration-sky">Ask us directly</a>.
           </p>
         </div>
       </div>

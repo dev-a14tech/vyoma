@@ -13,8 +13,11 @@ withDefaults(
     // Kept for existing callers; the v2 page hero has a single size.
     compact?: boolean
     breadcrumbs?: Breadcrumb[]
+    // Pages whose primary action lives in a form or card below the hero (Contact, Book a
+    // Demo, FAQ, legal) skip the button row entirely rather than repeat it.
+    hideActions?: boolean
   }>(),
-  { eyebrow: 'Digital Backbone of Aviation', subtitle: '', compact: false, breadcrumbs: () => [] }
+  { eyebrow: 'Digital Backbone of Aviation', subtitle: '', compact: false, breadcrumbs: () => [], hideActions: false }
 )
 </script>
 
@@ -33,7 +36,7 @@ withDefaults(
       <p v-if="eyebrow" class="eyebrow">{{ eyebrow }}</p>
       <h1 class="h1">{{ title }}</h1>
       <p v-if="subtitle" class="lede">{{ subtitle }}</p>
-      <div class="btn-row">
+      <div v-if="!hideActions" class="btn-row">
         <!-- Pages pass their own buttons; without them the hero keeps its original pair. -->
         <slot>
           <NuxtLink to="/request-demo" class="btn btn--primary">
