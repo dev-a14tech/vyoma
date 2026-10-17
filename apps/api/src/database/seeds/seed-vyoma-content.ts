@@ -1,6 +1,5 @@
 import { existsSync, readFileSync } from 'node:fs';
-import { dirname, resolve } from 'node:path';
-import { fileURLToPath } from 'node:url';
+import { resolve } from 'node:path';
 import mongoose from 'mongoose';
 import * as bcrypt from 'bcryptjs';
 import { Admin, AdminSchema } from '../schemas/admin.schema.js';
@@ -12,7 +11,9 @@ import { PageContent, PageContentSchema } from '../schemas/page-content.schema.j
 // .env loading never happens here - load apps/api/.env by hand, without pulling in a
 // dotenv dependency. Real env vars (CI, Vercel) always win over whatever's in the file.
 function loadDotEnv() {
-  const envPath = resolve(dirname(fileURLToPath(import.meta.url)), '../../../.env');
+  // `db:seed` always runs with apps/api as cwd (pnpm sets it from package.json's location),
+  // for both the tsx dev script and a compiled `node dist/database/seeds/...` invocation.
+  const envPath = resolve(process.cwd(), '.env');
   if (!existsSync(envPath)) return;
   for (const line of readFileSync(envPath, 'utf8').split('\n')) {
     const match = /^\s*([\w.-]+)\s*=\s*(.*)?\s*$/.exec(line);
