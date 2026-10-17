@@ -1,7 +1,100 @@
 <script setup lang="ts">
-const { root } = useInViewReveal()
+import { sitePaths } from '~/data/solutions'
+
+const problems = [
+  { problem: 'Tech logs on paper, ADs in spreadsheets, component life in someone\'s inbox.', solution: 'One record per aircraft that every team works from.' },
+  { problem: 'Overdue items are discovered late, often during an audit.', solution: 'Due items are calculated live and ranked by urgency.' },
+  { problem: 'Days spent compiling compliance figures before every review.', solution: 'Compliance reports ready on demand, with a full audit trail.' }
+]
 </script>
 
 <template>
-<section id="what-is-vyoma" class="section relative bg-white" aria-labelledby="what-title" ref="root"><div class="container-v"><div class="grid gap-8 lg:grid-cols-12"><h2 id="what-title" class="display-lg text-navy lg:col-span-6">A Smarter Way to Manage Aviation.</h2><div class="lg:col-span-5 lg:col-start-8 lg:pt-3"><p class="lede">Aircraft information usually lives in many places: paper tech logs, planning spreadsheets, compliance trackers and email threads. VYOMA brings it into one connected workspace, so planners, engineers and airworthiness managers work from the same, current picture of every aircraft.</p></div></div><div data-inview="false" class="relative mt-16 md:mt-20"><svg class="pointer-events-none absolute inset-0 hidden h-full w-full lg:block" viewBox="0 0 1000 480" preserveAspectRatio="none" aria-hidden="true"><defs><linearGradient id="flow-in" x1="0" x2="1"><stop offset="0" stop-color="#41a1d9" stop-opacity="0.15"></stop><stop offset="1" stop-color="#41a1d9" stop-opacity="0.8"></stop></linearGradient><linearGradient id="flow-out" x1="0" x2="1"><stop offset="0" stop-color="#005f8f" stop-opacity="0.8"></stop><stop offset="1" stop-color="#005f8f" stop-opacity="0.15"></stop></linearGradient></defs><path class="draw" d="M 330 40 C 420 40, 420 240, 470 240" stroke="url(#flow-in)" stroke-width="1.5" fill="none" pathLength="1" style="transition-delay:0s"></path><path class="draw" d="M 330 120 C 420 120, 420 240, 470 240" stroke="url(#flow-in)" stroke-width="1.5" fill="none" pathLength="1" style="transition-delay:0.08s"></path><path class="draw" d="M 330 200 C 420 200, 420 240, 470 240" stroke="url(#flow-in)" stroke-width="1.5" fill="none" pathLength="1" style="transition-delay:0.16s"></path><path class="draw" d="M 330 280 C 420 280, 420 240, 470 240" stroke="url(#flow-in)" stroke-width="1.5" fill="none" pathLength="1" style="transition-delay:0.24s"></path><path class="draw" d="M 330 360 C 420 360, 420 240, 470 240" stroke="url(#flow-in)" stroke-width="1.5" fill="none" pathLength="1" style="transition-delay:0.32s"></path><path class="draw" d="M 330 440 C 420 440, 420 240, 470 240" stroke="url(#flow-in)" stroke-width="1.5" fill="none" pathLength="1" style="transition-delay:0.4s"></path><path class="draw" d="M 530 240 C 580 240, 580 60, 670 60" stroke="url(#flow-out)" stroke-width="1.5" fill="none" pathLength="1" style="transition-delay:0.7s"></path><path class="draw" d="M 530 240 C 580 240, 580 180, 670 180" stroke="url(#flow-out)" stroke-width="1.5" fill="none" pathLength="1" style="transition-delay:0.7799999999999999s"></path><path class="draw" d="M 530 240 C 580 240, 580 300, 670 300" stroke="url(#flow-out)" stroke-width="1.5" fill="none" pathLength="1" style="transition-delay:0.86s"></path><path class="draw" d="M 530 240 C 580 240, 580 420, 670 420" stroke="url(#flow-out)" stroke-width="1.5" fill="none" pathLength="1" style="transition-delay:0.94s"></path></svg><div class="relative grid gap-10 lg:h-[480px] lg:grid-cols-[33%_1fr_33%] lg:gap-0"><div><p class="mb-4 text-sm font-medium text-muted lg:hidden">Where information lives today</p><ul class="grid grid-cols-2 gap-2.5 sm:grid-cols-3 lg:flex lg:h-full lg:flex-col lg:justify-around lg:gap-0"><li class="flex items-center gap-3 rounded-2xl border border-dashed border-[#c9d8e5] bg-ice/60 px-3.5 py-2.5 lg:mr-6" style="transform:rotate(-1.2deg)"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" class="shrink-0 text-muted"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7z"></path><path d="M14 2v4a2 2 0 0 0 2 2h4"></path><path d="M10 9H8"></path><path d="M16 13H8"></path><path d="M16 17H8"></path></svg><span class="min-w-0"><span class="block truncate text-[0.88rem] font-medium text-ink">Tech log pages</span><span class="hidden truncate text-[0.76rem] text-muted sm:block">Flight and defect records</span></span></li><li class="flex items-center gap-3 rounded-2xl border border-dashed border-[#c9d8e5] bg-ice/60 px-3.5 py-2.5 lg:mr-6" style="transform:rotate(0.8deg)"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" class="shrink-0 text-muted"><rect x="8" y="2" width="8" height="4" rx="1"></rect><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path><path d="m9 14 2 2 4-4"></path></svg><span class="min-w-0"><span class="block truncate text-[0.88rem] font-medium text-ink">AMP tasks</span><span class="hidden truncate text-[0.76rem] text-muted sm:block">Planned maintenance</span></span></li><li class="flex items-center gap-3 rounded-2xl border border-dashed border-[#c9d8e5] bg-ice/60 px-3.5 py-2.5 lg:mr-6" style="transform:rotate(-0.4deg)"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" class="shrink-0 text-muted"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"></path><path d="m9 12 2 2 4-4"></path></svg><span class="min-w-0"><span class="block truncate text-[0.88rem] font-medium text-ink">AD &amp; SB records</span><span class="hidden truncate text-[0.76rem] text-muted sm:block">Directives and bulletins</span></span></li><li class="flex items-center gap-3 rounded-2xl border border-dashed border-[#c9d8e5] bg-ice/60 px-3.5 py-2.5 lg:mr-6" style="transform:rotate(1deg)"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" class="shrink-0 text-muted"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path></svg><span class="min-w-0"><span class="block truncate text-[0.88rem] font-medium text-ink">Components &amp; LLPs</span><span class="hidden truncate text-[0.76rem] text-muted sm:block">Life and status</span></span></li><li class="flex items-center gap-3 rounded-2xl border border-dashed border-[#c9d8e5] bg-ice/60 px-3.5 py-2.5 lg:mr-6" style="transform:rotate(-0.8deg)"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" class="shrink-0 text-muted"><path d="M21 7.5V6a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h3.5"></path><path d="M16 2v4"></path><path d="M8 2v4"></path><path d="M3 10h5"></path><path d="M17.5 17.5 16 16.3V14"></path><circle cx="16" cy="16" r="6"></circle></svg><span class="min-w-0"><span class="block truncate text-[0.88rem] font-medium text-ink">Flight schedules</span><span class="hidden truncate text-[0.76rem] text-muted sm:block">Operational plans</span></span></li><li class="flex items-center gap-3 rounded-2xl border border-dashed border-[#c9d8e5] bg-ice/60 px-3.5 py-2.5 lg:mr-6" style="transform:rotate(0.5deg)"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" class="shrink-0 text-muted"><path d="m12 14 4-4"></path><path d="M3.34 19a10 10 0 1 1 17.32 0"></path></svg><span class="min-w-0"><span class="block truncate text-[0.88rem] font-medium text-ink">Engine data</span><span class="hidden truncate text-[0.76rem] text-muted sm:block">Performance trends</span></span></li></ul></div><div class="flex items-center justify-center"><div class="relative grid h-[200px] w-[200px] place-items-center"><div class="absolute inset-0 rounded-full border border-line bg-white shadow-[0_30px_60px_-30px_rgba(20,55,88,0.45)]"></div><div class="absolute inset-3 rounded-full border border-dashed border-sky/40"></div><div class="relative flex flex-col items-center"><img src="/images/brand/vyoma-logomark.png" alt="" aria-hidden="true" width="102" height="84" class="" style="height:84px;width:auto" draggable="false"/><span class="mt-2 text-[0.8rem] font-semibold tracking-wide text-navy">One workspace</span></div></div></div><div><p class="mb-4 text-sm font-medium text-muted lg:hidden">What your teams see in VYOMA</p><ul class="grid grid-cols-2 gap-2.5 lg:flex lg:h-full lg:flex-col lg:justify-around lg:gap-0"><li class="flex items-center gap-3 rounded-2xl border border-line bg-white px-4 py-3.5 shadow-[0_8px_24px_-16px_rgba(20,55,88,0.35)] lg:ml-6"><span class="grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-navy text-white"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect width="7" height="9" x="3" y="3" rx="1"></rect><rect width="7" height="5" x="14" y="3" rx="1"></rect><rect width="7" height="9" x="14" y="12" rx="1"></rect><rect width="7" height="5" x="3" y="16" rx="1"></rect></svg></span><span class="text-[0.92rem] font-medium text-navy">Fleet at a glance</span></li><li class="flex items-center gap-3 rounded-2xl border border-line bg-white px-4 py-3.5 shadow-[0_8px_24px_-16px_rgba(20,55,88,0.35)] lg:ml-6"><span class="grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-navy text-white"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z"></path></svg></span><span class="text-[0.92rem] font-medium text-navy">One record per aircraft</span></li><li class="flex items-center gap-3 rounded-2xl border border-line bg-white px-4 py-3.5 shadow-[0_8px_24px_-16px_rgba(20,55,88,0.35)] lg:ml-6"><span class="grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-navy text-white"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"></path><path d="m9 12 2 2 4-4"></path></svg></span><span class="text-[0.92rem] font-medium text-navy">Compliance you can show</span></li><li class="flex items-center gap-3 rounded-2xl border border-line bg-white px-4 py-3.5 shadow-[0_8px_24px_-16px_rgba(20,55,88,0.35)] lg:ml-6"><span class="grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-navy text-white"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M3 3v16a2 2 0 0 0 2 2h16"></path><path d="M18 17V9"></path><path d="M13 17V5"></path><path d="M8 17v-3"></path></svg></span><span class="text-[0.92rem] font-medium text-navy">Reports on demand</span></li></ul></div></div></div></div></section>
+  <section id="what-we-do" class="wwd-section" aria-labelledby="wwd-title">
+    <div class="wwd mx-auto w-full max-w-[calc(var(--container)+2*var(--gutter))] px-(--gutter)">
+      <div>
+        <div class="wwd__sticky wwd__intro">
+          <p class="eyebrow">What we do</p>
+          <h2 id="wwd-title" class="h2">A Smarter Way to Manage Aviation.</h2>
+          <p class="lede wwd__line">Scattered aircraft records, one shared workspace.</p>
+          <p class="wwd__info">Entered once, available to every team, everywhere.</p>
+        </div>
+      </div>
+      <div class="wwd__illo">
+        <svg viewBox="0 0 400 210" role="img" aria-label="Tech logs, spreadsheets, trackers and email feeding into one record per aircraft" preserveAspectRatio="xMidYMid meet">
+          <defs>
+            <linearGradient id="or-hub" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#143758" /><stop offset="1" stop-color="#005F8F" /></linearGradient>
+            <linearGradient id="or-line" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#41A1D9" stop-opacity="0.25" /><stop offset="1" stop-color="#41A1D9" stop-opacity="0.8" /></linearGradient>
+          </defs>
+          <!-- Tech log -->
+          <g transform="rotate(-6 46 38)">
+            <rect x="20" y="16" width="52" height="44" rx="7" fill="#fff" stroke="#DCE6EF" />
+            <rect x="20" y="16" width="52" height="9" rx="4" fill="#E8F1F8" />
+            <rect x="28" y="31" width="34" height="3.5" rx="1.75" fill="#C9DBEA" /><rect x="28" y="39" width="28" height="3.5" rx="1.75" fill="#C9DBEA" /><rect x="28" y="47" width="31" height="3.5" rx="1.75" fill="#C9DBEA" />
+            <path d="M60 50 l3 3 l6 -7" fill="none" stroke="#41A1D9" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+          </g>
+          <!-- Spreadsheet -->
+          <g transform="rotate(5 74 88)">
+            <rect x="48" y="66" width="56" height="44" rx="7" fill="#fff" stroke="#DCE6EF" />
+            <path d="M48 80 H104 M48 94 H104 M66 66 V110 M85 66 V110" stroke="#DCE6EF" />
+            <rect x="52" y="70" width="10" height="6" rx="1.5" fill="#6CC9F5" opacity="0.7" /><rect x="70" y="84" width="11" height="6" rx="1.5" fill="#005F8F" opacity="0.45" /><rect x="89" y="98" width="11" height="6" rx="1.5" fill="#41A1D9" opacity="0.6" />
+          </g>
+          <!-- Tracker -->
+          <g transform="rotate(-4 46 140)">
+            <rect x="18" y="118" width="54" height="44" rx="7" fill="#fff" stroke="#DCE6EF" />
+            <circle cx="29" cy="130" r="4" fill="none" stroke="#41A1D9" stroke-width="1.5" /><rect x="38" y="128" width="26" height="4" rx="2" fill="#C9DBEA" />
+            <circle cx="29" cy="141" r="4" fill="#41A1D9" opacity="0.8" /><rect x="38" y="139" width="22" height="4" rx="2" fill="#C9DBEA" />
+            <circle cx="29" cy="152" r="4" fill="none" stroke="#005F8F" stroke-width="1.5" stroke-dasharray="2 2" /><rect x="38" y="150" width="18" height="4" rx="2" fill="#C9DBEA" />
+          </g>
+          <!-- Email -->
+          <g transform="rotate(7 76 184)">
+            <rect x="52" y="168" width="50" height="32" rx="6" fill="#fff" stroke="#DCE6EF" />
+            <path d="M54 171 L77 187 L100 171" fill="none" stroke="#41A1D9" stroke-width="1.5" stroke-linejoin="round" />
+          </g>
+          <!-- Feeds into the hub -->
+          <path d="M74 36 C 130 36, 140 105, 182 105" fill="none" stroke="url(#or-line)" stroke-width="1.5" stroke-dasharray="3 4" />
+          <path d="M106 88 C 140 88, 150 105, 182 105" fill="none" stroke="url(#or-line)" stroke-width="1.5" stroke-dasharray="3 4" />
+          <path d="M74 140 C 130 140, 145 105, 182 105" fill="none" stroke="url(#or-line)" stroke-width="1.5" stroke-dasharray="3 4" />
+          <path d="M104 184 C 150 184, 150 105, 182 105" fill="none" stroke="url(#or-line)" stroke-width="1.5" stroke-dasharray="3 4" />
+          <!-- Hub -->
+          <circle cx="208" cy="105" r="34" fill="#41A1D9" opacity="0.1" />
+          <circle cx="208" cy="105" r="26" fill="url(#or-hub)" />
+          <path fill="#fff" d="M208 87 c1.6 0 2.6 1.8 2.6 4.4 v8.2 l13 7.4 v3.6 l-13 -3.6 v6.8 l3.8 3 v2.8 l-6.4 -1.8 l-6.4 1.8 v-2.8 l3.8 -3 v-6.8 l-13 3.6 v-3.6 l13 -7.4 v-8.2 c0 -2.6 1-4.4 2.6-4.4 z" />
+          <path d="M234 105 H262" stroke="#41A1D9" stroke-width="2" stroke-linecap="round" />
+          <circle cx="262" cy="105" r="3" fill="#41A1D9" />
+          <!-- Aircraft record -->
+          <rect x="268" y="40" width="118" height="130" rx="12" fill="#fff" stroke="#DCE6EF" />
+          <rect x="268" y="40" width="118" height="30" rx="12" fill="#143758" /><rect x="268" y="58" width="118" height="12" fill="#143758" />
+          <circle cx="284" cy="55" r="7" fill="#41A1D9" />
+          <path fill="#fff" d="M284 50.5 c.5 0 .8 .6 .8 1.3 v2.4 l3.6 2.1 v1 l-3.6 -1 v1.9 l1.1 .9 v.8 l-1.9 -.5 l-1.9 .5 v-.8 l1.1 -.9 v-1.9 l-3.6 1 v-1 l3.6 -2.1 v-2.4 c0 -.7 .3 -1.3 .8 -1.3 z" />
+          <rect x="297" y="51" width="52" height="4.5" rx="2.25" fill="#fff" opacity="0.85" /><rect x="297" y="59" width="34" height="3.5" rx="1.75" fill="#6CC9F5" opacity="0.7" />
+          <g><circle cx="282" cy="88" r="4.5" fill="#1F9D6B" opacity="0.85" /><rect x="292" y="85.5" width="58" height="5" rx="2.5" fill="#E8F1F8" /><rect x="356" y="85" width="20" height="6" rx="3" fill="#E7F6EC" /></g>
+          <g><circle cx="282" cy="108" r="4.5" fill="#41A1D9" /><rect x="292" y="105.5" width="48" height="5" rx="2.5" fill="#E8F1F8" /><rect x="356" y="105" width="20" height="6" rx="3" fill="#E8F1F8" /></g>
+          <g><circle cx="282" cy="128" r="4.5" fill="#005F8F" opacity="0.7" /><rect x="292" y="125.5" width="54" height="5" rx="2.5" fill="#E8F1F8" /><rect x="356" y="125" width="20" height="6" rx="3" fill="#E8F1F8" /></g>
+          <rect x="282" y="146" width="90" height="10" rx="5" fill="#F4F8FC" stroke="#DCE6EF" />
+          <rect x="283" y="147" width="62" height="8" rx="4" fill="#41A1D9" opacity="0.55" />
+          <g fill="#fff" stroke="#DCE6EF"><circle cx="290" cy="186" r="9" /><circle cx="314" cy="186" r="9" /><circle cx="338" cy="186" r="9" /><circle cx="362" cy="186" r="9" /></g>
+          <g fill="#41A1D9" opacity="0.75"><circle cx="290" cy="184" r="3" /><circle cx="314" cy="184" r="3" /><circle cx="338" cy="184" r="3" /><circle cx="362" cy="184" r="3" /></g>
+          <path d="M327 170 V177" stroke="#DCE6EF" stroke-width="1.5" />
+        </svg>
+      </div>
+    </div>
+
+    <div class="ps-block mx-auto w-full max-w-[calc(var(--container)+2*var(--gutter))] px-(--gutter)">
+      <h3 class="h3">Airworthiness data is scattered. Mistakes are expensive.</h3>
+      <div class="ps">
+        <article v-for="item in problems" :key="item.solution" class="ps-card">
+          <p class="ps-label">The problem</p>
+          <p class="problem">{{ item.problem }}</p>
+          <p class="ps-label ps-label--solve">How VYOMA solves it</p>
+          <p class="solution">{{ item.solution }}</p>
+        </article>
+      </div>
+      <NuxtLink :to="sitePaths.whyVyoma" class="link-arrow">
+        See all the problems VYOMA solves
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+          <path d="M5 12h14" /><path d="m12 5 7 7-7 7" />
+        </svg>
+      </NuxtLink>
+    </div>
+  </section>
 </template>

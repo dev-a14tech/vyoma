@@ -35,13 +35,8 @@ export default defineNuxtConfig({
   // The earlier multi-page scaffold's URLs now point at the sections of the landing page
   // or the new solution pages, so old links and search results keep working.
   routeRules: {
-    '/platform': { redirect: { to: '/#capabilities', statusCode: 301 } },
     '/features': { redirect: { to: '/#features', statusCode: 301 } },
-    '/features/**': { redirect: { to: '/#features', statusCode: 301 } },
-    '/why-vyoma': { redirect: { to: '/#why', statusCode: 301 } },
-    '/about': { redirect: { to: '/#about', statusCode: 301 } },
-    '/contact': { redirect: { to: '/#demo-ask', statusCode: 301 } },
-    '/request-demo': { redirect: { to: '/#demo', statusCode: 301 } }
+    '/features/**': { redirect: { to: '/#features', statusCode: 301 } }
   },
 
   compatibilityDate: '2026-06-30',

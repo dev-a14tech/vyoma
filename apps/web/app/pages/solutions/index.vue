@@ -13,12 +13,12 @@ usePageSeo({
 
 <template>
   <div>
-    <section class="hero-bg pb-16 pt-[132px] md:pb-20 md:pt-[152px]">
+    <section class="hero-bg pb-16 pt-15 md:pb-20 md:pt-20">
       <div class="container-v">
         <p v-reveal class="text-[0.74rem] font-semibold uppercase tracking-[0.16em] text-ocean">Solutions</p>
         <h1 v-reveal="90" class="display-xl mt-5 max-w-[820px] text-navy">One platform, four modules.</h1>
         <p v-reveal="180" class="lede mt-7 max-w-[680px]">
-          Management, maintenance, operations and logistics share the same aircraft information, so every team works from the same picture. Pick a module to see what it covers.
+          Asset management, maintenance, operations and logistics share the same aircraft information, so every team works from the same picture. Pick a module to see what it covers.
         </p>
       </div>
     </section>

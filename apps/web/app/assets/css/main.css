@@ -36,7 +36,7 @@
 }
 
 @theme static {
-  --font-sans: 'Inter', sans-serif;
+  --font-sans: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   --font-heading: 'Barlow', sans-serif;
 
   --color-brand-50: #eef5fa;
@@ -63,15 +63,45 @@
   --color-ink: #0c2238;
   --color-muted: #5b6b7e;
   --color-line: #dce6ef;
-  --color-ok: #16a34a;
+  --color-ok: #22a06b;
   --color-warn: #f59e0b;
-  --color-alert: #e5372b;
+  --color-alert: #c2412d;
   --radius-card: 24px;
   --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
+
+  /* Site shell (header, mobile menu, footer) from the VYOMA website v2 design. The design
+     calls these --radius-sm/--radius/--radius-lg and --shadow-sm/--shadow/--shadow-lg;
+     those names are Tailwind's own scale (rounded-sm, shadow-lg, ...) that Nuxt UI relies
+     on, so they carry a "-v" suffix here. */
+  --radius-v-sm: 12px;
+  --radius-v: 20px;
+  --radius-v-lg: 28px;
+  --shadow-v-sm: 0 8px 24px -16px rgba(20, 55, 88, 0.35);
+  --shadow-v: 0 24px 60px -28px rgba(20, 55, 88, 0.35);
+  --shadow-v-lg: 0 40px 80px -40px rgba(11, 35, 64, 0.55);
+  --shadow-header: 0 10px 30px -24px rgba(20, 55, 88, 0.5);
+  --shadow-btn: 0 10px 24px -12px rgba(20, 55, 88, 0.7);
+  --color-footer-text: #c4d6e6;
+  --color-footer-link: #a9bdd0;
+  --color-footer-dim: #7f97ad;
 }
 
 :root {
   --header-h: 72px;
+  --container: 1240px;
+  --gutter: 20px;
+}
+@media (max-width: 359px) {
+  :root { --gutter: 16px; }
+}
+@media (min-width: 768px) {
+  :root { --gutter: 32px; }
+}
+@media (min-width: 1800px) {
+  :root { --container: 1360px; }
+}
+@media (min-width: 2300px) {
+  :root { --container: 1480px; }
 }
 
 html {

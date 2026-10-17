@@ -1,16 +1,24 @@
+<script setup lang="ts">
+import { sitePaths } from '~/data/solutions'
+</script>
+
 <template>
-  <section class="py-20">
-    <div class="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
-      <div class="relative overflow-hidden rounded-3xl bg-[var(--vyoma-deep-navy)] text-white px-8 py-14 text-center">
-        <BrandOrbitRing :size="480" />
+  <section class="cta-section">
+    <div class="mx-auto w-full max-w-[calc(var(--container)+2*var(--gutter))] px-(--gutter)">
+      <div class="cta-band">
+        <img src="/images/brand/vyoma-logomark.png" alt="" aria-hidden="true" width="752" height="622" draggable="false" />
         <div class="relative">
-          <h2 class="font-heading text-3xl font-bold">See VYOMA on your own fleet data</h2>
-          <p class="mt-3 text-slate-300 max-w-xl mx-auto">
-            A focused walkthrough with your aircraft, compliance items, and workflows in mind.
-          </p>
-          <UButton to="/request-demo" size="xl" color="primary" class="mt-7 font-semibold px-7">
+          <h2>See it on your own fleet.</h2>
+          <p>Book a short walkthrough to see how VYOMA fits your team's workflow.</p>
+        </div>
+        <div class="btn-row">
+          <NuxtLink :to="sitePaths.demo" class="btn btn--light">
             Book a Demo
-          </UButton>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+              <path d="M5 12h14" /><path d="m12 5 7 7-7 7" />
+            </svg>
+          </NuxtLink>
+          <NuxtLink :to="sitePaths.contact" class="btn btn--outline-light">Ask a Question</NuxtLink>
         </div>
       </div>
     </div>
