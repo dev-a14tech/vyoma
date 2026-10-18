@@ -13,6 +13,15 @@ export function useAdminProfile() {
   return useState<AdminProfile | null>('admin-profile', () => null)
 }
 
+// True once the client-side auth check (admin-auth.global.ts) has actually resolved.
+// The api lives cross-domain in production, so that check can never run during SSR -
+// it starts false on every render (server included) and the admin layout stays on a
+// loading state until this flips, so an unauthenticated visitor never sees a flash of
+// real admin content before the redirect to login lands.
+export function useAdminAuthChecked() {
+  return useState<boolean>('admin-auth-checked', () => false)
+}
+
 export async function fetchAdminProfile() {
   const base = useApiBase()
   const profile = useAdminProfile()

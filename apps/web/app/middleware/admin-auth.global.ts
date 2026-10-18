@@ -12,6 +12,9 @@ export default defineNuxtRouteMiddleware(async (to) => {
   if (!profile.value) {
     await fetchAdminProfile()
   }
+  // Set regardless of outcome: the admin layout gates its content on this, and a
+  // redirect away means that content never needed to render in the first place.
+  useAdminAuthChecked().value = true
   if (!profile.value) {
     return navigateTo(`/admin/login?redirect=${encodeURIComponent(to.fullPath)}`)
   }
