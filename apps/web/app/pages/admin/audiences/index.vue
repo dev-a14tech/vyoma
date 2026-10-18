@@ -6,7 +6,7 @@ definePageMeta({ layout: 'admin' })
 const adminFetch = useAdminFetch()
 const { data: audiences, refresh } = await useAsyncData('admin:audiences', () =>
   adminFetch<AudienceSegment[]>('/admin/audiences')
-, { server: false })
+)
 
 async function togglePublished(a: AudienceSegment) {
   await adminFetch(`/admin/audiences/${a.id}`, { method: 'PATCH', body: { published: !a.published } })

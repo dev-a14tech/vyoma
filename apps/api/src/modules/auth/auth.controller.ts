@@ -16,14 +16,17 @@ export class AuthController {
   @Post('login')
   async login(@Body(valid(LoginDto)) dto: LoginDto, @Res({ passthrough: true }) res: Response) {
     const result = await this.authService.login(dto);
-    // In production the api now lives on its own domain (EC2), separate from the web
-    // app's domain, so the browser treats every request between them as cross-site.
-    // Only a SameSite=None cookie is sent cross-site at all, and None requires Secure.
+    // api.vyoma.aero and www.vyoma.aero share the registrable domain vyoma.aero, so a
+    // cookie scoped to the whole domain (not just the host that set it) is sent on
+    // requests to both - same-site, no SameSite=None/cross-site cookie games needed.
+    // Safari's Intelligent Tracking Prevention blocks genuinely cross-site cookies even
+    // with SameSite=None set, which is what forced this domain setup in the first place.
     const isProd = process.env.NODE_ENV === 'production';
     res.cookie(COOKIE_NAME, result.accessToken, {
       httpOnly: true,
-      sameSite: isProd ? 'none' : 'lax',
+      sameSite: 'lax',
       secure: isProd,
+      domain: isProd ? '.vyoma.aero' : undefined,
       maxAge: 1000 * 60 * 60 * 12,
     });
     return result;
@@ -32,7 +35,7 @@ export class AuthController {
   @Post('logout')
   logout(@Res({ passthrough: true }) res: Response) {
     const isProd = process.env.NODE_ENV === 'production';
-    res.clearCookie(COOKIE_NAME, { sameSite: isProd ? 'none' : 'lax', secure: isProd });
+    res.clearCookie(COOKIE_NAME, { sameSite: 'lax', secure: isProd, domain: isProd ? '.vyoma.aero' : undefined });
     return { ok: true };
   }
 

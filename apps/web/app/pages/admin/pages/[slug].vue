@@ -9,7 +9,7 @@ const adminFetch = useAdminFetch()
 
 const { data: page } = await useAsyncData(`admin:page:${slug}`, () =>
   adminFetch<PageContent>(`/content/pages/${slug}`).catch(() => null)
-, { server: false })
+)
 
 const form = reactive({
   heroTitle: page.value?.heroTitle ?? '',

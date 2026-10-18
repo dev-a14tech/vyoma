@@ -1,6 +1,5 @@
 <script setup lang="ts">
 const profile = useAdminProfile()
-const checked = useAdminAuthChecked()
 
 async function handleLogout() {
   await adminLogout()
@@ -18,17 +17,7 @@ const navItems = [
 </script>
 
 <template>
-  <!-- Nothing here renders until the client-side auth check resolves (see
-       admin-auth.global.ts): the api lives cross-domain in production, so SSR can
-       never confirm auth, and showing the real dashboard before that check finishes
-       would flash real admin content at a visitor who turns out not to be logged in. -->
-  <div v-if="!checked" class="min-h-screen grid place-items-center bg-slate-50">
-    <div class="flex items-center gap-2.5 text-sm text-slate-400">
-      <UIcon name="i-lucide-loader-2" class="w-4 h-4 animate-spin" />
-      Checking session…
-    </div>
-  </div>
-  <div v-else class="min-h-screen flex bg-slate-50">
+  <div class="min-h-screen flex bg-slate-50">
     <aside class="w-60 shrink-0 border-r border-slate-200 bg-white flex flex-col">
       <div class="h-16 flex items-center px-5 border-b border-slate-200">
         <BrandVyomaWordmark :height="22" />

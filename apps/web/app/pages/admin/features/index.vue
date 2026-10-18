@@ -6,7 +6,7 @@ definePageMeta({ layout: 'admin' })
 const adminFetch = useAdminFetch()
 const { data: features, refresh } = await useAsyncData('admin:features', () =>
   adminFetch<FeatureTheme[]>('/admin/features')
-, { server: false })
+)
 
 async function togglePublished(f: FeatureTheme) {
   await adminFetch(`/admin/features/${f.id}`, { method: 'PATCH', body: { published: !f.published } })

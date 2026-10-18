@@ -4,10 +4,10 @@ definePageMeta({ layout: 'admin' })
 const adminFetch = useAdminFetch()
 const { data: leads } = await useAsyncData('admin:leads:count', () =>
   adminFetch<Array<{ status: string }>>('/admin/leads')
-, { server: false })
+)
 const { data: features } = await useAsyncData('admin:features:count', () =>
   adminFetch<Array<{ published: boolean }>>('/admin/features')
-, { server: false })
+)
 
 const newLeads = computed(() => leads.value?.filter((l) => l.status === 'NEW').length ?? 0)
 const publishedFeatures = computed(() => features.value?.filter((f) => f.published).length ?? 0)

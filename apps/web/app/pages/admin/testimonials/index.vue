@@ -6,7 +6,7 @@ definePageMeta({ layout: 'admin' })
 const adminFetch = useAdminFetch()
 const { data: testimonials, refresh } = await useAsyncData('admin:testimonials', () =>
   adminFetch<Testimonial[]>('/admin/testimonials')
-, { server: false })
+)
 
 async function remove(t: Testimonial) {
   await adminFetch(`/admin/testimonials/${t.id}`, { method: 'DELETE' })

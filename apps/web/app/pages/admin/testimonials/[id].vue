@@ -9,7 +9,7 @@ const adminFetch = useAdminFetch()
 
 const { data: testimonial } = await useAsyncData(`admin:testimonial:${id}`, () =>
   adminFetch<Testimonial>(`/admin/testimonials/${id}`)
-, { server: false })
+)
 
 const form = reactive({
   quote: testimonial.value?.quote ?? '',
