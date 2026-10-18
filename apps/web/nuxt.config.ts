@@ -22,7 +22,12 @@ export default defineNuxtConfig({
       siteUrl: process.env.NUXT_PUBLIC_SITE_URL || 'https://vyoma.aero',
       // Same-origin in production ("/api", routed to the api service by vercel.json's
       // rewrite) so the browser never needs CORS or to know the api service's own host.
-      apiBase: process.env.NUXT_PUBLIC_API_BASE || (process.env.NODE_ENV === 'production' ? '/api' : 'http://localhost:3001/api')
+      apiBase: process.env.NUXT_PUBLIC_API_BASE || (process.env.NODE_ENV === 'production' ? '/api' : 'http://localhost:3001/api'),
+      // GA4 Measurement ID (format "G-XXXXXXXXXX"), from the GA4 property's Data Streams
+      // page. This is a public identifier, safe to ship in client JS - not a secret. Set
+      // NUXT_PUBLIC_GA_ID in Vercel; left unset, analytics stays off entirely (including
+      // in local dev, so testing never pollutes real GA4 data).
+      gaId: process.env.NUXT_PUBLIC_GA_ID || ''
     }
   },
 
