@@ -6,7 +6,7 @@ definePageMeta({ layout: 'admin' })
 const adminFetch = useAdminFetch()
 const { data: leads, refresh } = await useAsyncData('admin:leads', () =>
   adminFetch<LeadSubmission[]>('/admin/leads')
-)
+, { server: false })
 
 const typeLabel: Record<string, string> = { DEMO_REQUEST: 'Book a demo', CONTACT: 'Ask more' }
 const statusTone: Record<string, string> = {

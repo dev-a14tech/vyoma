@@ -9,7 +9,7 @@ const adminFetch = useAdminFetch()
 
 const { data: audience } = await useAsyncData(`admin:audience:${id}`, () =>
   adminFetch<AudienceSegment>(`/admin/audiences/${id}`)
-)
+, { server: false })
 
 const form = reactive({
   title: audience.value?.title ?? '',

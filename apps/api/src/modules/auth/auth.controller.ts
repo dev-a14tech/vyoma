@@ -16,10 +16,14 @@ export class AuthController {
   @Post('login')
   async login(@Body(valid(LoginDto)) dto: LoginDto, @Res({ passthrough: true }) res: Response) {
     const result = await this.authService.login(dto);
+    // In production the api now lives on its own domain (EC2), separate from the web
+    // app's domain, so the browser treats every request between them as cross-site.
+    // Only a SameSite=None cookie is sent cross-site at all, and None requires Secure.
+    const isProd = process.env.NODE_ENV === 'production';
     res.cookie(COOKIE_NAME, result.accessToken, {
       httpOnly: true,
-      sameSite: 'lax',
-      secure: process.env.NODE_ENV === 'production',
+      sameSite: isProd ? 'none' : 'lax',
+      secure: isProd,
       maxAge: 1000 * 60 * 60 * 12,
     });
     return result;
@@ -27,7 +31,8 @@ export class AuthController {
 
   @Post('logout')
   logout(@Res({ passthrough: true }) res: Response) {
-    res.clearCookie(COOKIE_NAME);
+    const isProd = process.env.NODE_ENV === 'production';
+    res.clearCookie(COOKIE_NAME, { sameSite: isProd ? 'none' : 'lax', secure: isProd });
     return { ok: true };
   }
 

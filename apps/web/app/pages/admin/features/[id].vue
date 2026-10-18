@@ -9,7 +9,7 @@ const adminFetch = useAdminFetch()
 
 const { data: feature } = await useAsyncData(`admin:feature:${id}`, () =>
   adminFetch<FeatureTheme>(`/admin/features/${id}`)
-)
+, { server: false })
 
 const form = reactive({
   title: feature.value?.title ?? '',

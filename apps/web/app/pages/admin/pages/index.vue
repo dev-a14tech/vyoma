@@ -4,7 +4,7 @@ import type { PageContent } from '@vyoma/shared'
 definePageMeta({ layout: 'admin' })
 
 const adminFetch = useAdminFetch()
-const { data: pages } = await useAsyncData('admin:pages', () => adminFetch<PageContent[]>('/admin/pages'))
+const { data: pages } = await useAsyncData('admin:pages', () => adminFetch<PageContent[]>('/admin/pages'), { server: false })
 </script>
 
 <template>
