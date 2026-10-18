@@ -32,11 +32,28 @@ export async function adminLogin(email: string, password: string) {
   // the public base here anyway, since import.meta.server is false on the client.
   const base = useApiBase()
   const profile = useAdminProfile()
-  const result = await $fetch<{ admin: AdminProfile }>(`${base}/admin/auth/login`, {
+
+  const attempt = () => $fetch<{ admin: AdminProfile }>(`${base}/admin/auth/login`, {
     method: 'POST',
     credentials: 'include',
     body: { email, password }
   })
+
+  let result: { admin: AdminProfile }
+  try {
+    result = await attempt()
+  } catch (err) {
+    // A wrong email/password returns 401 - retrying won't fix that, fail fast. Anything
+    // else (500/timeout/network) is most likely the API's lazily-connecting Mongo still
+    // warming up on a cold serverless instance (see apps/api/src/app.module.ts): one
+    // retry after a short wait covers that window instead of showing a false error.
+    const status = (err as { statusCode?: number; response?: { status?: number } })?.statusCode
+      ?? (err as { response?: { status?: number } })?.response?.status
+    if (status === 401) throw err
+    await new Promise(resolve => setTimeout(resolve, 2500))
+    result = await attempt()
+  }
+
   profile.value = result.admin
   return result.admin
 }
