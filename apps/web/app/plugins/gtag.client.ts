@@ -17,12 +17,20 @@ export default defineNuxtPlugin(() => {
   window.gtag = gtag
 
   gtag('js', new Date())
-  // send_page_view off: the router.afterEach below sends it instead, with the correct
-  // SPA path on every navigation (not just the first load).
-  gtag('config', gaId, { send_page_view: false })
+  // Sends gtag's own automatic page_view for the very first load - router.afterEach
+  // below never fires for that one, only for client-side navigations after it.
+  gtag('config', gaId)
 
   const router = useRouter()
+  let isFirstNavigation = true
   router.afterEach((to) => {
+    // The very first afterEach firing is Nuxt's hydration of the already-loaded route,
+    // not a real navigation - gtag's own config call above already covered it, so
+    // sending it again here would double-count that page_view.
+    if (isFirstNavigation) {
+      isFirstNavigation = false
+      return
+    }
     gtag('event', 'page_view', { page_path: to.fullPath, page_title: document.title })
   })
 })
