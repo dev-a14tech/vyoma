@@ -38,8 +38,11 @@ async function bootstrap() {
 
   app.use(cookieParser());
 
+  // Comma-separated so the admin subdomain (admin.vyoma.aero) can be allowed alongside
+  // the public site without needing two different api deployments.
+  const corsOrigins = (process.env.CORS_ORIGIN ?? 'http://localhost:3000').split(',').map((o) => o.trim());
   app.enableCors({
-    origin: process.env.CORS_ORIGIN ?? 'http://localhost:3000',
+    origin: corsOrigins,
     credentials: true,
   });
 
