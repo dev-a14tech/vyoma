@@ -16,6 +16,18 @@ export default defineNuxtPlugin(() => {
   function gtag(...args: unknown[]) { window.dataLayer.push(args) }
   window.gtag = gtag
 
+  // GA4 property has consent signals configured, and without an explicit default
+  // signal it treats analytics_storage as unset - silently dropping every hit even
+  // though the tag fires correctly (confirmed via Tag Assistant: tag detected, config
+  // call seen, zero hits sent). No cookie banner on this site, so grant analytics,
+  // deny ads - we don't do ad tracking.
+  gtag('consent', 'default', {
+    analytics_storage: 'granted',
+    ad_storage: 'denied',
+    ad_user_data: 'denied',
+    ad_personalization: 'denied',
+  })
+
   gtag('js', new Date())
   // Sends gtag's own automatic page_view for the very first load - router.afterEach
   // below never fires for that one, only for client-side navigations after it.
