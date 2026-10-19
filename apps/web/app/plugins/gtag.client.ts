@@ -31,7 +31,11 @@ export default defineNuxtPlugin(() => {
   gtag('js', new Date())
   // Sends gtag's own automatic page_view for the very first load - router.afterEach
   // below never fires for that one, only for client-side navigations after it.
-  gtag('config', gaId)
+  // transport_url routes the actual collect beacon through our own domain
+  // (server/routes/g/collect.ts proxies it to Google) instead of google-analytics.com -
+  // Safari and various blockers drop that domain outright even with consent granted,
+  // since first-party requests aren't on any tracker blocklist.
+  gtag('config', gaId, { transport_url: window.location.origin, first_party_collection: true })
 
   const router = useRouter()
   let isFirstNavigation = true
