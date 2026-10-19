@@ -35,7 +35,7 @@ export default defineNuxtPlugin(() => {
   // (server/routes/g/collect.ts proxies it to Google) instead of google-analytics.com -
   // Safari and various blockers drop that domain outright even with consent granted,
   // since first-party requests aren't on any tracker blocklist.
-  gtag('config', gaId, { transport_url: window.location.origin })
+  gtag('config', gaId)
 
   const router = useRouter()
   let isFirstNavigation = true
